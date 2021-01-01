@@ -1,0 +1,57 @@
+# General Messages
+Prefix: "&eEssentialsZ >> "
+
+# Chat Messages
+first time join message: "&aWelcome &f%player% &ato the server! &6(#%total_amount%)"
+join message: "&a[+] &f%player%"
+quit message: "&4[-] &f%player%"
+Private Join Message:
+  - "Welcome to &6My Server!"
+  - "%player%"
+  - "Statistics:"
+  - "Ping: %ping%"
+  - "Server TPS: %tps%"
+  - "Current Balance: %bal%"
+  - "Players online: %online%"
+title message: "&a&lMY &f&lServer"
+subtitle message: "&4&lWelcome to &6&lSurvival"
+ClearChat Message: "&cChat has been cleared by &f%player%"
+Broadcast Prefix: "&6Broadcast >>"
+Broadcast Chat Muted: "Chat has been muted by %player%"
+Broadcast Chat Unmuted: "Chat has been unmuted by %player%"
+Chat Muted: "&cThe chat is currently muted."
+Ping message: "&aYour current ping is %ping%"
+Ping Player message: "&a%player%'s current ping is %ping%"
+
+# Economy Messages
+Payed: "&aYou have paid %amount% to %player%."
+Money Pouch Given: "&aYou have received a money pouch."
+
+# Teleportation Messages
+TP message: "&aYou have teleported to %player%"
+TP Other message: "&aYou have teleported %target% to %target2%"
+TP World message: "&aYou have been teleported to %world%"
+TP World Other message: "&aYou have teleported %player% to %world%"
+TP Cords message: "&aYou have teleported to %X%, %Y%, %Z%"
+TPhere message: "&aYou have teleported %player% tp yourself."
+Teleporting message: "&aYou will be teleported in %delay% seconds."
+Random Teleport message: "&aYou have been teleported to a random location."
+Back Death Message: "&aYou can teleport back to your previous location using. /back"
+Back Message: "&aYou have teleported to your previous location."
+
+
+Set Spawn message: "&eSpawn has been set."
+Spawn Teleport message: "&aYou have been teleported to spawn."
+Create Warp: "&aYou have successfully created warp: %warp%."
+Remove Warp: "&aYou have successfully removed warp: %warp%."
+Warp Message: "&aYou have teleported to %warp%"
+Warp Player Message: "&aYou have teleported %player% to %warp%"
+Create Home: "&aYou have successfully created home: %home%"
+Remove Home: "&aYou have successfully removed home: %home%"
+Home Message: "&aYou have teleported to %home%"
+
+# World Messages
+Gamemode: "&aYou have changed your gamemode to %gamemode%."
+Gamemode Other: "&aYou have changed %player%'s gamemode to %gamemode%."
+Vanish: "&aYou have %setting% vanish."
+Clear Lag Message: "&a%entity_amount% items have been cleared.%n&7(( All items will be cleared again in %time% minutes. ))"

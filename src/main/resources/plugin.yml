@@ -1,0 +1,83 @@
+name: EssentialsZ
+version: 1.3.0
+api-version: 1.16
+main: me.darkwinged.Essentials.Main
+authors: [darkwinged]
+depend: [ProtocolLib]
+softdepend: [PlaceholderAPI]
+commands:
+  economy:
+    aliases:
+      - econ
+  balance:
+    aliases:
+      - bal
+      - money
+      - bank
+      - wallet
+  pay:
+  withdraw:
+    aliases:
+      - with
+      - wd
+  pouches:
+
+  staffchat:
+    aliases:
+      - sc
+  clearchat:
+    aliases:
+      - cc
+  broadcast:
+    aliases:
+      - bc
+      - aleart
+  mutechat:
+  motd:
+  sudo:
+
+  tp:
+  tphere:
+  setspawn:
+  spawn:
+  hub:
+  rtp:
+    aliases:
+      - wild
+  top:
+  setwarp:
+  delwarp:
+  warp:
+  warps:
+  sethome:
+  delhome:
+  home:
+  homes:
+  back:
+
+  ping:
+  essentials:
+    aliases:
+      - ess
+      - essentialsz
+  hat:
+  gamemode:
+    aliases:
+      - gm
+  gma:
+  gmc:
+  gms:
+  gmsp:
+  invsee:
+  vanish:
+    aliases:
+      - v
+  reward:
+    aliases:
+      - daily
+  repair:
+  world:
+  clearlag:
+  enderchest:
+    aliases:
+      - ec

@@ -1,0 +1,281 @@
+#########################################################################################################################################################
+#                                                                                                                                                       #
+#                WELCOME to the "EssentialsZ" config! Here is where you can disable and enable full gamemode types // events // commands.               #
+#                                             This plugin has been made to be 90% customizable!                                                         #
+#                                                                                                                                                       #
+#    PLEASE NOTE!! If you have enabled one gamemode.. For example "Prisons: enabled". Then if you enable another one then they will all be disabled!    #
+#                     PLEASE NOTE!! Gamesmodes have not been planned just yet but they will be coming out in a future update.                           #
+#                                                                                                                                                       #
+#########################################################################################################################################################
+
+# Economy Module [WARNING! THIS WILL DISABLE THE FULL ECONOMY SYSTEM! IF SET TO `false`]
+Economy: true # Default: true
+
+# this is the balance prefix, what will show up when someone does the `/balance command`
+# Please do not put the currency symbol here since it will automatically be added!
+# The currency symbol can be changed below;
+
+# Placeholders Key:
+#     %player% || This will get the players name.
+
+Balance_Prefix: "&6Balance &2" # This will show when you want to see your own balance.
+Balance_Prefix_Other: "&6Balance of %player%: &2" # this will show when you want to see someone else's.
+
+# This is the currency symbol that the economy system will use.
+Currency_Symbol: "$"
+
+# This is the amount that players will have when they join the server for the first time.
+Starting_Balance: 1000
+
+# Money Heads
+# When someone does there is a chance that their head will drop and then players can sell it for a profit.
+Player_Heads: true # Default: true
+Player_Heads_Drop_Chance: 13 # This is the percentage (0 - 100). Default: 13
+Player_Heads_Sell_Amount: 5 # The percentage of the players balance that will be removed. Default: 5
+
+# Bank Notes
+Bank_Notes: true
+
+# Below is where you can change the bank note item / name / description.
+# PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
+BNLayout:
+  item: PAPER # This has to be a material (https://minecraft-ids.grahamedgecombe.com/) [WARNING! ID'S DO NOT WORK!]
+  name: "Bank Note"
+  amount: "Amount: " # This is the amount of money that the bank note holds
+
+# Money Pouches
+# PLEASE NOTE!! That the different tiers can be changed in the `Money Pouches.yml` file.
+Money_Pouches: true # Allow people to win money. Default: true
+
+# Economy Commands
+# You can enable/disable any command that is shown below for the `Economy Module`
+cmd_Balance: true # This will show the players balance. Default: true
+cmd_Pay: true # Players can pay each other money. Default: true
+
+#########################################################################################################################################################
+
+# Teleportation Module [WARNING! THIS WILL DISABLE THE FULL TELEPORTATION SYSTEM! IF SET TO `false`]
+# This does not include the following `Admin commands`: /tp, /tphere
+Teleportation: true # Default: true
+
+# Teleportation Delay (IN SECONDS)
+# If you want anyone to bypass this then give them the following permission: "Essentials.TeleportDelay.Bypass"
+Teleportation_Delay: 5 # Default: 5
+
+# Spawn
+cmd_SetSpawn: true # Set a spawn for players to teleport to. Default: true
+cmd_Spawn: true # Allow players to teleport to the spawn. Default: true
+
+Spawn On Player Join: false # This will teleport the player to spawn when they join the server. Default: false
+No Void: true # This will teleport the player to spawn if they fall below; Y: -4. Default: true
+
+# Hub [WARNING! THIS WILL ONLY WORK FOR SERVERS THAT ARE CONNECTED TO `Bungeecord`.]
+cmd_Hub: false # Default: false
+Server Name: "lobby"
+
+# Random Teleport [NOTE! this will teleport the player to a random location in the world.]
+cmd_RandomTeleport: true # Allow players to randomly teleport around your world.
+RandomTeleport_Cooldown: 10 # This is how long until the player has to wait before doing the command again [NOTE! This is in seconds]. Default: 10
+
+World_Border: false # if you want to limit how far it teleports players. Default: false
+# How many blocks away they CAN spawn(not will)
+Border: 200 # If no world border, limit is automatically 25,000 blocks
+
+# Homes
+# If you want members to be able to set player homes [NOTE! There will be more settings added soon.]
+Homes: true
+
+# Teleportation Commands
+# You can enable/disable any command that is shown below for the `Teleportation Module`
+cmd_TP: true # Allow admins to teleport to any players in the server. Default: true
+cmd_TPhere: true # Allow admins to teleport players to them. Default: true
+cmd_SetWarp: true # Allow admins to create warps. Default: true
+cmd_DelWarp: true # Allow admins to remove warps. Default: true
+cmd_Warp: true # Allow players to teleport to warps. Default: true
+cmd_Top: true # Allow admins to teleport to the highest block above them. Default: true
+cmd_Back: true # Allow admins to teleport back to their previous location. Default: true
+
+#########################################################################################################################################################
+
+# Chat Module [WARNING! THIS WILL DISABLE THE FULL CHAT SYSTEM! IF SET TO `false`]
+Chat: true # Default: true
+
+# Welcome message(s) configuration
+Show_First_Time_Join_Message: true # Default: true
+Show_Join_Message: true # Default: true
+Join_Message_Style: CHAT # [CHAT, TITLE, ACTION_BAR, BOSS_BAR]. Default: CHAT
+Bossbar_Length: 3 # This is how long you want the message to appear for [Note! This is in seconds]. Default: 3
+
+# [WARNING! THIS WILL ONLY WORK IF THE FOLLOWING IS SET TO `false`: Show_Join_Message]
+Private_Join_Message: false # Default: false
+
+# [WARNING! THIS WILL ONLY WORK IF THE FOLLOWING IS SET TO `false`: Show_Join_Message]
+VIP_Join: false # This will only send the welcome message if the player has the permission `Essentials.VIP`. Default false
+
+# Do you want to change your MOTD, what players see on the server page?
+# PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
+Change MOTD: false # Default: false
+MOTD: "Welcome to my server"
+
+# If you want to change how the player names shows then please choose from the following.
+# PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
+
+# Placeholders Key:
+#     %player% || This will get the players name.
+#     %message% || This will get the players message.
+#     %prefix% || If you have a permissions plugin then this will get the prefix for the player.
+#     %suffix% || If you have a permissions plugin then this will get the suffix for the player.
+
+# Chat Filter [If this is set to `true` then you will need to go into `Chat Filter.yml` and <add/remove> words that you want to censor]
+Chat_Filter: false # Default: false
+
+# This will kick the player for spamming the chat
+Anti_Spam: true # Default: true
+
+# Blocked Commands [If this is set to `true` then you will need to go into `Blocked Commands.yml` and <add/remove> commands that you do not want people to use]
+Blocked_Commands: true # Default true [ NOTE! The reason why this is set to true, is so that players can not see your plugins]
+
+# Tablist
+# Do you want a custom tablist(player list), enable the following line [WARNING! ANIMATION IS NOT AVAILABLE]
+Tablist: true # Default: true
+
+# You can change the layout of the tablist(player list) below:
+# PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
+
+# Placeholders Key:
+#     %player% || This will get the players name.
+#     %tps% || This will get the servers TPS(Ticks per Second).
+#     %online% || This will get the total online players.
+#     %n || This will add a new line.
+#     %balance% || This will get the players balance.
+#     %xp% || This will get the users total xp amount.
+#     %xpLVL% || This will get the users current xp level.
+#     %ping% || This will get the players ping.
+
+TBLayout:
+  header: "&6My Server%n&bThe Servers TPS is: %tps%"
+  footer: "&fWelcome, %player%%n&cThere is currently %online% online."
+
+# Staff Chat
+Staff_Chat: false # Default false
+
+# Placeholders Key:
+#     %player% || This will get the players name.
+
+# NOTE! The message will automatically be added after the format [NOTE! A SPACE(" ") IS NOT REQUIRED AT THE END]
+Staff_Chat_Format: "&eStaff Chat > %player%:"
+
+# Auto Messges
+# NOTE! Settings can be changed in the `Auto Messages.yml` file
+Auto_Messages: false # Default: false
+
+# Chat Commands
+cmd_ClearChat: true # Let staff members clear the chat. Default: true
+# NOTE! Broadcast prefix can be changed in the messages.yml file
+cmd_Broadcast: true # Let admins broadcast a message. Default: true
+# NOTE! Chat Mute message can be changed in the messages.yml file
+cmd_Mutechat: true # Let admins broadcast a message. Default: true
+cmd_Sudo: true # Let admins type in chat as other people.
+
+# Chat Events
+Show_Leave_Message: true # Default: true
+Chat_Ping: true # Default: true
+
+#########################################################################################################################################################
+
+# World Module
+
+# If your servers tps reaches a certain amount then all of the dropped items/mobs will be removed
+# [WARNING! THIS WILL NOT EFFECT THE FOLLOWING: Boats, Armor Stands, Item Frames, Minecarts, Paintings ect.]
+TPS: 15 # When the server reaches this tps value `Server_Lag_Check` will activate
+Server_Lag_Check: true
+# This will cancel tnt explosions if the tps goes below what you have set above.
+Cancel_TNT: true
+
+# Clear lag
+Clear_Lag: true
+# The amount of time between the server removing entities.
+Clear_Lag_Delay: 300 # NOTE! In seconds. Default: 300
+
+# When someone joins the server and you have `Spawn On Player Join: true` then you can enable this to spawn a firework too.
+Firework On Player Join: false # Default: false
+
+# Disable hopper craft.
+Hopper Craft: false # Default: false
+# Want to send a player a message saying that they cant craft them? [NOTE! This will only work if you have hopper craft disabled.]
+Hopper Craft Message: true # Default: true
+
+# Disable Hunger loss.
+Hunger Loss: false # Default: false
+
+# Disable block place / break in your server.
+Block Place: false # Default: false
+Block Break: false # Default: false
+
+# Disable item pickup / drop in your server.
+Item Pickup: false # Default: false
+Item Drop: false # Default: false
+
+# Double Jump
+Double_Jump: false # Default: false
+
+# Fall Damage, Do not let players take fall damage
+No_Fall_Damage: false # Default: false
+
+# Item Drop Holograms
+Item_Holograms: false # Default: false
+# Display The amount of item that the stack holds.
+Item_Holograms_Amount: true # NOTE! This requires `Item_Holograms` to be true. Default: true
+# NOTE! This requires `Item_Holograms` to be true. ALSO! %amount% will only work if you have `Item_Holograms_Amount` set to true.
+Item_Holograms_Name: "%item% [%amount%]"
+
+# Item cooldowns
+Enderpearl_Cooldown: false # Default: false
+Enderpearl_Cooldown_Time: 60 # NOTE! This is in seconds. Default: 60
+
+Golden_Apple_Cooldown: false # Default: false
+Golden_Apple_Cooldown_Time: 60 # NOTE! This is in seconds. Default: 60
+
+Enchanted_Golden_Apple_Cooldown: false # Default: false
+Enchanted_Golden_Apple_Cooldown_Time: 60 # NOTE! This is in seconds. Default: 60
+
+# Disable XP, Disable all of the xp(experience) that players can get from, mobs and blocks
+No_Experience: false # Default: false
+
+# Command Cooldown
+Command_Cooldown: false # Default: false
+Command_Cooldown_Time: 60 # NOTE! This is in seconds. Default: 60
+Command_Amount: 5 # The amount of commands that they can do before getting a cooldown.
+
+# Hide Players item
+# PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
+Hide Players:
+  enabled: false
+  slot: 8 # 0-8, this is the slot number that the item will appear in. [WARNING! Any other item in the specified slot will disappear!]
+  reminder: true # This will send an action bar message at the bottom of the players screen reminding them that they have players off.
+  item_Hidden:
+    item: LIME_DYE
+    name: "show players"
+    lore:
+      - Show all players
+  item_Shown:
+    item: GRAY_DYE
+    name: "hide players"
+    lore:
+      - Hide all players
+
+# Daily reward
+
+
+# World creation
+World_Creation: true # Allows you to create new worlds inside of the sever.
+
+# World Commands
+cmd_Ping: true # Let players see their ping to the server and they can also check others. Default: true
+cmd_Hat: true # Let players put blocks/items on their head. Default: true
+cmd_Gamemode: true # Lets admins go into different gamemodes. Default: true
+cmd_Invsee: true # Let admins see what is in peoples inventory. Default: true
+
+#########################################################################################################################################################
+# [WARNING! DO NOT CHANGE ANY VALUES BEYOND HERE]
+Server_Player_Total: 0
