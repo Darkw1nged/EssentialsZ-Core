@@ -33,37 +33,6 @@ public class JoinAndLeaveMessage implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         if (plugin.getConfig().getBoolean("Chat", true)) {
             Player player = event.getPlayer();
-            if (plugin.getConfig().getBoolean("VIP_Join", true)) {
-                if (plugin.getConfig().getBoolean("Show_Join_Message", true))
-                    return;
-                if (player.hasPermission(Permissions.VIPJoin)) {
-                    String Message = Utils.chat(messagesFile.getConfig().getString("join message"))
-                            .replaceAll("%player%", player.getDisplayName());
-                    event.setJoinMessage(Message);
-                }
-                return;
-            }
-            if (plugin.getConfig().getBoolean("Private_Join_Message", true)) {
-                if (plugin.getConfig().getBoolean("Show_Join_Message", true))
-                    return;
-                event.setJoinMessage(null);
-                String tps = "";
-                if (Lag.getTPS() <= 20) {
-                    tps = String.format("%.0f", Lag.getTPS());
-                } else {
-                    tps = "20";
-                }
-                String online = ""+Bukkit.getOnlinePlayers().size();
-                for (String string : messagesFile.getConfig().getStringList("Join Private Join Message")) {
-                    string.replaceAll("%player%", player.getName())
-                            .replaceAll("%ping%", PlayersPing.getPing(player)+"")
-                            .replaceAll("%tps%", tps)
-                            .replaceAll("%bal%", EconomyManager.getBalance(player.getName())+"")
-                            .replaceAll("%online%", online);
-                    player.sendMessage(string);
-                }
-                return;
-            }
             if (!player.hasPlayedBefore()) {
                 if (plugin.getConfig().getBoolean("Show_First_Time_Join_Message", true)) {
                     plugin.getConfig().set("Server_Player_Total", plugin.getConfig().getInt("Server_Player_Total") + 1);
@@ -71,7 +40,6 @@ public class JoinAndLeaveMessage implements Listener {
                             .replaceAll("%player%", player.getDisplayName())
                             .replaceAll("%total_amount%", plugin.getConfig().getInt("Server_Player_Total") + "");
                     event.setJoinMessage(Message);
-                    return;
                 }
             }
             if (plugin.getConfig().getBoolean("Show_Join_Message", true)) {

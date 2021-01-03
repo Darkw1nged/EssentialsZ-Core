@@ -106,12 +106,6 @@ Show_Join_Message: true # Default: true
 Join_Message_Style: CHAT # [CHAT, TITLE, ACTION_BAR, BOSS_BAR]. Default: CHAT
 Bossbar_Length: 3 # This is how long you want the message to appear for [Note! This is in seconds]. Default: 3
 
-# [WARNING! THIS WILL ONLY WORK IF THE FOLLOWING IS SET TO `false`: Show_Join_Message]
-Private_Join_Message: false # Default: false
-
-# [WARNING! THIS WILL ONLY WORK IF THE FOLLOWING IS SET TO `false`: Show_Join_Message]
-VIP_Join: false # This will only send the welcome message if the player has the permission `Essentials.VIP`. Default false
-
 # Do you want to change your MOTD, what players see on the server page?
 # PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
 Change MOTD: false # Default: false
@@ -264,17 +258,13 @@ Hide Players:
     lore:
       - Hide all players
 
-# Daily reward
-
-
-# World creation
-World_Creation: true # Allows you to create new worlds inside of the sever.
-
 # World Commands
 cmd_Ping: true # Let players see their ping to the server and they can also check others. Default: true
 cmd_Hat: true # Let players put blocks/items on their head. Default: true
 cmd_Gamemode: true # Lets admins go into different gamemodes. Default: true
 cmd_Invsee: true # Let admins see what is in peoples inventory. Default: true
+cmd_Vanish: true # Let admins go into vanish mode
+World_Creation: true # Allows you to create new worlds inside of the sever.
 
 #########################################################################################################################################################
 # [WARNING! DO NOT CHANGE ANY VALUES BEYOND HERE]

@@ -2,7 +2,7 @@ name: EssentialsZ
 version: 1.3.0
 api-version: 1.16
 main: me.darkwinged.Essentials.Main
-authors: [darkwinged]
+authors: [darkwinged, Yovez]
 depend: [ProtocolLib]
 softdepend: [PlaceholderAPI]
 commands:

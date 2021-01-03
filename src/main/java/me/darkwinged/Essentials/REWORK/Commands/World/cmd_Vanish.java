@@ -35,7 +35,7 @@ public class cmd_Vanish implements CommandExecutor {
                         }
                         Utils.invisible_list.remove(player.getUniqueId());
                         player.sendMessage(Utils.chat(messagesFile.getConfig().getString("Prefix") +
-                                Utils.chat(messagesFile.getConfig().getString("Vanish").replaceAll("%setting%", "enabled"))));
+                                Utils.chat(messagesFile.getConfig().getString("Vanish").replaceAll("%setting%", "disabled"))));
 
                     } else if (!Utils.invisible_list.contains(player.getUniqueId())) {
                         for (Player people : Bukkit.getOnlinePlayers()) {
@@ -47,7 +47,7 @@ public class cmd_Vanish implements CommandExecutor {
                         }
                         Utils.invisible_list.add(player.getUniqueId());
                         player.sendMessage(Utils.chat(messagesFile.getConfig().getString("Prefix") +
-                                Utils.chat(messagesFile.getConfig().getString("Vanish").replaceAll("%setting%", "disabled"))));
+                                Utils.chat(messagesFile.getConfig().getString("Vanish").replaceAll("%setting%", "enabled"))));
                     }
                 } else {
                     player.sendMessage(ErrorMessages.NoPermission);
