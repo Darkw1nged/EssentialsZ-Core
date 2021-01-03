@@ -8,108 +8,121 @@
 #                                                                                                                                                       #
 #########################################################################################################################################################
 
-# Economy Module [WARNING! THIS WILL DISABLE THE FULL ECONOMY SYSTEM! IF SET TO `false`]
-Economy: true # Default: true
+############################################################
+# +------------------------------------------------------+ #
+# |                EssentialsZ (Economy)                 | #
+# +------------------------------------------------------+ #
+############################################################
 
-# this is the balance prefix, what will show up when someone does the `/balance command`
-# Please do not put the currency symbol here since it will automatically be added!
-# The currency symbol can be changed below;
+Economy:
+  enabled: true
+  API: EssentialsZ
+  Settings:
+    # This is the currency symbol that the economy system will use.
+    Currency Symbol: '$'
+    # This is the amount that players will have when they join the server for the first time.
+    Starting Balance: 1000
 
-# Placeholders Key:
-#     %player% || This will get the players name.
+    # Placeholders Key:
+    #     %player% || This will get the players name.
+    Balance:
+      Prefix: "&6Balance &2"
+      Other: "&6Balance of %player%: &2"
 
-Balance_Prefix: "&6Balance &2" # This will show when you want to see your own balance.
-Balance_Prefix_Other: "&6Balance of %player%: &2" # this will show when you want to see someone else's.
+    # When someone does there is a chance that their head will drop and then players can sell it for a profit.
+    Money Heads:
+      enabled: true
+      Player Heads Drop Chance: 13 # This is the percentage (0 - 100).
+      Player Heads Sell Amount: 5 # The percentage of the players balance that will be removed.
 
-# This is the currency symbol that the economy system will use.
-Currency_Symbol: "$"
+    Bank_Notes:
+      enabled: true
+      # Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
+      Item:
+      material: PAPER
+      name: "Bank Note"
+      amount: "Amount: "
 
-# This is the amount that players will have when they join the server for the first time.
-Starting_Balance: 1000
+    # The different tiers can be changed in the `Economy/Money Pouches.yml` file.
+    Money Pouches:
+      enabled: true
+      Open Animation: false
 
-# Money Heads
-# When someone does there is a chance that their head will drop and then players can sell it for a profit.
-Player_Heads: true # Default: true
-Player_Heads_Drop_Chance: 13 # This is the percentage (0 - 100). Default: 13
-Player_Heads_Sell_Amount: 5 # The percentage of the players balance that will be removed. Default: 5
+    Commands:
+      Balance: true
+      Pay: true
 
-# Bank Notes
-Bank_Notes: true
+############################################################
+# +------------------------------------------------------+ #
+# |              EssentialsZ (Teleportation)             | #
+# +------------------------------------------------------+ #
+############################################################
 
-# Below is where you can change the bank note item / name / description.
-# PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
-BNLayout:
-  item: PAPER # This has to be a material (https://minecraft-ids.grahamedgecombe.com/) [WARNING! ID'S DO NOT WORK!]
-  name: "Bank Note"
-  amount: "Amount: " # This is the amount of money that the bank note holds
+Teleportation:
+  enabled: true
+  Settings:
+    # If you want anyone to bypass this then give them the following permission: "Essentials.TeleportDelay.Bypass"
+    Teleportation_Delay: 5 # In seconds.
+    No void: true
+    Spawn:
+      enabled: true
+      Spawn Protection:
+        enabled: true
+        Spawn on Join: false
+        region: 16 # In blocks.
+        flags:
+          interact: true
+          block-break: false
+          block-place: false
+          chest-acess: true
+          explosions: true
+          mob grief: true
+          mob spawning: true
+          animal spawning: true
+          pvp: true
+    Hub:
+      # WARNING! This will only work for Bungeecord servers.
+      enabled: false
+      Server Name: "lobby"
 
-# Money Pouches
-# PLEASE NOTE!! That the different tiers can be changed in the `Money Pouches.yml` file.
-Money_Pouches: true # Allow people to win money. Default: true
+    Random Teleport:
+      enabled: true
+      cooldown: 10 # In seconds.
+      World Border:
+        Border: 10000
 
-# Economy Commands
-# You can enable/disable any command that is shown below for the `Economy Module`
-cmd_Balance: true # This will show the players balance. Default: true
-cmd_Pay: true # Players can pay each other money. Default: true
+    Homes:
+      enabled: true
+      bed home: true # Show your bed location as a home
+      limit:
+        default: 3
+        vip: 5
+        staff: 10
 
-#########################################################################################################################################################
+    Commands:
+      Teleport: true
+      warps: true
+      top: true
+      back: true
 
-# Teleportation Module [WARNING! THIS WILL DISABLE THE FULL TELEPORTATION SYSTEM! IF SET TO `false`]
-# This does not include the following `Admin commands`: /tp, /tphere
-Teleportation: true # Default: true
+############################################################
+# +------------------------------------------------------+ #
+# |                  EssentialsZ (Chat)                  | #
+# +------------------------------------------------------+ #
+############################################################
 
-# Teleportation Delay (IN SECONDS)
-# If you want anyone to bypass this then give them the following permission: "Essentials.TeleportDelay.Bypass"
-Teleportation_Delay: 5 # Default: 5
+Chat:
+  enabled: true
+  Settings:
+    Join Messages:
+      First Time join: true
+      Show join Message: true
+      Style: CHAT # [CHAT, TITLE, ACTION_BAR, BOSS_BAR]
+      Bossbar_length: 3
 
-# Spawn
-cmd_SetSpawn: true # Set a spawn for players to teleport to. Default: true
-cmd_Spawn: true # Allow players to teleport to the spawn. Default: true
-
-Spawn On Player Join: false # This will teleport the player to spawn when they join the server. Default: false
-No Void: true # This will teleport the player to spawn if they fall below; Y: -4. Default: true
-
-# Hub [WARNING! THIS WILL ONLY WORK FOR SERVERS THAT ARE CONNECTED TO `Bungeecord`.]
-cmd_Hub: false # Default: false
-Server Name: "lobby"
-
-# Random Teleport [NOTE! this will teleport the player to a random location in the world.]
-cmd_RandomTeleport: true # Allow players to randomly teleport around your world.
-RandomTeleport_Cooldown: 10 # This is how long until the player has to wait before doing the command again [NOTE! This is in seconds]. Default: 10
-
-World_Border: false # if you want to limit how far it teleports players. Default: false
-# How many blocks away they CAN spawn(not will)
-Border: 200 # If no world border, limit is automatically 25,000 blocks
-
-# Homes
-# If you want members to be able to set player homes [NOTE! There will be more settings added soon.]
-Homes: true
-
-# Teleportation Commands
-# You can enable/disable any command that is shown below for the `Teleportation Module`
-cmd_TP: true # Allow admins to teleport to any players in the server. Default: true
-cmd_TPhere: true # Allow admins to teleport players to them. Default: true
-cmd_SetWarp: true # Allow admins to create warps. Default: true
-cmd_DelWarp: true # Allow admins to remove warps. Default: true
-cmd_Warp: true # Allow players to teleport to warps. Default: true
-cmd_Top: true # Allow admins to teleport to the highest block above them. Default: true
-cmd_Back: true # Allow admins to teleport back to their previous location. Default: true
-
-#########################################################################################################################################################
-
-# Chat Module [WARNING! THIS WILL DISABLE THE FULL CHAT SYSTEM! IF SET TO `false`]
-Chat: true # Default: true
-
-# Welcome message(s) configuration
-Show_First_Time_Join_Message: true # Default: true
-Show_Join_Message: true # Default: true
-Join_Message_Style: CHAT # [CHAT, TITLE, ACTION_BAR, BOSS_BAR]. Default: CHAT
-Bossbar_Length: 3 # This is how long you want the message to appear for [Note! This is in seconds]. Default: 3
-
-# Do you want to change your MOTD, what players see on the server page?
-# PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
-Change MOTD: false # Default: false
-MOTD: "Welcome to my server"
+    MOTD:
+      enabled: false
+      MOTD: "&6Welcome to my server"
 
 # If you want to change how the player names shows then please choose from the following.
 # PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes

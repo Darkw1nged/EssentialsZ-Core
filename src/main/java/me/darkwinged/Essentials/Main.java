@@ -2,41 +2,28 @@ package me.darkwinged.Essentials;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.PlaceholderHook;
-import me.darkwinged.Essentials.REWORK.Commands.Chat.*;
-import me.darkwinged.Essentials.REWORK.Commands.Economy.*;
-import me.darkwinged.Essentials.REWORK.Commands.Teleport.Staff.*;
-import me.darkwinged.Essentials.REWORK.Commands.Teleport.*;
-import me.darkwinged.Essentials.REWORK.Commands.World.*;
-import me.darkwinged.Essentials.REWORK.Commands.World.Gamemodes.*;
-import me.darkwinged.Essentials.REWORK.Commands.cmd_Reload;
-import me.darkwinged.Essentials.REWORK.Events.Chat.*;
-import me.darkwinged.Essentials.REWORK.Events.Chat.Color;
-import me.darkwinged.Essentials.REWORK.Events.Economy.AccountSetup;
-import me.darkwinged.Essentials.REWORK.Events.Economy.BankNotes;
-import me.darkwinged.Essentials.REWORK.Events.Economy.MoneyPouchesEvent;
-import me.darkwinged.Essentials.REWORK.Events.Economy.PlayerHeads;
-import me.darkwinged.Essentials.REWORK.Events.Signs.BalanceSign;
-import me.darkwinged.Essentials.REWORK.Events.Signs.GamemodeSign;
-import me.darkwinged.Essentials.REWORK.Events.World.Tablist;
-import me.darkwinged.Essentials.REWORK.Events.Teleport.Back;
-import me.darkwinged.Essentials.REWORK.Events.Teleport.NoVoid;
-import me.darkwinged.Essentials.REWORK.Events.Teleport.OnRespawn;
-import me.darkwinged.Essentials.REWORK.Events.Teleport.SpawnOnJoin;
-import me.darkwinged.Essentials.REWORK.Events.World.*;
-import me.darkwinged.Essentials.REWORK.Utils.*;
-import me.darkwinged.Essentials.REWORK.Utils.CustomFiles.Chat.AutoMessagesFile;
-import me.darkwinged.Essentials.REWORK.Utils.CustomFiles.Chat.BlockedCommandsFile;
-import me.darkwinged.Essentials.REWORK.Utils.CustomFiles.Chat.ChatFilterFile;
-import me.darkwinged.Essentials.REWORK.Utils.CustomFiles.Economy.AccountsFile;
-import me.darkwinged.Essentials.REWORK.Utils.CustomFiles.Chat.MessagesFile;
-import me.darkwinged.Essentials.REWORK.Utils.CustomFiles.Economy.MoneyPouchFile;
-import me.darkwinged.Essentials.REWORK.Utils.CustomFiles.Telepotation.SpawnFile;
+import me.darkwinged.Essentials.Commands.Chat.*;
+import me.darkwinged.Essentials.Commands.Economy.*;
+import me.darkwinged.Essentials.Commands.Teleport.Staff.*;
+import me.darkwinged.Essentials.Commands.Teleport.*;
+import me.darkwinged.Essentials.Commands.World.Gamemodes.*;
+import me.darkwinged.Essentials.Commands.World.*;
+import me.darkwinged.Essentials.Commands.cmd_Reload;
+import me.darkwinged.Essentials.Events.Chat.*;
+import me.darkwinged.Essentials.Events.Economy.*;
+import me.darkwinged.Essentials.Events.Signs.*;
+import me.darkwinged.Essentials.Events.Teleport.*;
+import me.darkwinged.Essentials.Events.World.*;
+import me.darkwinged.Essentials.Utils.*;
+import me.darkwinged.Essentials.Utils.Lang.CustomConfig;
+import me.darkwinged.Essentials.Utils.Lang.MetricsLite;
+import me.darkwinged.Essentials.Utils.Lang.Utils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -49,16 +36,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import static org.apache.commons.lang.math.RandomUtils.nextInt;
 import static org.bukkit.Material.getMaterial;
 
 public final class Main extends JavaPlugin implements Listener {
@@ -66,15 +50,17 @@ public final class Main extends JavaPlugin implements Listener {
     public int Delay = getConfig().getInt("Teleportation_Delay");
     public boolean Cancel_TNT = false;
     public ProtocolManager protocolManager;
-    private MoneyPouchFile moneyPouchFile;
-    private MessagesFile messagesFile;
-    private AccountsFile accountsFile;
-    private ChatFilterFile chatFilterFile;
-    private BlockedCommandsFile blockedCommandsFile;
-    private AutoMessagesFile autoMessagesFile;
-    private SpawnFile spawnFile;
+    private CustomConfig customConfig;
 
-    // REWORK
+    public CustomConfig MoneyPouchesFile = new CustomConfig(this, "Economy/Money Pouches");
+    public CustomConfig MessagesFile = new CustomConfig(this, "Chat/Messages");
+    public CustomConfig SpawnFile = new CustomConfig(this, "Teleportation/Spawn");
+    public CustomConfig BlockedCommandsFile = new CustomConfig(this, "Chat/Blocked Commands");
+    public CustomConfig ChatFilterFile = new CustomConfig(this, "Chat/Chat Filter");
+    public CustomConfig AutoMessagesFile = new CustomConfig(this, "Chat/Auto Messages");
+    public CustomConfig AccountsFile = new CustomConfig(this, "Economy/Accounts");
+
+
     public void onEnable() {
         // Console Start Message
         getServer().getConsoleSender().sendMessage(Utils.chat("&aEssentialsZ plugin has been enabled!"));
@@ -121,60 +107,60 @@ public final class Main extends JavaPlugin implements Listener {
         // Saving the accounts for all of the players
         saveAccounts();
         // Saving the accounts file
-        accountsFile.saveConfig();
+        customConfig.saveConfig();
     }
 
     @SuppressWarnings("ConstantConditions")
     public void registerCommands() {
-        getCommand("essentials").setExecutor(new cmd_Reload(this, moneyPouchFile, messagesFile, accountsFile, chatFilterFile, blockedCommandsFile, spawnFile));
+        getCommand("essentials").setExecutor(new cmd_Reload(this));
 
         // Economy
         getCommand("balance").setExecutor(new cmd_Balance(this));
-        getCommand("pay").setExecutor(new cmd_Pay(messagesFile, this));
+        getCommand("pay").setExecutor(new cmd_Pay(this));
         getCommand("withdraw").setExecutor(new cmd_Withdraw(this));
         getCommand("economy").setExecutor(new cmd_Economy(this));
-        getCommand("pouches").setExecutor(new cmd_MoneyPouches(messagesFile, moneyPouchFile, this));
+        getCommand("pouches").setExecutor(new cmd_MoneyPouches(this));
 
         // Chat
         getCommand("staffchat").setExecutor(new cmd_Staffchat(this));
-        getCommand("clearchat").setExecutor(new cmd_Clearchat(messagesFile, this));
-        getCommand("broadcast").setExecutor(new cmd_Broadcast(messagesFile, this));
-        getCommand("mutechat").setExecutor(new cmd_Mutechat(messagesFile, this));
+        getCommand("clearchat").setExecutor(new cmd_Clearchat(this));
+        getCommand("broadcast").setExecutor(new cmd_Broadcast(this));
+        getCommand("mutechat").setExecutor(new cmd_Mutechat(this));
         getCommand("motd").setExecutor(new cmd_MOTD(this));
         getCommand("sudo").setExecutor(new cmd_Sudo(this));
 
         // Teleportation
-        getCommand("tp").setExecutor(new cmd_TP(messagesFile, this));
-        getCommand("tphere").setExecutor(new cmd_TPhere(messagesFile, this));
-        getCommand("spawn").setExecutor(new cmd_Spawn(messagesFile, spawnFile, this));
-        getCommand("setspawn").setExecutor(new cmd_SetSpawn(messagesFile, spawnFile, this));
+        getCommand("tp").setExecutor(new cmd_TP(this));
+        getCommand("tphere").setExecutor(new cmd_TPhere(this));
+        getCommand("spawn").setExecutor(new cmd_Spawn(this));
+        getCommand("setspawn").setExecutor(new cmd_SetSpawn(this));
         getCommand("hub").setExecutor(new cmd_Hub(this));
         getCommand("rtp").setExecutor(new cmd_RandomTeleport(this));
         getCommand("top").setExecutor(new cmd_Top(this));
-        getCommand("back").setExecutor(new cmd_Back(this, messagesFile));
-        getCommand("setwarp").setExecutor(new cmd_SetWarp(messagesFile, this));
-        getCommand("delwarp").setExecutor(new cmd_DelWarp(messagesFile, this));
-        getCommand("warp").setExecutor(new cmd_Warp(messagesFile, this));
+        getCommand("back").setExecutor(new cmd_Back(this));
+        getCommand("setwarp").setExecutor(new cmd_SetWarp(this));
+        getCommand("delwarp").setExecutor(new cmd_DelWarp(this));
+        getCommand("warp").setExecutor(new cmd_Warp(this));
         getCommand("warps").setExecutor(new cmd_Warps(this));
-        getCommand("sethome").setExecutor(new cmd_SetHome(messagesFile, this));
-        getCommand("delhome").setExecutor(new cmd_DelHome(messagesFile, this));
-        getCommand("home").setExecutor(new cmd_Home(messagesFile, this));
+        getCommand("sethome").setExecutor(new cmd_SetHome(this));
+        getCommand("delhome").setExecutor(new cmd_DelHome(this));
+        getCommand("home").setExecutor(new cmd_Home(this));
         getCommand("homes").setExecutor(new cmd_Homes(this));
 
         // World
         getCommand("hat").setExecutor(new cmd_Hat(this));
-        getCommand("ping").setExecutor(new cmd_Ping(messagesFile, this));
-        getCommand("gma").setExecutor(new cmd_AdventureMode(messagesFile, this));
-        getCommand("gmc").setExecutor(new cmd_CreativeMode(messagesFile, this));
-        getCommand("gms").setExecutor(new cmd_SurvivalMode(messagesFile, this));
-        getCommand("gmsp").setExecutor(new cmd_SpectatorMode(messagesFile, this));
-        getCommand("gamemode").setExecutor(new cmd_Gamemode(messagesFile, this));
+        getCommand("ping").setExecutor(new cmd_Ping(this));
+        getCommand("gma").setExecutor(new cmd_AdventureMode(this));
+        getCommand("gmc").setExecutor(new cmd_CreativeMode(this));
+        getCommand("gms").setExecutor(new cmd_SurvivalMode(this));
+        getCommand("gmsp").setExecutor(new cmd_SpectatorMode(this));
+        getCommand("gamemode").setExecutor(new cmd_Gamemode(this));
         getCommand("invsee").setExecutor(new cmd_Invsee(this));
-        getCommand("vanish").setExecutor(new cmd_Vanish(this, messagesFile));
+        getCommand("vanish").setExecutor(new cmd_Vanish(this));
         getCommand("reward").setExecutor(new cmd_Reward(this));
         getCommand("repair").setExecutor(new cmd_Repair(this));
         getCommand("world").setExecutor(new cmd_WorldGenerator(this));
-        getCommand("clearlag").setExecutor(new cmd_ClearLag(this, messagesFile));
+        getCommand("clearlag").setExecutor(new cmd_ClearLag(this));
         getCommand("enderchest").setExecutor(new cmd_Enderchest(this));
 
     }
@@ -184,10 +170,10 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
 
         // Chat Events
-        getServer().getPluginManager().registerEvents(new ChatFilterEvent(chatFilterFile, this), this);
-        getServer().getPluginManager().registerEvents(new BlockedCommandsEvent(blockedCommandsFile, this), this);
-        getServer().getPluginManager().registerEvents(new MuteChat(messagesFile, this), this);
-        getServer().getPluginManager().registerEvents(new JoinAndLeaveMessage(messagesFile, this), this);
+        getServer().getPluginManager().registerEvents(new ChatFilterEvent(this), this);
+        getServer().getPluginManager().registerEvents(new BlockedCommandsEvent(this), this);
+        getServer().getPluginManager().registerEvents(new MuteChat(this), this);
+        getServer().getPluginManager().registerEvents(new JoinAndLeaveMessage(this), this);
         getServer().getPluginManager().registerEvents(new Color(this), this);
         getServer().getPluginManager().registerEvents(new AntiSpam(this), this);
         getServer().getPluginManager().registerEvents(new Tablist(this), this);
@@ -197,17 +183,17 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerHeads(this), this);
         getServer().getPluginManager().registerEvents(new AccountSetup(this), this);
         getServer().getPluginManager().registerEvents(new BankNotes(this), this);
-        getServer().getPluginManager().registerEvents(new MoneyPouchesEvent(moneyPouchFile, this), this);
+        getServer().getPluginManager().registerEvents(new MoneyPouchesEvent(this), this);
 
         // SIGN EVENTS
         getServer().getPluginManager().registerEvents(new BalanceSign(this), this);
         getServer().getPluginManager().registerEvents(new GamemodeSign(this), this);
 
         // TELEPORTATION EVENTS
-        getServer().getPluginManager().registerEvents(new NoVoid(spawnFile, this), this);
-        getServer().getPluginManager().registerEvents(new OnRespawn(spawnFile, this), this);
-        getServer().getPluginManager().registerEvents(new SpawnOnJoin(spawnFile, this), this);
-        getServer().getPluginManager().registerEvents(new Back(messagesFile, this), this);
+        getServer().getPluginManager().registerEvents(new NoVoid(this), this);
+        getServer().getPluginManager().registerEvents(new OnRespawn(this), this);
+        getServer().getPluginManager().registerEvents(new SpawnOnJoin(this), this);
+        getServer().getPluginManager().registerEvents(new Back(this), this);
 
         // WORLD EVENTS
         getServer().getPluginManager().registerEvents(new FireworkOnJoin(this), this);
@@ -232,13 +218,13 @@ public final class Main extends JavaPlugin implements Listener {
     // Economy Account Manager
     public void saveAccounts() {
         for (Map.Entry<String, Double> entry : EconomyManager.getAccountMap().entrySet()) {
-            accountsFile.getConfig().set("Accounts." + entry.getKey(), entry.getValue());
+            AccountsFile.getConfig().set("Accounts." + entry.getKey(), entry.getValue());
         }
     }
     public void loadAccounts() {
-        if (!accountsFile.getConfig().contains("Accounts.")) return;
-        for (String key : accountsFile.getConfig().getConfigurationSection("Accounts.").getKeys(false)) {
-            EconomyManager.getAccountMap().put(key, accountsFile.getConfig().getDouble("Accounts." + key));
+        if (!AccountsFile.getConfig().contains("Accounts.")) return;
+        for (String key : AccountsFile.getConfig().getConfigurationSection("Accounts.").getKeys(false)) {
+            EconomyManager.getAccountMap().put(key, AccountsFile.getConfig().getDouble("Accounts." + key));
         }
     }
 
@@ -251,26 +237,19 @@ public final class Main extends JavaPlugin implements Listener {
     }
     public void loadCustomFiles() {
         // Economy
-        accountsFile = new AccountsFile(this, "Economy/Accounts");
-        accountsFile.saveDefaultConfig();
-        moneyPouchFile = new MoneyPouchFile(this, "Economy/Money Pouches");
-        moneyPouchFile.saveDefaultConfig();
+        AccountsFile.saveDefaultConfig();
+        MoneyPouchesFile.saveDefaultConfig();
 
         // Teleportation
-        spawnFile = new SpawnFile(this, "Teleportation/Spawn");
-        spawnFile.saveDefaultConfig();
+        SpawnFile.saveDefaultConfig();
 
         // World
 
         // Chat
-        messagesFile = new MessagesFile(this, "Chat/Messages");
-        messagesFile.saveDefaultConfig();
-        blockedCommandsFile = new BlockedCommandsFile(this, "Chat/Blocked Commands");
-        blockedCommandsFile.saveDefaultConfig();
-        chatFilterFile = new ChatFilterFile(this, "Chat/Chat Filter");
-        chatFilterFile.saveDefaultConfig();
-        autoMessagesFile = new AutoMessagesFile(this, "Chat/Auto Messages");
-        autoMessagesFile.saveDefaultConfig();
+        MessagesFile.saveDefaultConfig();
+        BlockedCommandsFile.saveDefaultConfig();
+        ChatFilterFile.saveDefaultConfig();
+        AutoMessagesFile.saveDefaultConfig();
     }
 
     // Check if the server is lagging
@@ -328,7 +307,7 @@ public final class Main extends JavaPlugin implements Listener {
                             total += 1;
                         }
                     }
-                    Bukkit.broadcastMessage(Utils.chat(messagesFile.getConfig().getString("Prefix") + messagesFile.getConfig().getString("Clear Lag Message")
+                    Bukkit.broadcastMessage(Utils.chat(MessagesFile.getConfig().getString("Prefix") + MessagesFile.getConfig().getString("Clear Lag Message")
                             .replaceAll("%n", "\n")
                             .replaceAll("%entity_amount%", ""+total)
                             .replaceAll("%time%",""+getConfig().getInt("Clear_Lag_Delay")/60)));
@@ -339,38 +318,38 @@ public final class Main extends JavaPlugin implements Listener {
 
     // Getting money pouches
     public List<String> getConvertedLore(String path) {
-        List<String> oldList = moneyPouchFile.getConfig().getStringList(path + ".lore");
+        List<String> oldList = MoneyPouchesFile.getConfig().getStringList(path + ".lore");
         List<String> newList = new ArrayList<>();
         for (String a : oldList)
             newList.add(ChatColor.translateAlternateColorCodes('&', a));
         return newList;
     }
     public void loadMoneyPouches() {
-        if (!moneyPouchFile.getConfig().contains("Tiers.")) return;
-        for (String key : moneyPouchFile.getConfig().getConfigurationSection("Tiers.").getKeys(false)) {
-            ItemStack item = new ItemStack(getMaterial(moneyPouchFile.getConfig().getString("Tiers." + key + ".material")));
+        if (!MoneyPouchesFile.getConfig().contains("Tiers.")) return;
+        for (String key : MoneyPouchesFile.getConfig().getConfigurationSection("Tiers.").getKeys(false)) {
+            ItemStack item = new ItemStack(getMaterial(MoneyPouchesFile.getConfig().getString("Tiers." + key + ".material")));
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(Utils.chat(moneyPouchFile.getConfig().getString("Tiers." + key + ".name")));
+            meta.setDisplayName(Utils.chat(MoneyPouchesFile.getConfig().getString("Tiers." + key + ".name")));
             meta.setLore(getConvertedLore("Tiers." + key));
             item.setItemMeta(meta);
 
-            Utils.MoneyPouches_max.put(item.getItemMeta().getDisplayName(), moneyPouchFile.getConfig().getInt("Tiers." + key + ".max"));
-            Utils.MoneyPouches_min.put(item.getItemMeta().getDisplayName(), moneyPouchFile.getConfig().getInt("Tiers." + key + ".min"));
+            Utils.MoneyPouches_max.put(item.getItemMeta().getDisplayName(), MoneyPouchesFile.getConfig().getInt("Tiers." + key + ".max"));
+            Utils.MoneyPouches_min.put(item.getItemMeta().getDisplayName(), MoneyPouchesFile.getConfig().getInt("Tiers." + key + ".min"));
             Utils.MoneyPouches.put(item.getItemMeta().getDisplayName(), item);
         }
     }
 
     // Managing auto messages
     public void loadAutoMessages() {
-        if (!autoMessagesFile.getConfig().contains("Messages.")) return;
-        Utils.AutoMessages.addAll(autoMessagesFile.getConfig().getStringList("Messages"));
+        if (!AutoMessagesFile.getConfig().contains("Messages.")) return;
+        Utils.AutoMessages.addAll(AutoMessagesFile.getConfig().getStringList("Messages"));
     }
     public void AutoMessage() {
         if (getConfig().getBoolean("Auto_Messages", true)) {
-            for (Iterator<String> iterator = autoMessagesFile.getConfig().getConfigurationSection("Messages").getKeys(false).iterator(); iterator.hasNext(); ) {
+            for (Iterator<String> iterator = AutoMessagesFile.getConfig().getConfigurationSection("Messages").getKeys(false).iterator(); iterator.hasNext(); ) {
                 String key = iterator.next();
-                String message = autoMessagesFile.getConfig().getString("Messages." + key + ".content").replaceAll("%n", "\n");
-                long interval = autoMessagesFile.getConfig().getInt("Messages." + key + ".interval") * 60;
+                String message = AutoMessagesFile.getConfig().getString("Messages." + key + ".content").replaceAll("%n", "\n");
+                long interval = AutoMessagesFile.getConfig().getInt("Messages." + key + ".interval") * 60;
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
                     public void run() {
                         Bukkit.broadcastMessage(Utils.chat(message));
