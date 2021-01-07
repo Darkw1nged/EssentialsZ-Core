@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport.Staff;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.command.Command;
@@ -21,17 +22,17 @@ public class cmd_SetWarp implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Teleportation", true)) {
                 if (plugin.getConfig().getBoolean("cmd_SetWarp", true)) {
                     if (!(sender instanceof Player)) {
-                        sender.sendMessage(ErrorMessages.Console);
+                        Utils.Message(sender, Errors.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player) sender;
                     if (player.hasPermission(Permissions.WarpsOverwrite) || player.hasPermission(Permissions.SetWarps) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (args.length < 1) {
-                            player.sendMessage(ErrorMessages.NoWarpNameProvided);
+                            Utils.Message(sender, Errors.getErrors(Errors.NoWarpNameProvided));
                         }
                         String ProvidedWarp = args[0];
                         if (args.length == 1 && plugin.getWarps().contains("Warps." + ProvidedWarp)) {
-                            player.sendMessage(ErrorMessages.WarpAlreadyExist);
+                            Utils.Message(sender, Errors.getErrors(Errors.WarpAlreadyExist));
                         } else {
                             String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Create Warp").replaceAll("%warp%", ProvidedWarp));
 
@@ -51,7 +52,7 @@ public class cmd_SetWarp implements CommandExecutor {
                             player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
                         }
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }
                 }
             }

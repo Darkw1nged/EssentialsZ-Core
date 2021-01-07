@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
+import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.entity.Player;
 
 public class EconomyManager  {
@@ -38,13 +40,13 @@ public class EconomyManager  {
 
 	public static void AccountCheck(Player player) {
 		if (!EconomyManager.hasAccount(player.getName())) {
-			player.sendMessage(ErrorMessages.NoAccount);
+			Utils.Message(player, Errors.getErrors(Errors.NoAccount));
 		}
 	}
 
 	public static void EnoughMoneyCheck(Player player, Double amount) {
 		if (amount > EconomyManager.getBalance(player.getName())) {
-			player.sendMessage(ErrorMessages.NotEnoughMoney);
+			Utils.Message(player, Errors.getErrors(Errors.NotEnoughMoney));
 		}
 	}
 

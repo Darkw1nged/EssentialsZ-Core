@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Chat;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -21,7 +22,7 @@ public class cmd_Broadcast implements CommandExecutor {
             if (plugin.getConfig().getBoolean("cmd_Broadcast", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length < 1) {
-                        sender.sendMessage(ErrorMessages.MessageEmpty);
+                        Utils.Message(sender, Errors.getErrors(Errors.MessageEmpty));
                     } else {
                         String msg = Utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Prefix"));
                         for (String s : args) {
@@ -33,7 +34,7 @@ public class cmd_Broadcast implements CommandExecutor {
                 Player player = (Player)sender;
                 if (player.hasPermission(Permissions.Broadcast) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length < 1) {
-                        player.sendMessage(ErrorMessages.MessageEmpty);
+                        Utils.Message(sender, Errors.getErrors(Errors.MessageEmpty));
                         return true;
                     }
                     String msg = Utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Prefix"));
@@ -42,7 +43,7 @@ public class cmd_Broadcast implements CommandExecutor {
                     }
                     Bukkit.broadcastMessage(msg);
                 } else {
-                    player.sendMessage(ErrorMessages.NoPermission);
+                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                 }
             }
         }

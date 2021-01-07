@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.TeleportUtils;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -28,13 +29,13 @@ public class cmd_RandomTeleport implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Teleportation", true)) {
                 if (plugin.getConfig().getBoolean("cmd_RandomTeleport", true)) {
                     if (!(sender instanceof Player)) {
-                        sender.sendMessage(ErrorMessages.Console);
+                        Utils.Message(sender, Errors.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player)sender;
                     if (player.hasPermission(Permissions.RandomTeleport) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (RandomTeleportDelay.containsKey(player.getUniqueId()) || Cooldown.containsKey(player.getUniqueId())) {
-                            player.sendMessage(ErrorMessages.Cooldown);
+                            Utils.Message(sender, Errors.getErrors(Errors.Cooldown));
                             return true;
                         }
                         if (player.hasPermission(Permissions.TeleportBypass) || player.hasPermission(Permissions.GlobalOverwrite)) {
@@ -76,7 +77,7 @@ public class cmd_RandomTeleport implements CommandExecutor {
                             }.runTaskTimer(plugin, 0L, 20L);
                         }
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }
                 }
             }

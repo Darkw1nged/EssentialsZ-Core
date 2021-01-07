@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport.Staff;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -21,21 +22,21 @@ public class cmd_TPhere implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Teleportation", true)) {
                 if (plugin.getConfig().getBoolean("cmd_TPhere", true)) {
                     if (!(sender instanceof Player)) {
-                        sender.sendMessage(ErrorMessages.Console);
+                        Utils.Message(sender, Errors.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player)sender;
                     if (player.hasPermission(Permissions.TPhere) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (args.length != 1) {
-                            player.sendMessage(ErrorMessages.TPhereUsage);
+                            Utils.Message(sender, Errors.getErrors(Errors.TPhereUsage));
                         } else {
                             Player target = Bukkit.getPlayer(args[0]);
                             if (target == null) {
-                                player.sendMessage(ErrorMessages.NoPlayerFound);
+                                Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target == sender) {
-                                player.sendMessage(ErrorMessages.SenderInstaceOfPlayer);
+                                Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
                                 return true;
                             }
                             String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("TPhere message")
@@ -45,7 +46,7 @@ public class cmd_TPhere implements CommandExecutor {
                         }
                         return true;
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }
                 }
             }

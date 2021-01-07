@@ -21,6 +21,7 @@ import me.darkwinged.Essentials.Utils.Lang.Utils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -50,7 +51,7 @@ public final class Main extends JavaPlugin implements Listener {
     public int Delay = getConfig().getInt("Teleportation_Delay");
     public boolean Cancel_TNT = false;
     public ProtocolManager protocolManager;
-    private CustomConfig customConfig;
+    public Economy econ;
 
     public CustomConfig MoneyPouchesFile = new CustomConfig(this, "Economy/Money Pouches");
     public CustomConfig MessagesFile = new CustomConfig(this, "Chat/Messages");
@@ -59,22 +60,30 @@ public final class Main extends JavaPlugin implements Listener {
     public CustomConfig ChatFilterFile = new CustomConfig(this, "Chat/Chat Filter");
     public CustomConfig AutoMessagesFile = new CustomConfig(this, "Chat/Auto Messages");
     public CustomConfig AccountsFile = new CustomConfig(this, "Economy/Accounts");
+    public CustomConfig WorthFile = new CustomConfig(this, "Economy/Worth");
 
 
     public void onEnable() {
         // Console Start Message
         getServer().getConsoleSender().sendMessage(Utils.chat("&aEssentialsZ plugin has been enabled!"));
         getServer().getConsoleSender().sendMessage(Utils.chat("&aFun Fact! Essentials was made by darkwinged!"));
-        // Getting ProtocolLib, Teleport Utils, MetricsLite
-        this.protocolManager = ProtocolLibrary.getProtocolManager();
-        TeleportUtils teleportUtils = new TeleportUtils(this);
-        MetricsLite metricsLite = new MetricsLite(this, 9811);
-        // Adding BungeeCord to plugin
-        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         // Loading Files
         loadConfig();
         loadCustomFiles();
+
+        // Getting ProtocolLib, Teleport Utils, MetricsLite, PlaceholderAPI, Vault, Bungeecord
+        this.protocolManager = ProtocolLibrary.getProtocolManager();
+        TeleportUtils teleportUtils = new TeleportUtils(this);
+        MetricsLite metricsLite = new MetricsLite(this, 9811);
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            getServer().getConsoleSender().sendMessage(Utils.chat("&cNo found Vault using EssentialsZ Economy."));
+            getConfig().set("Economy.API", "EssentialsZ");
+        }
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PlaceHolders(this).register();
+        }
 
         // Loading content to ArrayList(s)
         loadMoneyPouches();
@@ -92,9 +101,6 @@ public final class Main extends JavaPlugin implements Listener {
         HidePlayersCheck();
         vanishCheck();
         vanishAndHidePlayersCheck();
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new PlaceHolders(this).register();
-        }
 
         // Getting TPS
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
@@ -107,7 +113,7 @@ public final class Main extends JavaPlugin implements Listener {
         // Saving the accounts for all of the players
         saveAccounts();
         // Saving the accounts file
-        customConfig.saveConfig();
+        AccountsFile.saveConfig();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -120,6 +126,7 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("withdraw").setExecutor(new cmd_Withdraw(this));
         getCommand("economy").setExecutor(new cmd_Economy(this));
         getCommand("pouches").setExecutor(new cmd_MoneyPouches(this));
+        getCommand("autosell").setExecutor(new cmd_Autosell(this));
 
         // Chat
         getCommand("staffchat").setExecutor(new cmd_Staffchat(this));
@@ -186,8 +193,9 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new MoneyPouchesEvent(this), this);
 
         // SIGN EVENTS
-        getServer().getPluginManager().registerEvents(new BalanceSign(this), this);
-        getServer().getPluginManager().registerEvents(new GamemodeSign(this), this);
+        getServer().getPluginManager().registerEvents(new Sign_Balance(this), this);
+        getServer().getPluginManager().registerEvents(new Sign_Gamemode(this), this);
+        getServer().getPluginManager().registerEvents(new Sign_Chestsell(this), this);
 
         // TELEPORTATION EVENTS
         getServer().getPluginManager().registerEvents(new NoVoid(this), this);
@@ -229,16 +237,19 @@ public final class Main extends JavaPlugin implements Listener {
     }
 
     // Loading the config and custom files to the server
+    private FileConfiguration config;
+    private File cfile;
     public void loadConfig() {
-        Utils.config = getConfig();
-        Utils.config.options().copyDefaults(true);
+        config = getConfig();
+        config.options().copyDefaults(true);
         saveDefaultConfig();
-        Utils.cfile = new File(getDataFolder(), "config.yml");
+        cfile = new File(getDataFolder(), "config.yml");
     }
     public void loadCustomFiles() {
         // Economy
         AccountsFile.saveDefaultConfig();
         MoneyPouchesFile.saveDefaultConfig();
+        WorthFile.saveDefaultConfig();
 
         // Teleportation
         SpawnFile.saveDefaultConfig();

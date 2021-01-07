@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -28,13 +29,13 @@ public class cmd_Homes implements CommandExecutor {
                             Player target = Bukkit.getPlayer(args[0]);
                             FileConfiguration homes = plugin.getHomes();
                             if (homes.get("Homes.Owner's Name " + target.getName()) == "" || homes.get("Homes.Owner's Name " + target.getName()) == null) {
-                                sender.sendMessage(ErrorMessages.NoHomes);
+                                Utils.Message(sender, Errors.getErrors(Errors.NoHomes));
                             } else {
                                 sender.sendMessage(Utils.chat("&6&lHomes: &f&l" + homes.getConfigurationSection("Homes.Owner's Name " + target.getName()).getKeys(false))
                                         .replace("[", "").replace("]", ""));
                             }
                         } else {
-                            sender.sendMessage(ErrorMessages.NoPlayer);
+                            Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                         }
                         return true;
                     }
@@ -43,7 +44,7 @@ public class cmd_Homes implements CommandExecutor {
                         FileConfiguration homes = plugin.getHomes();
                         if (args.length == 0) {
                             if (homes.get("Homes.Owner's Name " + player.getName()) == "" || homes.get("Homes.Owner's Name " + player.getName()) == null) {
-                                sender.sendMessage(ErrorMessages.NoHomes);
+                                Utils.Message(sender, Errors.getErrors(Errors.NoHomes));
                             } else {
                                 player.sendMessage(Utils.chat("&6&lHomes: &f&l" + homes.getConfigurationSection("Homes.Owner's Name " + player.getName()).getKeys(false))
                                         .replace("[", "").replace("]", ""));
@@ -51,7 +52,7 @@ public class cmd_Homes implements CommandExecutor {
                         } else if (args.length == 1) {
                             Player target = Bukkit.getPlayer(args[0]);
                             if (homes.get("Homes.Owner's Name " + target.getName()) == "" || homes.get("Homes.Owner's Name " + target.getName()) == null) {
-                                sender.sendMessage(ErrorMessages.NoHomes);
+                                Utils.Message(sender, Errors.getErrors(Errors.NoHomes));
                             } else {
                                 player.sendMessage(Utils.chat("&6&lHomes: &f&l" + homes.getConfigurationSection("Homes.Owner's Name " + target.getName()).getKeys(false))
                                         .replace("[", "").replace("]", ""));
@@ -60,7 +61,7 @@ public class cmd_Homes implements CommandExecutor {
                             player.sendMessage(ChatColor.RED + "Error! Usage: /homes OR /homes <player>");
                         }
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }
                 }
             }

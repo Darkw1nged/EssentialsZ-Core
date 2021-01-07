@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.PlayersPing;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -23,7 +24,7 @@ public class cmd_Ping implements CommandExecutor {
             if (plugin.getConfig().getBoolean("cmd_Ping", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length < 1) {
-                        sender.sendMessage(ErrorMessages.NoPlayer);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[0]);
@@ -44,11 +45,11 @@ public class cmd_Ping implements CommandExecutor {
                                 .replaceAll("%player%", target.getName())
                                 .replaceAll("%ping%",""+PlayersPing.getPing(target))));
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }
 
                 } else {
-                    player.sendMessage(ErrorMessages.NoPermission);
+                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                 }
             }
         }

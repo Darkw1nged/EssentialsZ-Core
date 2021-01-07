@@ -2,7 +2,9 @@ package me.darkwinged.Essentials.Events.World;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
+import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -52,7 +54,7 @@ public class CommandCooldown implements Listener {
                 }.runTaskTimer(plugin, 0L, 20L);
                 return;
             }
-            player.sendMessage(ErrorMessages.Cooldown);
+            Utils.Message(player, Errors.getErrors(Errors.Cooldown));
             event.setCancelled(true);
         }
 

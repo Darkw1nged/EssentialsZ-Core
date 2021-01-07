@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.World.Gamemodes;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -25,12 +26,12 @@ public class cmd_Gamemode implements CommandExecutor {
 					if (args[0].equalsIgnoreCase("0") || args[0].equalsIgnoreCase("survival") || args[0].equalsIgnoreCase("s")) {
 						if (!(sender instanceof Player)) {
 							if (args.length != 2) {
-								sender.sendMessage(ErrorMessages.GamemodeUsage);
+								Utils.Message(sender, Errors.getErrors(Errors.GamemodeUsage));
 								return true;
 							}
 							Player target = Bukkit.getPlayer(args[1]);
 							if (target == null) {
-								sender.sendMessage(ErrorMessages.NoPlayerFound);
+								Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
 								return true;
 							}
 							String Message = plugin.MessagesFile.getConfig().getString("Gamemode Other")
@@ -46,13 +47,13 @@ public class cmd_Gamemode implements CommandExecutor {
 								player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
 								player.setGameMode(GameMode.SURVIVAL);
 							} else {
-								player.sendMessage(ErrorMessages.NoPermission);
+								Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
 							}
 						} else {
 							Player target = Bukkit.getPlayer(args[1]);
 							if (player.hasPermission(Permissions.SurvivalModeOther) || player.hasPermission(Permissions.GamemodeGlobal) || player.hasPermission(Permissions.GlobalOverwrite)) {
 								if (target == null) {
-									sender.sendMessage(ErrorMessages.NoPlayerFound);
+									Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
 									return true;
 								}
 								String Message = plugin.MessagesFile.getConfig().getString("Gamemode Other")
@@ -65,12 +66,12 @@ public class cmd_Gamemode implements CommandExecutor {
 					} else if (args[0].equalsIgnoreCase("1") || args[0].equalsIgnoreCase("creative") || args[0].equalsIgnoreCase("c")) {
 						if (!(sender instanceof Player)) {
 							if (args.length != 2) {
-								sender.sendMessage(ErrorMessages.GamemodeUsage);
+								Utils.Message(sender, Errors.getErrors(Errors.GamemodeUsage));
 								return true;
 							}
 							Player target = Bukkit.getPlayer(args[1]);
 							if (target == null) {
-								sender.sendMessage(ErrorMessages.NoPlayerFound);
+								Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
 								return true;
 							}
 							String Message = plugin.MessagesFile.getConfig().getString("Gamemode Other")
@@ -86,13 +87,13 @@ public class cmd_Gamemode implements CommandExecutor {
 								player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
 								player.setGameMode(GameMode.CREATIVE);
 							} else {
-								player.sendMessage(ErrorMessages.NoPermission);
+								Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
 							}
 						} else {
 							Player target = Bukkit.getPlayer(args[1]);
 							if (player.hasPermission(Permissions.CreativeModeOther) || player.hasPermission(Permissions.GamemodeGlobal) || player.hasPermission(Permissions.GlobalOverwrite)) {
 								if (target == null) {
-									sender.sendMessage(ErrorMessages.NoPlayerFound);
+									Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
 									return true;
 								}
 								String Message = plugin.MessagesFile.getConfig().getString("Gamemode Other")
@@ -105,12 +106,12 @@ public class cmd_Gamemode implements CommandExecutor {
 					} else if (args[0].equalsIgnoreCase("2") || args[0].equalsIgnoreCase("adventure") || args[0].equalsIgnoreCase("a")) {
 						if (!(sender instanceof Player)) {
 							if (args.length != 2) {
-								sender.sendMessage(ErrorMessages.GamemodeUsage);
+								Utils.Message(sender, Errors.getErrors(Errors.GamemodeUsage));
 								return true;
 							}
 							Player target = Bukkit.getPlayer(args[1]);
 							if (target == null) {
-								sender.sendMessage(ErrorMessages.NoPlayerFound);
+								Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
 								return true;
 							}
 							String Message = plugin.MessagesFile.getConfig().getString("Gamemode Other")
@@ -126,13 +127,13 @@ public class cmd_Gamemode implements CommandExecutor {
 								player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
 								player.setGameMode(GameMode.ADVENTURE);
 							} else {
-								player.sendMessage(ErrorMessages.NoPermission);
+								Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
 							}
 						} else {
 							Player target = Bukkit.getPlayer(args[1]);
 							if (player.hasPermission(Permissions.AdventureModeOther) || player.hasPermission(Permissions.GamemodeGlobal) || player.hasPermission(Permissions.GlobalOverwrite)) {
 								if (target == null) {
-									sender.sendMessage(ErrorMessages.NoPlayerFound);
+									Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
 									return true;
 								}
 								String Message = plugin.MessagesFile.getConfig().getString("Gamemode Other")
@@ -145,12 +146,12 @@ public class cmd_Gamemode implements CommandExecutor {
 					} else if (args[0].equalsIgnoreCase("3") || args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("sp")) {
 						if (!(sender instanceof Player)) {
 							if (args.length != 2) {
-								sender.sendMessage(ErrorMessages.GamemodeUsage);
+								Utils.Message(sender, Errors.getErrors(Errors.GamemodeUsage));
 								return true;
 							}
 							Player target = Bukkit.getPlayer(args[1]);
 							if (target == null) {
-								sender.sendMessage(ErrorMessages.NoPlayerFound);
+								Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
 								return true;
 							}
 							String Message = plugin.MessagesFile.getConfig().getString("Gamemode Other")
@@ -166,13 +167,13 @@ public class cmd_Gamemode implements CommandExecutor {
 								player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
 								player.setGameMode(GameMode.SPECTATOR);
 							} else {
-								player.sendMessage(ErrorMessages.NoPermission);
+								Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
 							}
 						} else {
 							Player target = Bukkit.getPlayer(args[1]);
 							if (player.hasPermission(Permissions.SpectatorModeOther) || player.hasPermission(Permissions.GamemodeGlobal) || player.hasPermission(Permissions.GlobalOverwrite)) {
 								if (target == null) {
-									sender.sendMessage(ErrorMessages.NoPlayerFound);
+									Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
 									return true;
 								}
 								String Message = plugin.MessagesFile.getConfig().getString("Gamemode Other")
@@ -183,7 +184,7 @@ public class cmd_Gamemode implements CommandExecutor {
 							}
 						}
 					} else
-						sender.sendMessage(ErrorMessages.GamemodeUsage);
+						Utils.Message(sender, Errors.getErrors(Errors.GamemodeUsage));
 				}
 			}
         }

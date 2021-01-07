@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -31,17 +32,17 @@ public class cmd_Spawn implements CommandExecutor {
                 if (plugin.getConfig().getBoolean("cmd_Spawn", true)) {
                     if (!(sender instanceof Player)) {
                         if (args.length != 1) {
-                            sender.sendMessage(ErrorMessages.NoPlayer);
+                            Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         FileConfiguration spawn = plugin.SpawnFile.getConfig();
                         Player target = Bukkit.getPlayer(args[0]);
                         if (spawn.getString("Spawn.world") == null) {
-                            sender.sendMessage(ErrorMessages.noSpawn);
+                            Utils.Message(sender, Errors.getErrors(Errors.noSpawn));
                             return true;
                         }
                         if (target == null) {
-                            sender.sendMessage(ErrorMessages.NoPlayerFound);
+                            Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         World world = Bukkit.getWorld(spawn.getString("Spawn.world"));
@@ -57,7 +58,7 @@ public class cmd_Spawn implements CommandExecutor {
                     Player player = (Player)sender;
                     FileConfiguration spawn = plugin.SpawnFile.getConfig();
                     if (spawn.getString("Spawn.world") == null) {
-                        sender.sendMessage(ErrorMessages.noSpawn);
+                        Utils.Message(sender, Errors.getErrors(Errors.noSpawn));
                         return true;
                     }
                     // Checking if the player is already teleporting to spawn.
@@ -68,15 +69,15 @@ public class cmd_Spawn implements CommandExecutor {
                     if (args.length == 1) {
                         Player target = Bukkit.getPlayer(args[0]);
                         if (spawn.getString("Spawn.world") == null) {
-                            sender.sendMessage(ErrorMessages.noSpawn);
+                            Utils.Message(sender, Errors.getErrors(Errors.noSpawn));
                             return true;
                         }
                         if (target == null) {
-                            player.sendMessage(ErrorMessages.NoPlayerFound);
+                            Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         if (player == target) {
-                            player.sendMessage(ErrorMessages.SenderInstaceOfPlayer);
+                            Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
                             return true;
                         }
                         World world = Bukkit.getWorld(spawn.getString("Spawn.world"));
@@ -138,7 +139,7 @@ public class cmd_Spawn implements CommandExecutor {
                             }
                         }.runTaskTimer(plugin, 0L, 20L);
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }
                 }
             }

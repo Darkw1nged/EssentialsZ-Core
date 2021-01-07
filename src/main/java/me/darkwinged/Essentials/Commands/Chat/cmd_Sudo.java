@@ -2,7 +2,9 @@ package me.darkwinged.Essentials.Commands.Chat;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
+import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,12 +22,12 @@ public class cmd_Sudo implements CommandExecutor {
                 if (plugin.getConfig().getBoolean("cmd_Sudo", true)) {
                     if (!(sender instanceof Player)) {
                         if (!(args.length >= 2)) {
-                            sender.sendMessage(ErrorMessages.MessageEmpty);
+                            Utils.Message(sender, Errors.getErrors(Errors.MessageEmpty));
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
-                            sender.sendMessage(ErrorMessages.NoPlayerFound);
+                            Utils.Message(sender, Errors.getErrors(Errors.SpecifyPlayer));
                             return true;
                         }
                         String msg = "";
@@ -38,12 +40,12 @@ public class cmd_Sudo implements CommandExecutor {
                     Player player = (Player)sender;
                     if (player.hasPermission(Permissions.Sudo) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (!(args.length >= 2)) {
-                            player.sendMessage(ErrorMessages.MessageEmpty);
+                            Utils.Message(player, Errors.getErrors(Errors.MessageEmpty));
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
-                            sender.sendMessage(ErrorMessages.NoPlayerFound);
+                            Utils.Message(sender, Errors.getErrors(Errors.SpecifyPlayer));
                             return true;
                         }
                         String msg = "";
@@ -52,7 +54,7 @@ public class cmd_Sudo implements CommandExecutor {
                         }
                         target.chat(msg.replaceAll(" "+args[0]+" ", ""));
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }
                 }
             }

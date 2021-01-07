@@ -1,7 +1,5 @@
 package me.darkwinged.Essentials.Utils.Lang;
 
-import me.darkwinged.Essentials.Main;
-
 public class Permissions {
 
     // Essential Permissions
@@ -19,6 +17,7 @@ public class Permissions {
     public static String Pay = MainPermission + "Pay";
     public static String Withdraw = MainPermission + "Withdraw";
     public static String MoneyPouch = MainPermission + "MoneyPouch";
+    public static String Autosell = MainPermission + "Autosell";
 
     // Chat Permissions
     public static String ChatColor = MainPermission + "ChatColor";

@@ -2,7 +2,9 @@ package me.darkwinged.Essentials.Events.World;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
+import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +35,7 @@ public class PlayerEatEvent implements Listener {
                 return;
             if (item.getType().equals(Material.GOLDEN_APPLE)) {
                 if (cooldownTime_Normal.containsKey(player.getUniqueId())) {
-                    player.sendMessage(ErrorMessages.CooldownItem);
+                    Utils.Message(player, Errors.getErrors(Errors.CooldownItem));
                     event.setCancelled(true);
                     player.updateInventory();
                     return;
@@ -60,7 +62,7 @@ public class PlayerEatEvent implements Listener {
                 return;
             if (item.getType().equals(Material.ENCHANTED_GOLDEN_APPLE)) {
                 if (cooldownTime_Enchanted.containsKey(player.getUniqueId())) {
-                    player.sendMessage(ErrorMessages.CooldownItem);
+                    Utils.Message(player, Errors.getErrors(Errors.CooldownItem));
                     event.setCancelled(true);
                     player.updateInventory();
                     return;

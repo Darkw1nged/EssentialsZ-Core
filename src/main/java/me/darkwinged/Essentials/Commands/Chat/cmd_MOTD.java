@@ -2,7 +2,9 @@ package me.darkwinged.Essentials.Commands.Chat;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
+import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +20,7 @@ public class cmd_MOTD implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Change MOTD", true)) {
                 if (!(sender instanceof Player)) {
                     if (!(args.length >= 1)) {
-                        sender.sendMessage(ErrorMessages.MessageEmpty);
+                        Utils.Message(sender, Errors.getErrors(Errors.MessageEmpty));
                         return true;
                     }
                     String msg = "";
@@ -30,7 +32,7 @@ public class cmd_MOTD implements CommandExecutor {
                 Player player = (Player)sender;
                 if (player.hasPermission(Permissions.ChangeMOTD) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (!(args.length >= 1)) {
-                        sender.sendMessage(ErrorMessages.MessageEmpty);
+                        Utils.Message(player, Errors.getErrors(Errors.MessageEmpty));
                         return true;
                     }
                     String msg = "";
@@ -39,7 +41,7 @@ public class cmd_MOTD implements CommandExecutor {
                     }
                     plugin.getConfig().set("MOTD", msg);
                 } else {
-                    player.sendMessage(ErrorMessages.NoPermission);
+                    Utils.Message(player, Errors.getErrors(Errors.NoPermission));
                 }
             }
         }

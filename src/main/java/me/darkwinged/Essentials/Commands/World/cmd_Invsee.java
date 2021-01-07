@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -29,28 +30,28 @@ public class cmd_Invsee implements CommandExecutor, Listener {
         if (cmd.getName().equalsIgnoreCase("invsee")) {
             if (plugin.getConfig().getBoolean("cmd_Invsee", true)) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(ErrorMessages.Console);
+                    Utils.Message(sender, Errors.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player)sender;
                 if (player.hasPermission(Permissions.Invsee) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length != 1) {
-                        player.sendMessage(ErrorMessages.NoPlayer);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == null) {
-                        player.sendMessage(ErrorMessages.NoPlayerFound);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                         return true;
                     }
                     if (target == player) {
-                        player.sendMessage(ErrorMessages.SenderInstaceOfPlayer);
+                        Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
                         return true;
                     }
                     CreateInventory(target);
                     player.openInventory(inv);
                 } else {
-                    player.sendMessage(ErrorMessages.NoPermission);
+                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                 }
             }
         }

@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport.Staff;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Location;
@@ -26,20 +27,20 @@ public class cmd_Back implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("back")) {
             if (plugin.getConfig().getBoolean("cmd_Back", true)) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(ErrorMessages.Console);
+                    Utils.Message(sender, Errors.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player)sender;
                 if (player.hasPermission(Permissions.BackTeleport) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (!back_loc.containsKey(player.getUniqueId())) {
-                        player.sendMessage(ErrorMessages.NoPreviousLocation);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPreviousLocation));
                         return true;
                     }
                     player.teleport(back_loc.get(player.getUniqueId()));
                     back_loc.remove(player.getUniqueId());
                     player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Back Message")));
                 } else {
-                    player.sendMessage(ErrorMessages.NoPermission);
+                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                 }
             }
         }

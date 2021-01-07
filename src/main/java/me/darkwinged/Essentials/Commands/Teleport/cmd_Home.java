@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -28,7 +29,7 @@ public class cmd_Home implements CommandExecutor {
         if (plugin.getConfig().getBoolean("Teleportation", true)) {
             if (plugin.getConfig().getBoolean("Homes", true)) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(ErrorMessages.Console);
+                    Utils.Message(sender, Errors.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player) sender;
@@ -85,7 +86,7 @@ public class cmd_Home implements CommandExecutor {
                             }
                         }.runTaskTimer(plugin, 0L, 20L);
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                         return true;
                     }
                 }

@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -28,11 +29,13 @@ public class cmd_DelHome implements CommandExecutor {
                         }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (!plugin.getHomes().contains("Homes.Owner's Name " + target.getName() + "." + args[1])) {
-                            sender.sendMessage(ErrorMessages.HomeDoesNotExist);
+                            Utils.Message(sender, Errors.getErrors(Errors.HomeDoesNotExist));
                         } else {
                             plugin.getHomes().set("Homes.Owner's Name " + target.getName() + "." + args[1], null);
                             plugin.saveHomes();
-                            sender.sendMessage(plugin.MessagesFile.getConfig().getString("Remove Home").replaceAll("%home%", args[1]));
+                            String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Home")
+                                    .replaceAll("%home%", args[0]).replaceAll("%setting%", "removed"));
+                            sender.sendMessage(Message);
                         }
                         return true;
                     }
@@ -40,28 +43,31 @@ public class cmd_DelHome implements CommandExecutor {
                     if (player.hasPermission(Permissions.DelHomes) || player.hasPermission(Permissions.HomesOverwrite) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (args.length == 1) {
                             if (plugin.getHomes().contains("Homes.Owner's Name " + player.getName() + "." + args[0])) {
-                                String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Remove Home").replaceAll("%home%", args[0]));
+                                String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Home")
+                                        .replaceAll("%home%", args[0]).replaceAll("%setting%", "removed"));
 
                                 plugin.getHomes().set("Homes.Owner's Name " + player.getName() + "." + args[0], null);
                                 plugin.saveHomes();
                                 player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
                             } else if (!plugin.getHomes().contains("Homes.Owner's Name " + player.getName() + "." + args[0])) {
-                                player.sendMessage(ErrorMessages.HomeDoesNotExist);
+                                Utils.Message(sender, Errors.getErrors(Errors.HomeDoesNotExist));
                             }
                         } else if (args.length == 2) {
                             if (player.hasPermission(Permissions.DelHomesOther) || player.hasPermission(Permissions.HomesOverwrite) || player.hasPermission(Permissions.GlobalOverwrite)) {
                                 Player target = Bukkit.getPlayer(args[0]);
                                 if (!plugin.getHomes().contains("Homes.Owner's Name " + target.getName() + "." + args[1])) {
-                                    sender.sendMessage(ErrorMessages.HomeDoesNotExist);
+                                    Utils.Message(sender, Errors.getErrors(Errors.HomeDoesNotExist));
                                 } else {
                                     plugin.getHomes().set("Homes.Owner's Name " + target.getName() + "." + args[1], null);
                                     plugin.saveHomes();
-                                    sender.sendMessage(plugin.MessagesFile.getConfig().getString("Remove Home").replaceAll("%home%", args[1]));
+                                    String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Home")
+                                            .replaceAll("%home%", args[0]).replaceAll("%setting%", "removed"));
+                                    player.sendMessage(Message);
                                 }
                             }
                         }
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }
                 }
             }

@@ -2,7 +2,9 @@ package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
+import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -24,7 +26,7 @@ public class cmd_WorldGenerator implements CommandExecutor {
             if (plugin.getConfig().getBoolean("World_Creation", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length != 6) {
-                        sender.sendMessage(ErrorMessages.WorldGenUsage);
+                        Utils.Message(sender, Errors.getErrors(Errors.WorldGenUsage));
                         return true;
                     }
                     if (args[0].equalsIgnoreCase("create")) {
@@ -51,7 +53,7 @@ public class cmd_WorldGenerator implements CommandExecutor {
                 Player player = (Player)sender;
                 if (player.hasPermission(Permissions.CreateWorld) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length != 6) {
-                        player.sendMessage(ErrorMessages.WorldGenUsage);
+                        Utils.Message(sender, Errors.getErrors(Errors.WorldGenUsage));
                         return true;
                     }
                     if (args[0].equalsIgnoreCase("create")) {
@@ -74,13 +76,13 @@ public class cmd_WorldGenerator implements CommandExecutor {
                         world.createWorld();
                     }
                 } else {
-                    player.sendMessage(ErrorMessages.NoPermission);
+                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                 }
             }
         } else if (cmd.getName().equalsIgnoreCase("delworld")) {
             if (!(sender instanceof Player)) {
                 if (args.length != 1) {
-                    sender.sendMessage(ErrorMessages.InvalidWorld);
+                    Utils.Message(sender, Errors.getErrors(Errors.InvalidWorld));
                     return true;
                 }
                 if (Bukkit.getWorld(args[0]) != null) {
@@ -93,7 +95,7 @@ public class cmd_WorldGenerator implements CommandExecutor {
             Player player = (Player)sender;
             if (player.hasPermission(Permissions.RemoveWorld) || player.hasPermission(Permissions.GlobalOverwrite)) {
                 if (args.length != 1) {
-                    sender.sendMessage(ErrorMessages.InvalidWorld);
+                    Utils.Message(sender, Errors.getErrors(Errors.InvalidWorld));
                     return true;
                 }
                 if (Bukkit.getWorld(args[0]) != null) {
@@ -102,7 +104,7 @@ public class cmd_WorldGenerator implements CommandExecutor {
                     deleteWorld(deleteFolder);
                 }
             } else {
-                player.sendMessage(ErrorMessages.NoPermission);
+                Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
             }
 
         }

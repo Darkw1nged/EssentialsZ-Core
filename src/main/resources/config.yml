@@ -16,7 +16,7 @@
 
 Economy:
   enabled: true
-  API: EssentialsZ
+  API: EssentialsZ # Vault OR EssentialsZ
   Settings:
     # This is the currency symbol that the economy system will use.
     Currency Symbol: '$'
@@ -35,18 +35,31 @@ Economy:
       Player Heads Drop Chance: 13 # This is the percentage (0 - 100).
       Player Heads Sell Amount: 5 # The percentage of the players balance that will be removed.
 
-    Bank_Notes:
+    Bank Notes:
       enabled: true
       # Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
       Item:
-      material: PAPER
-      name: "Bank Note"
-      amount: "Amount: "
+        material: PAPER
+        name: "Bank Note"
+        amount: "Amount: "
 
     # The different tiers can be changed in the `Economy/Money Pouches.yml` file.
     Money Pouches:
       enabled: true
       Open Animation: false
+
+    Sell:
+      # Add and remove sellable items from the `Economy/Worth.yml` file.
+      Sellwand:
+        item: DIAMOND_HOE
+        name: "&2Sell wand"
+        lore:
+          - "&7This is a sellwand!"
+          - "&eUses: %uses%"
+          - "&eMoney earned: %earned%"
+      Chestsell Sign: true
+      Sell command: true
+      Autosell: true
 
     Commands:
       Balance: true
@@ -124,69 +137,44 @@ Chat:
       enabled: false
       MOTD: "&6Welcome to my server"
 
-# If you want to change how the player names shows then please choose from the following.
-# PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
+    Chat Filter:
+      enabled: true
+    Anti Spam:
+      enabled: true
+    Blocked Commands:
+      enabled: true
+    Staff chat:
+      enabled: true
+      Format: "&eStaff Chat > %player%:"
+    Auto Messages:
+      enabled: true
 
-# Placeholders Key:
-#     %player% || This will get the players name.
-#     %message% || This will get the players message.
-#     %prefix% || If you have a permissions plugin then this will get the prefix for the player.
-#     %suffix% || If you have a permissions plugin then this will get the suffix for the player.
+    Tablist:
+      enabled: true
+      # Placeholders Key:
+      #     %player% || This will get the players name.
+      #     %tps% || This will get the servers TPS(Ticks per Second).
+      #     %online% || This will get the total online players.
+      #     %n || This will add a new line.
+      #     %balance% || This will get the players balance.
+      #     %xp% || This will get the users total xp amount.
+      #     %xpLVL% || This will get the users current xp level.
+      #     %ping% || This will get the players ping.
+      TBLayout:
+        header: "&6My Server%n&bThe Servers TPS is: %tps%"
+        footer: "&fWelcome, %player%%n&cThere is currently %online% online."
 
-# Chat Filter [If this is set to `true` then you will need to go into `Chat Filter.yml` and <add/remove> words that you want to censor]
-Chat_Filter: false # Default: false
+    Commands:
+      Clearchat: true
+      Broadcast: true
+      Mutechat: true
+      Sudo: true
+      Messages: true
 
-# This will kick the player for spamming the chat
-Anti_Spam: true # Default: true
+    Events:
+      Leave Message: true
+      Chat Ping: true
 
-# Blocked Commands [If this is set to `true` then you will need to go into `Blocked Commands.yml` and <add/remove> commands that you do not want people to use]
-Blocked_Commands: true # Default true [ NOTE! The reason why this is set to true, is so that players can not see your plugins]
-
-# Tablist
-# Do you want a custom tablist(player list), enable the following line [WARNING! ANIMATION IS NOT AVAILABLE]
-Tablist: true # Default: true
-
-# You can change the layout of the tablist(player list) below:
-# PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
-
-# Placeholders Key:
-#     %player% || This will get the players name.
-#     %tps% || This will get the servers TPS(Ticks per Second).
-#     %online% || This will get the total online players.
-#     %n || This will add a new line.
-#     %balance% || This will get the players balance.
-#     %xp% || This will get the users total xp amount.
-#     %xpLVL% || This will get the users current xp level.
-#     %ping% || This will get the players ping.
-
-TBLayout:
-  header: "&6My Server%n&bThe Servers TPS is: %tps%"
-  footer: "&fWelcome, %player%%n&cThere is currently %online% online."
-
-# Staff Chat
-Staff_Chat: false # Default false
-
-# Placeholders Key:
-#     %player% || This will get the players name.
-
-# NOTE! The message will automatically be added after the format [NOTE! A SPACE(" ") IS NOT REQUIRED AT THE END]
-Staff_Chat_Format: "&eStaff Chat > %player%:"
-
-# Auto Messges
-# NOTE! Settings can be changed in the `Auto Messages.yml` file
-Auto_Messages: false # Default: false
-
-# Chat Commands
-cmd_ClearChat: true # Let staff members clear the chat. Default: true
-# NOTE! Broadcast prefix can be changed in the messages.yml file
-cmd_Broadcast: true # Let admins broadcast a message. Default: true
-# NOTE! Chat Mute message can be changed in the messages.yml file
-cmd_Mutechat: true # Let admins broadcast a message. Default: true
-cmd_Sudo: true # Let admins type in chat as other people.
-
-# Chat Events
-Show_Leave_Message: true # Default: true
-Chat_Ping: true # Default: true
 
 #########################################################################################################################################################
 

@@ -12,10 +12,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class BalanceSign implements Listener {
+public class Sign_Balance implements Listener {
 
     private Main plugin;
-    public BalanceSign(Main plugin) { this.plugin = plugin; }
+    public Sign_Balance(Main plugin) { this.plugin = plugin; }
 
     @EventHandler
     public void SignCreate(SignChangeEvent event) {

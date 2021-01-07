@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport.Staff;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -31,15 +32,15 @@ public class cmd_TP implements CommandExecutor {
                             Player target1 = Bukkit.getPlayer(args[0]);
                             Player target2 = Bukkit.getPlayer(args[1]);
                             if (target1 == null) {
-                                sender.sendMessage(ErrorMessages.NoPlayerFound);
+                                Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target2 == null) {
-                                sender.sendMessage(ErrorMessages.NoPlayerFound);
+                                Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target1 == target2) {
-                                sender.sendMessage(ErrorMessages.SenderInstaceOfPlayer);
+                                Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
                                 return true;
                             }
                             String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("TP Other message")
@@ -56,11 +57,11 @@ public class cmd_TP implements CommandExecutor {
                         if (args.length == 1) {
                             Player target = Bukkit.getPlayer(args[0]);
                             if (target == null) {
-                                player.sendMessage(ErrorMessages.NoPlayerFound);
+                                Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (player == target) {
-                                player.sendMessage(ErrorMessages.SenderInstaceOfPlayer);
+                                Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
                                 return true;
                             }
                             String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("TP message"))
@@ -74,22 +75,22 @@ public class cmd_TP implements CommandExecutor {
                                     player.teleport(world.getSpawnLocation());
                                     player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("TP World message").replaceAll("%world%", world.getName())));
                                 } else {
-                                    player.sendMessage(ErrorMessages.InvalidWorld);
+                                    Utils.Message(sender, Errors.getErrors(Errors.InvalidWorld));
                                 }
                                 return true;
                             }
                             Player target1 = Bukkit.getPlayer(args[0]);
                             Player target2 = Bukkit.getPlayer(args[1]);
                             if (target1 == null) {
-                                player.sendMessage(ErrorMessages.NoPlayerFound);
+                                Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target2 == null) {
-                                player.sendMessage(ErrorMessages.NoPlayerFound);
+                                Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target1 == target2) {
-                                player.sendMessage(ErrorMessages.SenderInstaceOfPlayer);
+                                Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
                                 return true;
                             }
                             String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("TP Other message")
@@ -102,11 +103,11 @@ public class cmd_TP implements CommandExecutor {
                                 if (Bukkit.getWorld(args[1]) != null) {
                                     Player target = Bukkit.getPlayer(args[2]);
                                     if (target == null) {
-                                        player.sendMessage(ErrorMessages.NoPlayerFound);
+                                        Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                                         return true;
                                     }
                                     if (player == target) {
-                                        player.sendMessage(ErrorMessages.SenderInstaceOfPlayer);
+                                        Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
                                         return true;
                                     }
                                     World world = Bukkit.getWorld(args[1]);
@@ -115,7 +116,7 @@ public class cmd_TP implements CommandExecutor {
                                                         .replaceAll("%world%", world.getName())
                                                         .replaceAll("%player%", target.getName())));
                                 } else {
-                                    player.sendMessage(ErrorMessages.InvalidWorld);
+                                    Utils.Message(sender, Errors.getErrors(Errors.InvalidWorld));
                                 }
                                 return true;
                             }
@@ -136,7 +137,7 @@ public class cmd_TP implements CommandExecutor {
                             }
                         }
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                         return true;
                     }
 

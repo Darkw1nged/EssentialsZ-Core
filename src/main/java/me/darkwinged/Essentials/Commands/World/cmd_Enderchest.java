@@ -2,7 +2,9 @@ package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
+import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,7 +21,7 @@ public class cmd_Enderchest implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("enderchest")) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(ErrorMessages.Console);
+                Utils.Message(sender, Errors.getErrors(Errors.Console));
                 return true;
             }
             Player player = (Player)sender;
@@ -28,14 +30,14 @@ public class cmd_Enderchest implements CommandExecutor {
                     Player target = Bukkit.getPlayer(args[0]);
                     player.openInventory(target.getEnderChest());
                 } else {
-                    player.sendMessage(ErrorMessages.NoPermission);
+                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                 }
                 return true;
             }
             if (player.hasPermission(Permissions.Enderchest) || player.hasPermission(Permissions.GlobalOverwrite)) {
                 player.openInventory(player.getEnderChest());
             } else {
-                player.sendMessage(ErrorMessages.NoPermission);
+                Utils.Message(sender, Errors.getErrors(Errors.NoPermission));;
             }
         }
         return false;

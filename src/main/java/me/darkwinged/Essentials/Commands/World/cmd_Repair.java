@@ -2,7 +2,9 @@ package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
+import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,7 +21,7 @@ public class cmd_Repair implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("repair")) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(ErrorMessages.Console);
+                Utils.Message(sender, Errors.getErrors(Errors.Console));
                 return true;
             }
             Player player = (Player)sender;
@@ -43,7 +45,7 @@ public class cmd_Repair implements CommandExecutor {
                         } catch (Exception ignored) {}
                     }
                 } else {
-                    player.sendMessage(ErrorMessages.NoPermission);
+                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                 }
                 return true;
             }
@@ -51,7 +53,7 @@ public class cmd_Repair implements CommandExecutor {
                 if (player.getItemInHand().getDurability() == 0) return true;
                 player.getItemInHand().setDurability((short) 0);
             } else {
-                player.sendMessage(ErrorMessages.NoPermission);
+                Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
             }
         }
         return false;

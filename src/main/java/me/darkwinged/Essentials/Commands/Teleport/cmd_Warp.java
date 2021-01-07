@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -29,13 +30,13 @@ public class cmd_Warp implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Teleportation", true)) {
                 if (plugin.getConfig().getBoolean("cmd_Warp", true)) {
                     if (!(sender instanceof Player)) {
-                        sender.sendMessage(ErrorMessages.Console);
+                        Utils.Message(sender, Errors.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player) sender;
                     if (args.length == 1) {
                         if (!plugin.getWarps().contains("Warps." + args[0])) {
-                            player.sendMessage(ErrorMessages.WarpDoesNotExist);
+                            Utils.Message(sender, Errors.getErrors(Errors.WarpDoesNotExist));
                             return true;
                         }
                         if (player.hasPermission(Permissions.WarpsOverwrite) || player.hasPermission(Permissions.Warp + args[0]) || player.hasPermission(Permissions.GlobalOverwrite)) {
@@ -89,12 +90,12 @@ public class cmd_Warp implements CommandExecutor {
                                 }
                             }.runTaskTimer(plugin, 0L, 20L);
                         } else {
-                            player.sendMessage(ErrorMessages.NoPermission);
+                            Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                         }
                     } else {
                         if (args.length != 2) {
-                            player.sendMessage(ErrorMessages.NoWarpNameProvided);
-                            player.sendMessage(ErrorMessages.NoPlayer);
+                            Utils.Message(sender, Errors.getErrors(Errors.NoWarpNameProvided));
+                            Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[1]);
@@ -114,7 +115,7 @@ public class cmd_Warp implements CommandExecutor {
                                     .replaceAll("%player%", args[1]));
                             player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
                         } else {
-                            player.sendMessage(ErrorMessages.NoPermission);
+                            Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                         }
                     }
                 }

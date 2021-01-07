@@ -13,14 +13,14 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class GamemodeSign implements Listener {
+public class Sign_Gamemode implements Listener {
 
     private Main plugin;
-    public GamemodeSign(Main plugin) { this.plugin = plugin; }
+    public Sign_Gamemode(Main plugin) { this.plugin = plugin; }
 
     @EventHandler
     public void SignCreate(SignChangeEvent event) {
-        if (plugin.getConfig().getBoolean("cmd_Gamemode", true)) {
+        if (plugin.getConfig().getBoolean("Economy.Settings.Commands.Gamemode", true)) {
             Player player = event.getPlayer();
             if (player.hasPermission(Permissions.GamemodeSign) || player.hasPermission(Permissions.GlobalOverwrite)) {
                 String line0 = event.getLine(0);
@@ -46,7 +46,7 @@ public class GamemodeSign implements Listener {
 
     @EventHandler
     public void SignInteract(PlayerInteractEvent event) {
-        if (plugin.getConfig().getBoolean("cmd_Gamemode", true)) {
+        if (plugin.getConfig().getBoolean("Economy.Settings.Commands.Gamemode", true)) {
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 Block block = event.getClickedBlock();
                 if (block == null)

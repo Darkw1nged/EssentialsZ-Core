@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -21,7 +22,7 @@ public class cmd_Vanish implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("vanish")) {
             if (plugin.getConfig().getBoolean("cmd_Vanish", true)) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(ErrorMessages.Console);
+                    Utils.Message(sender, Errors.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player) sender;
@@ -47,7 +48,7 @@ public class cmd_Vanish implements CommandExecutor {
                                 Utils.chat(plugin.MessagesFile.getConfig().getString("Vanish").replaceAll("%setting%", "enabled"))));
                     }
                 } else {
-                    player.sendMessage(ErrorMessages.NoPermission);
+                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                 }
             }
         }

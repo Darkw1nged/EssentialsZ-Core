@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Chat;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -32,7 +33,7 @@ public class cmd_Clearchat implements CommandExecutor {
                             Bukkit.broadcastMessage(" ");
                         Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("ClearChat Message").replaceAll("%player%", player.getName())));
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }
                 }
             }

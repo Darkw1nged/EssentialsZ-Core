@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.command.Command;
@@ -24,7 +25,7 @@ public class cmd_Reload implements CommandExecutor {
                 enable();
                 sender.sendMessage(Utils.chat("&eConfiguration files have has been reloaded."));
             } else {
-                sender.sendMessage(ErrorMessages.NoPermission);
+                Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
             }
         }
         return false;
@@ -53,6 +54,7 @@ public class cmd_Reload implements CommandExecutor {
         plugin.ChatFilterFile.reloadConfig();
         plugin.BlockedCommandsFile.reloadConfig();
         plugin.MoneyPouchesFile.reloadConfig();
+        plugin.WorthFile.reloadConfig();
 
         // Adding EconomyManager / loading Accounts
         plugin.loadAccounts();

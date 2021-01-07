@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport.Staff;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.command.Command;
@@ -21,7 +22,7 @@ public class cmd_DelWarp implements CommandExecutor {
                 if (plugin.getConfig().getBoolean("cmd_DelWarp", true)) {
                     if (!(sender instanceof Player)) {
                         if (args.length < 1) {
-                            sender.sendMessage(ErrorMessages.NoWarpNameProvided);
+                            Utils.Message(sender, Errors.getErrors(Errors.NoWarpNameProvided));
                         }
                         String ProvidedWarp = args[0];
                         if (plugin.getWarps().contains("Warps." + ProvidedWarp)) {
@@ -31,14 +32,14 @@ public class cmd_DelWarp implements CommandExecutor {
                             plugin.saveWarps();
                             sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
                         } else if (!plugin.getWarps().contains("Warps." + ProvidedWarp)) {
-                            sender.sendMessage(ErrorMessages.WarpDoesNotExist);
+                            Utils.Message(sender, Errors.getErrors(Errors.WarpDoesNotExist));
                         }
                         return true;
                     }
                     Player player = (Player) sender;
                     if (player.hasPermission(Permissions.WarpsOverwrite) || player.hasPermission(Permissions.DelWarps) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (args.length < 1) {
-                            player.sendMessage(ErrorMessages.NoWarpNameProvided);
+                            Utils.Message(sender, Errors.getErrors(Errors.NoWarpNameProvided));
                         }
                         String ProvidedWarp = args[0];
                         if (plugin.getWarps().contains("Warps." + ProvidedWarp)) {
@@ -48,7 +49,7 @@ public class cmd_DelWarp implements CommandExecutor {
                             plugin.saveWarps();
                             player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
                         } else if (!plugin.getWarps().contains("Warps." + ProvidedWarp)) {
-                            player.sendMessage(ErrorMessages.WarpDoesNotExist);
+                            Utils.Message(sender, Errors.getErrors(Errors.WarpDoesNotExist));
                         }
                     }
                 }

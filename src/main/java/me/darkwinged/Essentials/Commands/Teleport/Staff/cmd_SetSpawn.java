@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Teleport.Staff;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.command.Command;
@@ -38,10 +39,10 @@ public class cmd_SetSpawn implements CommandExecutor {
                             player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                     Utils.chat(plugin.MessagesFile.getConfig().getString("Set Spawn message"))));
                         } else {
-                            player.sendMessage(ErrorMessages.NoPermission);
+                            Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                         }
                     } else {
-                        sender.sendMessage(ErrorMessages.Console);
+                        Utils.Message(sender, Errors.getErrors(Errors.Console));
                     }
                 }
             }

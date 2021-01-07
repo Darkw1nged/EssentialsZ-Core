@@ -53,7 +53,7 @@ public class HidePlayersItem implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (plugin.getConfig().getBoolean("Hide Players.enable", true)) {
+        if (plugin.getConfig().getBoolean("Hide Players.enabled", true)) {
             int slot = plugin.getConfig().getInt("Hide Players.slot");
             if (Utils.hide_player_list.contains(player.getUniqueId())) {
                 player.getInventory().setItem(slot, ShowPlayersItem());

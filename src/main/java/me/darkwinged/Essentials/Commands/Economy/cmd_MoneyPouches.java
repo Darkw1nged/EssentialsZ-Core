@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Economy;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -23,17 +24,17 @@ public class cmd_MoneyPouches implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("pouches")) {
-            if (plugin.getConfig().getBoolean("Economy", true)) {
-                if (plugin.getConfig().getBoolean("Money_Pouches", true)) {
+            if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
+                if (plugin.getConfig().getBoolean("Economy.Settings.Money Pouches", true)) {
                     if (!(sender instanceof Player)) {
                         if (args.length != 2) {
-                            sender.sendMessage(ErrorMessages.NoPlayer);
-                            sender.sendMessage(ErrorMessages.NoPouch);
+                            Utils.Message(sender, Errors.getErrors(Errors.SpecifyPlayer));
+                            Utils.Message(sender, Errors.getErrors(Errors.NoPouch));
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
-                            sender.sendMessage(ErrorMessages.NoPlayerFound);
+                            Utils.Message(sender, Errors.getErrors(Errors.SpecifyPlayer));
                             return true;
                         }
                         if (!plugin.MoneyPouchesFile.getConfig().contains("Tiers.")) return true;
@@ -52,7 +53,7 @@ public class cmd_MoneyPouches implements CommandExecutor {
                         if (args.length == 2) {
                             Player target = Bukkit.getPlayer(args[0]);
                             if (target == null) {
-                                sender.sendMessage(ErrorMessages.NoPlayerFound);
+                                Utils.Message(player, Errors.getErrors(Errors.SpecifyPlayer));
                                 return true;
                             }
                             if (!plugin.MoneyPouchesFile.getConfig().contains("Tiers.")) return true;
@@ -67,7 +68,7 @@ public class cmd_MoneyPouches implements CommandExecutor {
                             }
                         }
                         if (args.length < 1) {
-                            player.sendMessage(ErrorMessages.InvalidPouch);
+                            Utils.Message(player, Errors.getErrors(Errors.InvalidPouch));
                             return true;
                         }
                         if (!plugin.MoneyPouchesFile.getConfig().contains("Tiers.")) return true;
@@ -81,7 +82,7 @@ public class cmd_MoneyPouches implements CommandExecutor {
                             player.getInventory().addItem(item);
                         }
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(player, Errors.getErrors(Errors.NoPermission));
                     }
                 }
             }

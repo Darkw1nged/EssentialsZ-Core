@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.Chat;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -21,7 +22,7 @@ public class cmd_Staffchat implements CommandExecutor {
                 if (plugin.getConfig().getBoolean("Staff_Chat", true)) {
                     if (!(sender instanceof Player)) {
                         if (!(args.length >= 1)) {
-                            sender.sendMessage(ErrorMessages.MessageEmpty);
+                            Utils.Message(sender, Errors.getErrors(Errors.MessageEmpty));
                             return true;
                         }
                         String msg = Utils.chat(plugin.getConfig().getString("Staff_Chat_Format").replaceAll("%player%", sender.getName()));
@@ -39,7 +40,7 @@ public class cmd_Staffchat implements CommandExecutor {
                     Player player = (Player)sender;
                     if (player.hasPermission(Permissions.StaffChat) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (!(args.length >= 1)) {
-                            player.sendMessage(ErrorMessages.MessageEmpty);
+                            Utils.Message(sender, Errors.getErrors(Errors.MessageEmpty));
                             return true;
                         }
 
@@ -54,7 +55,7 @@ public class cmd_Staffchat implements CommandExecutor {
                             }
                         }
                     } else {
-                        player.sendMessage(ErrorMessages.NoPermission);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }
                 }
             }

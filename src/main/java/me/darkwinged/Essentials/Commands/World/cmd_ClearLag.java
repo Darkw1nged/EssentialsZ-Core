@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -126,7 +127,7 @@ public class cmd_ClearLag implements CommandExecutor {
                         .replaceAll("%entity_amount%", ""+total)
                         .replaceAll("%time%", ""+plugin.getConfig().getInt("Clear_Lag_Delay")/60)));
             } else {
-                player.sendMessage(ErrorMessages.NoPermission);
+                Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
             }
         }
         return false;
