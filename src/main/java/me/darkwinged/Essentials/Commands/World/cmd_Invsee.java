@@ -1,7 +1,6 @@
 package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -20,9 +19,7 @@ import org.bukkit.inventory.ItemStack;
 public class cmd_Invsee implements CommandExecutor, Listener {
 
     private Main plugin;
-    public cmd_Invsee(Main plugin) {
-        this.plugin = plugin;
-    }
+    public cmd_Invsee(Main plugin) { this.plugin = plugin; }
 
     private Inventory inv;
 
@@ -30,28 +27,28 @@ public class cmd_Invsee implements CommandExecutor, Listener {
         if (cmd.getName().equalsIgnoreCase("invsee")) {
             if (plugin.getConfig().getBoolean("cmd_Invsee", true)) {
                 if (!(sender instanceof Player)) {
-                    Utils.Message(sender, Errors.getErrors(Errors.Console));
+                    sender.sendMessage(Utils.chat(Errors.getErrors(Errors.Console)));
                     return true;
                 }
                 Player player = (Player)sender;
                 if (player.hasPermission(Permissions.Invsee) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length != 1) {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
+                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPlayerFound)));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == null) {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
+                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPlayerFound)));
                         return true;
                     }
                     if (target == player) {
-                        Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
+                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.SenderInstaceOfPlayer)));
                         return true;
                     }
                     CreateInventory(target);
                     player.openInventory(inv);
                 } else {
-                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
+                    sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPermission)));
                 }
             }
         }

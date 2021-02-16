@@ -2,6 +2,7 @@ package me.darkwinged.Essentials.Utils;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.darkwinged.Essentials.Main;
+import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
 import org.bukkit.entity.Player;
 
 public class PlaceHolders extends PlaceholderExpansion {
@@ -76,7 +77,7 @@ public class PlaceHolders extends PlaceholderExpansion {
             return "";
         }
         if (identifier.equalsIgnoreCase("Balance")) {
-            return EconomyManager.getBalance(player.getName())+"";
+            return EconomyManager.getAccount(player)+"";
         } if (identifier.equalsIgnoreCase("Cords")) {
             return "( " + player.getLocation().getX() + ", " + player.getLocation().getY() + ", " + player.getLocation().getZ() + " )";
         }

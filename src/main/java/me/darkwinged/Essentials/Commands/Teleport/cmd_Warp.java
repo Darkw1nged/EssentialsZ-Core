@@ -21,8 +21,7 @@ import java.util.UUID;
 public class cmd_Warp implements CommandExecutor {
 
     private Main plugin;
-    public cmd_Warp(Main plugin) {
-        this.plugin = plugin; }
+    public cmd_Warp(Main plugin) { this.plugin = plugin; }
     private HashMap<UUID, Integer> TeleportDelay = new HashMap<>();
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {

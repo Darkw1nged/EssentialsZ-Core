@@ -17,9 +17,7 @@ import java.util.UUID;
 public class cmd_Back implements CommandExecutor {
 
     private Main plugin;
-    public cmd_Back(Main plugin) {
-        this.plugin = plugin;
-    }
+    public cmd_Back(Main plugin) { this.plugin = plugin; }
 
     public static HashMap<UUID, Location> back_loc = new HashMap<>();
 

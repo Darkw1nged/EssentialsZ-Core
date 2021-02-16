@@ -14,8 +14,7 @@ import org.bukkit.entity.Player;
 public class cmd_Mutechat implements CommandExecutor {
 
     private Main plugin;
-    public cmd_Mutechat( Main plugin) {
-        this.plugin = plugin; }
+    public cmd_Mutechat(Main plugin) { this.plugin = plugin; }
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("mutechat")) {

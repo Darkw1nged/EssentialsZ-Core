@@ -14,8 +14,7 @@ import org.bukkit.entity.Player;
 public class cmd_Broadcast implements CommandExecutor {
 
     private Main plugin;
-    public cmd_Broadcast(Main plugin) {
-        this.plugin = plugin; }
+    public cmd_Broadcast(Main plugin) { this.plugin = plugin; }
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("broadcast")) {

@@ -10,26 +10,30 @@ import me.darkwinged.Essentials.Commands.World.Gamemodes.*;
 import me.darkwinged.Essentials.Commands.World.*;
 import me.darkwinged.Essentials.Commands.cmd_Reload;
 import me.darkwinged.Essentials.Events.Chat.*;
-import me.darkwinged.Essentials.Events.Economy.*;
-import me.darkwinged.Essentials.Events.Signs.*;
-import me.darkwinged.Essentials.Events.Teleport.*;
+import me.darkwinged.Essentials.Events.Economy.AccountSetup;
+import me.darkwinged.Essentials.Events.Economy.BankNotes;
+import me.darkwinged.Essentials.Events.Economy.MoneyPouchesEvent;
+import me.darkwinged.Essentials.Events.Economy.PlayerHeads;
+import me.darkwinged.Essentials.Events.Signs.Sign_Balance;
+import me.darkwinged.Essentials.Events.Signs.Sign_Gamemode;
+import me.darkwinged.Essentials.Events.Teleport.Back;
+import me.darkwinged.Essentials.Events.Teleport.NoVoid;
+import me.darkwinged.Essentials.Events.Teleport.OnRespawn;
+import me.darkwinged.Essentials.Events.Teleport.SpawnOnJoin;
 import me.darkwinged.Essentials.Events.World.*;
-import me.darkwinged.Essentials.Utils.*;
+import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
+import me.darkwinged.Essentials.Utils.Lag;
 import me.darkwinged.Essentials.Utils.Lang.CustomConfig;
 import me.darkwinged.Essentials.Utils.Lang.MetricsLite;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Utils.PlaceHolders;
+import me.darkwinged.Essentials.Utils.TeleportUtils;
 import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,19 +43,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.bukkit.Material.getMaterial;
 
 public final class Main extends JavaPlugin implements Listener {
 
     public int Delay = getConfig().getInt("Teleportation_Delay");
-    public boolean Cancel_TNT = false;
     public ProtocolManager protocolManager;
-    public Economy econ;
+
+    public boolean Module_Economy = false;
 
     public CustomConfig MoneyPouchesFile = new CustomConfig(this, "Economy/Money Pouches");
     public CustomConfig MessagesFile = new CustomConfig(this, "Chat/Messages");
@@ -65,24 +66,27 @@ public final class Main extends JavaPlugin implements Listener {
 
     public void onEnable() {
         // Console Start Message
-        getServer().getConsoleSender().sendMessage(Utils.chat("&aEssentialsZ plugin has been enabled!"));
-        getServer().getConsoleSender().sendMessage(Utils.chat("&aFun Fact! Essentials was made by darkwinged!"));
+        getServer().getConsoleSender().sendMessage(Utils.chat("&aEssentialsZ Core plugin has been enabled!"));
 
         // Loading Files
         loadConfig();
         loadCustomFiles();
 
         // Getting ProtocolLib, Teleport Utils, MetricsLite, PlaceholderAPI, Vault, Bungeecord
-        this.protocolManager = ProtocolLibrary.getProtocolManager();
         TeleportUtils teleportUtils = new TeleportUtils(this);
         MetricsLite metricsLite = new MetricsLite(this, 9811);
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            getServer().getConsoleSender().sendMessage(Utils.chat("&cNo found Vault using EssentialsZ Economy."));
-            getConfig().set("Economy.API", "EssentialsZ");
+            getServer().getConsoleSender().sendMessage(Utils.chat("Vault not found! Disabling the economy module."));
+            Module_Economy = false;
+        } else {
+            Module_Economy = true;
         }
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceHolders(this).register();
+        }
+        if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
+            this.protocolManager = ProtocolLibrary.getProtocolManager();
         }
 
         // Loading content to ArrayList(s)
@@ -96,11 +100,8 @@ public final class Main extends JavaPlugin implements Listener {
         // Registering Commands / Events / Loops
         registerCommands();
         registerEvents();
-        LagCheck();
         AutoMessage();
-        HidePlayersCheck();
         vanishCheck();
-        vanishAndHidePlayersCheck();
 
         // Getting TPS
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
@@ -108,8 +109,7 @@ public final class Main extends JavaPlugin implements Listener {
 
     public void onDisable() {
         // Console Stop Message
-        getServer().getConsoleSender().sendMessage(Utils.chat("&cEssentialsZ plugin has been disabled!"));
-        getServer().getConsoleSender().sendMessage(Utils.chat("&cDarkwinged says 'goodbye'!"));
+        getServer().getConsoleSender().sendMessage(Utils.chat("&cEssentialsZ  Core plugin has been disabled!"));
         // Saving the accounts for all of the players
         saveAccounts();
         // Saving the accounts file
@@ -127,6 +127,8 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("economy").setExecutor(new cmd_Economy(this));
         getCommand("pouches").setExecutor(new cmd_MoneyPouches(this));
         getCommand("autosell").setExecutor(new cmd_Autosell(this));
+        getCommand("sellhand").setExecutor(new cmd_Sellhand(this));
+        getCommand("sell").setExecutor(new cmd_Sell(this));
 
         // Chat
         getCommand("staffchat").setExecutor(new cmd_Staffchat(this));
@@ -139,8 +141,6 @@ public final class Main extends JavaPlugin implements Listener {
         // Teleportation
         getCommand("tp").setExecutor(new cmd_TP(this));
         getCommand("tphere").setExecutor(new cmd_TPhere(this));
-        getCommand("spawn").setExecutor(new cmd_Spawn(this));
-        getCommand("setspawn").setExecutor(new cmd_SetSpawn(this));
         getCommand("hub").setExecutor(new cmd_Hub(this));
         getCommand("rtp").setExecutor(new cmd_RandomTeleport(this));
         getCommand("top").setExecutor(new cmd_Top(this));
@@ -167,8 +167,11 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("reward").setExecutor(new cmd_Reward(this));
         getCommand("repair").setExecutor(new cmd_Repair(this));
         getCommand("world").setExecutor(new cmd_WorldGenerator(this));
-        getCommand("clearlag").setExecutor(new cmd_ClearLag(this));
         getCommand("enderchest").setExecutor(new cmd_Enderchest(this));
+        getCommand("disposal").setExecutor(new cmd_Disposal(this));
+        getCommand("craft").setExecutor(new cmd_Craft(this));
+        getCommand("kill").setExecutor(new cmd_Kill(this));
+        getCommand("god").setExecutor(new cmd_God(this));
 
     }
 
@@ -195,7 +198,6 @@ public final class Main extends JavaPlugin implements Listener {
         // SIGN EVENTS
         getServer().getPluginManager().registerEvents(new Sign_Balance(this), this);
         getServer().getPluginManager().registerEvents(new Sign_Gamemode(this), this);
-        getServer().getPluginManager().registerEvents(new Sign_Chestsell(this), this);
 
         // TELEPORTATION EVENTS
         getServer().getPluginManager().registerEvents(new NoVoid(this), this);
@@ -218,33 +220,35 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new VanishOnJoin(this), this);
         getServer().getPluginManager().registerEvents(new CommandCooldown(this), this);
         getServer().getPluginManager().registerEvents(new cmd_Invsee(this), this);
-        getServer().getPluginManager().registerEvents(new LagEvent(this), this);
-        getServer().getPluginManager().registerEvents(new HidePlayersItem(this), this);
+        getServer().getPluginManager().registerEvents(new OnePlayerSleep(this), this);
+        getServer().getPluginManager().registerEvents(new cmd_God(this), this);
 
     }
 
     // Economy Account Manager
     public void saveAccounts() {
-        for (Map.Entry<String, Double> entry : EconomyManager.getAccountMap().entrySet()) {
+        for (Map.Entry<UUID, Double> entry : EconomyManager.getAccountMap().entrySet()) {
             AccountsFile.getConfig().set("Accounts." + entry.getKey(), entry.getValue());
         }
     }
     public void loadAccounts() {
         if (!AccountsFile.getConfig().contains("Accounts.")) return;
         for (String key : AccountsFile.getConfig().getConfigurationSection("Accounts.").getKeys(false)) {
-            EconomyManager.getAccountMap().put(key, AccountsFile.getConfig().getDouble("Accounts." + key));
+            EconomyManager.getAccountMap().put(UUID.fromString(key), AccountsFile.getConfig().getDouble("Accounts." + key));
         }
     }
 
     // Loading the config and custom files to the server
     private FileConfiguration config;
     private File cfile;
+
     public void loadConfig() {
         config = getConfig();
         config.options().copyDefaults(true);
         saveDefaultConfig();
         cfile = new File(getDataFolder(), "config.yml");
     }
+
     public void loadCustomFiles() {
         // Economy
         AccountsFile.saveDefaultConfig();
@@ -261,70 +265,6 @@ public final class Main extends JavaPlugin implements Listener {
         BlockedCommandsFile.saveDefaultConfig();
         ChatFilterFile.saveDefaultConfig();
         AutoMessagesFile.saveDefaultConfig();
-    }
-
-    // Check if the server is lagging
-    public void LagCheck() {
-        if (getConfig().getBoolean("Server_Lag_Check", true)) {
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-                public void run() {
-                    if (Lag.getTPS() <= getConfig().getInt("TPS")) {
-                        for (Player online : Bukkit.getOnlinePlayers()) {
-                            World world = online.getWorld();
-                            List<Entity> entList = world.getEntities();
-                            for (Entity current : entList) {
-                                if (current instanceof Item) {
-                                    current.remove();
-                                }
-                                if (current instanceof Mob) {
-                                    if (current.getCustomName() != null) return;
-                                    current.remove();
-                                }
-                                if (current instanceof Player) return;
-                            }
-                        }
-                    }
-                }
-            }, 0, 10);
-            if (getConfig().getBoolean("Cancel_TNT", true)) {
-                Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-                    public void run() {
-                        if (Lag.getTPS() <= getConfig().getInt("TPS")) {
-                            Cancel_TNT = true;
-                        }
-                        Cancel_TNT = false;
-                    }
-                }, 0, 10);
-            }
-        }
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            public void run() {
-                if (getConfig().getBoolean("Clear_Lag", true)) {
-                    int total = 0;
-                    for (Player online : Bukkit.getOnlinePlayers()) {
-                        World world = online.getWorld();
-                        List<Entity> entList = world.getEntities();
-                        for (Entity current : entList) {
-                            if (current instanceof Item) {
-                                current.remove();
-                            }
-                            if (current instanceof Mob) {
-                                if (current.getCustomName() != null) return;
-                                current.remove();
-                            }
-                            if (current instanceof Player) {
-                                total -= 1;
-                            }
-                            total += 1;
-                        }
-                    }
-                    Bukkit.broadcastMessage(Utils.chat(MessagesFile.getConfig().getString("Prefix") + MessagesFile.getConfig().getString("Clear Lag Message")
-                            .replaceAll("%n", "\n")
-                            .replaceAll("%entity_amount%", ""+total)
-                            .replaceAll("%time%",""+getConfig().getInt("Clear_Lag_Delay")/60)));
-                }
-            }
-        }, 20 * getConfig().getInt("Clear_Lag_Delay"), 20 * getConfig().getInt("Clear_Lag_Delay"));
     }
 
     // Getting money pouches
@@ -356,7 +296,8 @@ public final class Main extends JavaPlugin implements Listener {
         Utils.AutoMessages.addAll(AutoMessagesFile.getConfig().getStringList("Messages"));
     }
     public void AutoMessage() {
-        if (getConfig().getBoolean("Auto_Messages", true)) {
+        if (getConfig().getBoolean("Chat.enabled", false)) return;
+        if (getConfig().getBoolean("Chat.Auto Messages.enabled", true)) {
             for (Iterator<String> iterator = AutoMessagesFile.getConfig().getConfigurationSection("Messages").getKeys(false).iterator(); iterator.hasNext(); ) {
                 String key = iterator.next();
                 String message = AutoMessagesFile.getConfig().getString("Messages." + key + ".content").replaceAll("%n", "\n");
@@ -428,43 +369,16 @@ public final class Main extends JavaPlugin implements Listener {
         return homes;
     }
 
-    public void HidePlayersCheck() {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-              public void run() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                	if (Utils.hide_player_list.contains(player.getUniqueId())) {
-                		if (Utils.invisible_list.contains(player.getUniqueId())) return;
-                        if (!getConfig().getBoolean("Hide Players.enabled", true)) return;
-                        if (!getConfig().getBoolean("Hide Players.reminder", true)) return;
-                		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, (BaseComponent)new TextComponent(Utils.chat("&fAll players are currently &cHidden")));
-                	}
-                }
-              }
-            }, 0L, 20L);
-      }
-
     public void vanishCheck() {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                	if (Utils.invisible_list.contains(player.getUniqueId())) {
-                		if (Utils.hide_player_list.contains(player.getUniqueId())) return;
-                		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, (BaseComponent)new TextComponent(Utils.chat("&f&lYou are in &c&lVanish")));
-                	}
+                    if (Utils.invisible_list.contains(player.getUniqueId())) {
+                        if (Utils.hide_player_list.contains(player.getUniqueId())) return;
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat("&fYou are in &cVanish")));
+                    }
                 }
             }
         }, 0L, 20L);
     }
-
-    public void vanishAndHidePlayersCheck() {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-              public void run() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                	if (Utils.invisible_list.contains(player.getUniqueId()) && Utils.hide_player_list.contains(player.getUniqueId())) {
-                		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, (BaseComponent)new TextComponent(Utils.chat("&f&lYou are in &c&lVanish &f&land all players are &c&lHidden")));
-                	}
-                }
-              }
-            }, 0L, 20L);
-      }
 }

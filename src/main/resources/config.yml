@@ -16,12 +16,13 @@
 
 Economy:
   enabled: true
-  API: EssentialsZ # Vault OR EssentialsZ
   Settings:
     # This is the currency symbol that the economy system will use.
     Currency Symbol: '$'
     # This is the amount that players will have when they join the server for the first time.
     Starting Balance: 1000
+    # The name of your economy system.
+    Currency Name: "Money"
 
     # Placeholders Key:
     #     %player% || This will get the players name.
@@ -77,22 +78,6 @@ Teleportation:
     # If you want anyone to bypass this then give them the following permission: "Essentials.TeleportDelay.Bypass"
     Teleportation_Delay: 5 # In seconds.
     No void: true
-    Spawn:
-      enabled: true
-      Spawn Protection:
-        enabled: true
-        Spawn on Join: false
-        region: 16 # In blocks.
-        flags:
-          interact: true
-          block-break: false
-          block-place: false
-          chest-acess: true
-          explosions: true
-          mob grief: true
-          mob spawning: true
-          animal spawning: true
-          pvp: true
     Hub:
       # WARNING! This will only work for Bungeecord servers.
       enabled: false
@@ -180,18 +165,6 @@ Chat:
 
 # World Module
 
-# If your servers tps reaches a certain amount then all of the dropped items/mobs will be removed
-# [WARNING! THIS WILL NOT EFFECT THE FOLLOWING: Boats, Armor Stands, Item Frames, Minecarts, Paintings ect.]
-TPS: 15 # When the server reaches this tps value `Server_Lag_Check` will activate
-Server_Lag_Check: true
-# This will cancel tnt explosions if the tps goes below what you have set above.
-Cancel_TNT: true
-
-# Clear lag
-Clear_Lag: true
-# The amount of time between the server removing entities.
-Clear_Lag_Delay: 300 # NOTE! In seconds. Default: 300
-
 # When someone joins the server and you have `Spawn On Player Join: true` then you can enable this to spawn a firework too.
 Firework On Player Join: false # Default: false
 
@@ -242,23 +215,6 @@ Command_Cooldown: false # Default: false
 Command_Cooldown_Time: 60 # NOTE! This is in seconds. Default: 60
 Command_Amount: 5 # The amount of commands that they can do before getting a cooldown.
 
-# Hide Players item
-# PLEASE NOTE!! Chat color is supported, You can find the color codes here: https://minecraft.gamepedia.com/Formatting_codes
-Hide Players:
-  enabled: false
-  slot: 8 # 0-8, this is the slot number that the item will appear in. [WARNING! Any other item in the specified slot will disappear!]
-  reminder: true # This will send an action bar message at the bottom of the players screen reminding them that they have players off.
-  item_Hidden:
-    item: LIME_DYE
-    name: "show players"
-    lore:
-      - Show all players
-  item_Shown:
-    item: GRAY_DYE
-    name: "hide players"
-    lore:
-      - Hide all players
-
 # World Commands
 cmd_Ping: true # Let players see their ping to the server and they can also check others. Default: true
 cmd_Hat: true # Let players put blocks/items on their head. Default: true
@@ -266,6 +222,9 @@ cmd_Gamemode: true # Lets admins go into different gamemodes. Default: true
 cmd_Invsee: true # Let admins see what is in peoples inventory. Default: true
 cmd_Vanish: true # Let admins go into vanish mode
 World_Creation: true # Allows you to create new worlds inside of the sever.
+cmd_Craft: true # Allows players to access a work bench.
+cmd_Kill: true # Allows players to kill other players/entites.
+cmd_God: true # Allows players to enable god mode.
 
 #########################################################################################################################################################
 # [WARNING! DO NOT CHANGE ANY VALUES BEYOND HERE]

@@ -1,7 +1,6 @@
 package me.darkwinged.Essentials.Commands.Teleport;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -13,26 +12,24 @@ import org.bukkit.entity.Player;
 public class cmd_SetHome  implements CommandExecutor {
 
     private Main plugin;
-    public cmd_SetHome(Main plugin) {
-        this.plugin = plugin;
-    }
+    public cmd_SetHome(Main plugin) { this.plugin = plugin; }
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("sethome")) {
             if (plugin.getConfig().getBoolean("Teleportation", true)) {
                 if (plugin.getConfig().getBoolean("Homes", true)) {
                     if (!(sender instanceof Player)) {
-                        Utils.Message(sender, Errors.getErrors(Errors.Console));
+                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.Console)));
                         return true;
                     }
                     Player player = (Player)sender;
                     if (player.hasPermission(Permissions.SetHomes) || player.hasPermission(Permissions.HomesOverwrite) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (args.length < 1) {
-                            Utils.Message(sender, Errors.getErrors(Errors.NoHomeNameProvided));
+                            sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoHomeNameProvided)));
                             return true;
                         }
                         if (args.length == 1 && plugin.getHomes().contains("Homes.Owner's Name " + player.getName() + "." + args[0])) {
-                            Utils.Message(sender, Errors.getErrors(Errors.HomeAlreadyExist));
+                            sender.sendMessage(Utils.chat(Errors.getErrors(Errors.HomeAlreadyExist)));
                             return true;
                         }
                         String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Home")
@@ -53,7 +50,7 @@ public class cmd_SetHome  implements CommandExecutor {
                         plugin.saveHomes();
                         player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
                     } else {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
+                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPermission)));
                     }
                 }
             }

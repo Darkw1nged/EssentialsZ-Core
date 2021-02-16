@@ -1,8 +1,7 @@
 package me.darkwinged.Essentials.Commands.Economy;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.EconomyManager;
-import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -23,8 +22,9 @@ public class cmd_Autosell implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("autosell")) {
             if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
                 if (plugin.getConfig().getBoolean("Economy.Settings.Sell.Autosell", true)) {
+                    if (plugin.Module_Economy = false) return true;
                     if (!(sender instanceof Player)) {
-                        Utils.Message(sender, Errors.getErrors(Errors.Console));
+                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.Console)));
                         return true;
                     }
                     Player player = (Player)sender;
@@ -48,20 +48,19 @@ public class cmd_Autosell implements CommandExecutor {
                                             if (plugin.WorthFile.getConfig().isDouble("worth." + item.getType().name())) {
                                                 amount += plugin.WorthFile.getConfig().getDouble("worth." + item.getType().name()) * item.getAmount();
                                                 item.setAmount(0);
+                                            } else {
+                                                return;
                                             }
                                         }
-                                        if (plugin.getConfig().getString("Economy.API").equalsIgnoreCase("Vault")) {
-                                            plugin.econ.depositPlayer(player, amount);
-                                        } else if (plugin.getConfig().getString("Economy.API").equalsIgnoreCase("EssentialsZ")) {
-                                            EconomyManager.setBalance(player.getName(), EconomyManager.getBalance(player.getName()) + amount);
-                                        }
+                                        EconomyManager.AddAccount(player, amount);
+                                        sender.sendMessage(Utils.chat(plugin.getConfig().getString("Economy.Settings.Currency Symbol") + amount));
                                     }
                                 }
                             }
-                        }.runTaskTimer(plugin, 0L, 20L);
+                        }.runTaskTimer(plugin, 0L, 40L);
 
                     } else {
-                        Utils.Message(player, Errors.getErrors(Errors.NoPermission));
+                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPermission)));
                     }
                 }
             }

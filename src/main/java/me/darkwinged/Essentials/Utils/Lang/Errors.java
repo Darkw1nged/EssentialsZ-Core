@@ -1,16 +1,14 @@
 package me.darkwinged.Essentials.Utils.Lang;
 
-import org.bukkit.entity.Player;
-
 public enum Errors {
 
     NoPermission, Console, SpecifyPlayer, NoPlayerFound, Cooldown, CooldownItem, SenderInstaceOfPlayer,
 
     MessageEmpty,
 
-    NoAccount, InvalidAmount, NotEnoughMoney, UsageEconomy, UsagePay, NoPlacePlayerHead, NoPouch, InvalidPouch,
+    NoAccount, InvalidAmount, NotEnoughMoney, UsageEconomy, UsagePay, NoPlacePlayerHead, NoPouch, InvalidPouch, SellUsage,
 
-    TPUsage, TPhereUsage, noSpawn, NoPreviousLocation,
+    TPUsage, TPhereUsage, NoPreviousLocation,
 
     NoWarpNameProvided, WarpDoesNotExist, WarpAlreadyExist, NoWarpsFound,
     NoHomeNameProvided, NoHomes, HomeDoesNotExist, HomeAlreadyExist,
@@ -70,15 +68,15 @@ public enum Errors {
             case InvalidPouch:
                 errors = Utils.chat("&cError! That money pouch does not exist.");
                 break;
+            case SellUsage:
+                errors = Utils.chat("&cError! Usage: /sell [hand/all]");
+                break;
 
             case TPUsage:
                 errors = Utils.chat("&cError! Usage: /tp <player> OR /tp <player> <player>");
                 break;
             case TPhereUsage:
                 errors = Utils.chat("&cError! Usage: /tphere <player>");
-                break;
-            case noSpawn:
-                errors = Utils.chat("&cError! Spawn has not been set.");
                 break;
             case NoPreviousLocation:
                 errors = Utils.chat("&cError! Could not find a previous location.");
@@ -112,8 +110,8 @@ public enum Errors {
                 errors = Utils.chat("&cError! Usage: /gamemode <gamemode> or /gamemode <player> <gamemode>");
                 break;
             case WorldGenUsage:
-                errors = Utils.chat("&cError! Usage: /world create <name> [normal, nether, end] [normal, flat, amplified, largebiomes] [Hardcore:true |" +
-                        " false] [Generate Structures:true | false]");
+                errors = Utils.chat("&cError! Usage: /world create <name> [normal, nether, end] [normal, flat, amplified, largebiomes] " +
+                        "[Generate Structures:true | false]");
                 break;
             case InvalidWorld:
                 errors = Utils.chat("&cError! That is not a valid world or it could not be found.");

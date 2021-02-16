@@ -18,6 +18,8 @@ public class Permissions {
     public static String Withdraw = MainPermission + "Withdraw";
     public static String MoneyPouch = MainPermission + "MoneyPouch";
     public static String Autosell = MainPermission + "Autosell";
+    public static String SellHand = MainPermission + "Sellhand";
+    public static String Sell = MainPermission + "Sell";
 
     // Chat Permissions
     public static String ChatColor = MainPermission + "ChatColor";
@@ -39,9 +41,6 @@ public class Permissions {
     public static String RandomTeleport = MainPermission + "RTP";
     public static String TopTeleport = MainPermission + "Top";
     public static String BackTeleport = MainPermission + "Back";
-
-    public static String SetSpawn = MainPermission + "Spawn.Set";
-    public static String Spawn = MainPermission + "Spawn";
 
     public static String WarpsOverwrite = MainPermission + "Warps.*";
     public static String DelWarps = MainPermission + "Warps.Remove";
@@ -71,6 +70,7 @@ public class Permissions {
 
     public static String Repair = MainPermission + "Repair";
     public static String RepairAll = MainPermission + "Repair.All";
+    public static String RepairChest = MainPermission + "Repair.Chest";
 
     public static String GamemodeGlobal = MainPermission + "Gamemode.*";
     public static String AdventureMode = MainPermission + "Gamemode.Adventure";
@@ -85,7 +85,11 @@ public class Permissions {
 
     public static String CreateWorld = MainPermission + "World.Create";
     public static String RemoveWorld = MainPermission + "World.Remove";
-    public static String ClearLag = MainPermission + "ClearLag";
     public static String Enderchest = MainPermission + "Enderchest";
     public static String EnderchestOther = MainPermission + "Enderchest.Other";
+    public static String Disposal = MainPermission + "Disposal";
+    public static String Craft = MainPermission + "Craft";
+    public static String Kill = MainPermission + "Kill";
+    public static String God = MainPermission + "God";
+
 }

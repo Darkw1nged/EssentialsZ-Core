@@ -1,7 +1,6 @@
 package me.darkwinged.Essentials.Commands.Economy;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -18,14 +17,13 @@ import static org.bukkit.Material.getMaterial;
 public class cmd_MoneyPouches implements CommandExecutor {
 
     private Main plugin;
-    public cmd_MoneyPouches(Main plugin) {
-        this.plugin = plugin;
-    }
+    public cmd_MoneyPouches(Main plugin) { this.plugin = plugin; }
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("pouches")) {
             if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
                 if (plugin.getConfig().getBoolean("Economy.Settings.Money Pouches", true)) {
+                    if (plugin.Module_Economy = false) return true;
                     if (!(sender instanceof Player)) {
                         if (args.length != 2) {
                             Utils.Message(sender, Errors.getErrors(Errors.SpecifyPlayer));

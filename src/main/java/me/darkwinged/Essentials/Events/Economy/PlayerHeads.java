@@ -1,11 +1,10 @@
 package me.darkwinged.Essentials.Events.Economy;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.EconomyManager;
-import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
+import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
-import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,41 +23,45 @@ import static java.lang.Math.round;
 public class PlayerHeads implements Listener {
 
     private Main plugin;
-    public PlayerHeads(Main plugin) { this.plugin = plugin; }
+
+    public PlayerHeads(Main plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void PlayerHeadSell(PlayerInteractEvent event) {
         if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
             if (plugin.getConfig().getBoolean("Economy.Settings.Money Heads.enabled", true)) {
-                if (plugin.getConfig().getString("Economy.API").equalsIgnoreCase("Vault")) {
-                } else if (plugin.getConfig().getString("Economy.API").equalsIgnoreCase("EssentialsZ")) {
-                    Player player = event.getPlayer();
-                    if (player.getItemInHand().getType().equals(Material.PLAYER_HEAD)) {
-                        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                            String target = player.getItemInHand().getItemMeta().getDisplayName();
-                            // Player Account
-                            if (!EconomyManager.hasAccount(player.getName())) {
-                                return;
-                            }
-                            // Target Account
-                            if (!EconomyManager.hasAccount(target)) {
-                                return;
-                            }
+                if (plugin.Module_Economy = false) return;
 
-                            // Getting the amount
-                            double amount;
-                            try {
-                                amount = round((EconomyManager.getBalance(target) / 100) * plugin.getConfig().getInt("Economy.Settings.Money Heads.Player Heads Sell Amount"));
-                            } catch(Exception e) {
-                                Utils.Message(player, Errors.getErrors(Errors.InvalidAmount));
-                                return;
-                            }
-                            // Removing the amount from the senders balance
-                            EconomyManager.setBalance(player.getName(), EconomyManager.getBalance(player.getName()) + amount);
-                            // Adding the amount to the target balance
-                            EconomyManager.setBalance(target, EconomyManager.getBalance(target) - amount);
-                            player.setItemInHand(new ItemStack(Material.AIR));
+                Player player = event.getPlayer();
+                if (player.getItemInHand().getType().equals(Material.PLAYER_HEAD)) {
+                    if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                        String TargetName = player.getItemInHand().getItemMeta().getDisplayName();
+                        Player target = Bukkit.getPlayer(TargetName);
+                        // Player Account
+                        if (!EconomyManager.hasAccount(player)) {
+                            return;
                         }
+                        // Target Account
+                        if (!EconomyManager.hasAccount(target)) {
+                            return;
+                        }
+
+                        // Getting the amount
+                        double amount;
+                        try {
+                            amount = round((EconomyManager.getAccount(target) / 100) * plugin.getConfig().getInt("Economy.Settings.Money Heads.Player Heads Sell " +
+                                    "Amount"));
+                        } catch (Exception e) {
+                            Utils.Message(player, Errors.getErrors(Errors.InvalidAmount));
+                            return;
+                        }
+                        // Removing the amount from the senders balance
+                        EconomyManager.AddAccount(player, amount);
+                        // Adding the amount to the target balance
+                        EconomyManager.RemoveAccount(target, amount);
+                        player.setItemInHand(new ItemStack(Material.AIR));
                     }
                 }
             }
@@ -70,7 +73,7 @@ public class PlayerHeads implements Listener {
         if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
             Player player = event.getEntity();
             Random rand = new Random();
-            int  n = rand.nextInt(100) + 1;
+            int n = rand.nextInt(100) + 1;
             if (n <= plugin.getConfig().getInt("Economy.Settings.Money Heads.Player Heads Drop Chance")) {
                 ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
                 SkullMeta meta = (SkullMeta) skull.getItemMeta();

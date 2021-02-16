@@ -2,15 +2,10 @@ package me.darkwinged.Essentials.Utils.Lang;
 
 import me.darkwinged.Essentials.Main;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.util.*;
 
 public class Utils implements Listener {
@@ -40,7 +35,7 @@ public class Utils implements Listener {
     public static Map<String, Integer> MoneyPouches_min = new HashMap<>();
     public static List<String> AutoMessages = new ArrayList<>();
     public static List<UUID> Autosell_List = new ArrayList<>();
-
+    public static List<UUID> GodMode_List = new ArrayList<>();
 
     // OLD CODE
 

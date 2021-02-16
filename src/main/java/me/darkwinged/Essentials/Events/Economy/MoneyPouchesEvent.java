@@ -1,7 +1,7 @@
 package me.darkwinged.Essentials.Events.Economy;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.EconomyManager;
+import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,9 +12,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.Random;
 import java.util.UUID;
-
-import static org.apache.commons.lang.math.RandomUtils.nextInt;
 
 public class MoneyPouchesEvent implements Listener {
 
@@ -29,19 +28,20 @@ public class MoneyPouchesEvent implements Listener {
     public void onInteract(PlayerInteractEvent event) {
         if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
             if (plugin.getConfig().getBoolean("Economy.Settings.Money Pouches", true)) {
-                if (plugin.getConfig().getString("Economy.API").equalsIgnoreCase("Vault")) {
-                } else if (plugin.getConfig().getString("Economy.API").equalsIgnoreCase("EssentialsZ")) {
+                if (plugin.Module_Economy = false) return;
+
                     Player player = event.getPlayer();
                     if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                         for (String name : Utils.MoneyPouches.keySet()) {
                             if (name == null || !player.getItemInHand().hasItemMeta()) return;
                             if (!name.equals(player.getItemInHand().getItemMeta().getDisplayName())) return;
                             if (open.containsKey(player.getUniqueId())) return;
-                            if (!EconomyManager.hasAccount(player.getName())) return;
+                            if (!EconomyManager.hasAccount(player)) return;
                             // Getting the amount
                             int max = Utils.MoneyPouches_max.get(name);
                             int min = Utils.MoneyPouches_min.get(name);
-                            int int_amount = nextInt((max-min) + 1) + min;
+                            Random random = new Random();
+                            int int_amount = random.nextInt((max-min) + 1) + min;
                             double amount;
                             try {
                                 amount = int_amount;
@@ -52,7 +52,7 @@ public class MoneyPouchesEvent implements Listener {
                                 return;
                             }
                             // Adding the amount to the players balance
-                            EconomyManager.setBalance(player.getName(), EconomyManager.getBalance(player.getName()) + amount);
+                            EconomyManager.AddAccount(player, amount);
                             player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
                             int open_time = String.valueOf(int_amount).length();
                             open.put(player.getUniqueId(), open_time);
@@ -76,7 +76,6 @@ public class MoneyPouchesEvent implements Listener {
                                 }
                             }.runTaskTimer(plugin, 0L, 8L * open_time);
                         }
-                    }
                 }
             }
         }

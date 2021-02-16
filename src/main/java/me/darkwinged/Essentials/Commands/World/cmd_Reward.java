@@ -12,9 +12,7 @@ import java.util.UUID;
 public class cmd_Reward implements CommandExecutor {
 
     private Main plugin;
-    public cmd_Reward(Main plugin) {
-        this.plugin = plugin;
-    }
+    public cmd_Reward(Main plugin) { this.plugin = plugin; }
 
     HashMap<UUID, Inventory> test = new HashMap<>();
 

@@ -13,8 +13,8 @@ public class ChangeMOTD implements Listener {
 
     @EventHandler
     public void MOTDChange(ServerListPingEvent event) {
-        if (plugin.getConfig().getBoolean("Change MOTD", true)) {
-            event.setMotd(Utils.chat(plugin.getConfig().getString("MOTD")
+        if (plugin.getConfig().getBoolean("Chat.Settings.MOTD.enabled", true)) {
+            event.setMotd(Utils.chat(plugin.getConfig().getString("Chat.Settings.MOTD.MOTD")
                     .replace("%n", "\n")));
         }
     }

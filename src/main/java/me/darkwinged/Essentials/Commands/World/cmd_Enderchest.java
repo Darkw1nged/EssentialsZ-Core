@@ -1,7 +1,6 @@
 package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -14,9 +13,7 @@ import org.bukkit.entity.Player;
 public class cmd_Enderchest implements CommandExecutor {
 
     private Main plugin;
-    public cmd_Enderchest(Main plugin) {
-        this.plugin = plugin;
-    }
+    public cmd_Enderchest(Main plugin) { this.plugin = plugin; }
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("enderchest")) {

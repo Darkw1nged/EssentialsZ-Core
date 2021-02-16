@@ -13,10 +13,8 @@ import static org.bukkit.Bukkit.getServer;
 
 public class cmd_Reload implements CommandExecutor {
 
-    private final Main plugin;
-    public cmd_Reload(Main plugin) {
-        this.plugin = plugin;
-    }
+    private Main plugin;
+    public cmd_Reload(Main plugin) { this.plugin = plugin; }
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("essentials")) {

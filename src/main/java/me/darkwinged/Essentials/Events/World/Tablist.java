@@ -5,7 +5,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lag;
-import me.darkwinged.Essentials.Utils.EconomyManager;
+import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
 import me.darkwinged.Essentials.Utils.PlayersPing;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
@@ -21,8 +21,8 @@ public class Tablist implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (plugin.getConfig().getBoolean("Chat", true)) {
-            if (plugin.getConfig().getBoolean("Tablist", true)) {
+        if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
+            if (plugin.getConfig().getBoolean("Chat.Settings.Tablist.enabled", true)) {
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
                     public void run() {
                         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -33,9 +33,8 @@ public class Tablist implements Listener {
                             } else {
                                 tps = "20";
                             }
-                            int online = Bukkit.getOnlinePlayers().size() - Utils.invisible_list.size();
-                            String conOnline = ""+online;
-                            String bal = ""+EconomyManager.getBalance(player.getName());
+                            String online = ""+Bukkit.getOnlinePlayers().size();
+                            String bal = ""+EconomyManager.getAccount(player);
                             float getXP = player.getTotalExperience();
                             float getXPLevel = player.getLevel();
                             String xp = String.format("%.0f", getXP);
@@ -43,19 +42,19 @@ public class Tablist implements Listener {
                             String ping = ""+PlayersPing.getPing(player);
 
 
-                            String Header = Utils.chat(plugin.getConfig().get("TBLayout.header").toString())
+                            String Header = Utils.chat(plugin.getConfig().get("Chat.Settings.Tablist.TBLayout.header").toString())
                                     .replaceAll("%player%", player.getName())
                                     .replaceAll("%tps%", tps)
-                                    .replaceAll("%online%", conOnline)
+                                    .replaceAll("%online%", online)
                                     .replaceAll("%n", "\n")
                                     .replaceAll("%balance%", bal)
                                     .replaceAll("%xp%", xp)
                                     .replaceAll("xpLVL", xpLevel)
                                     .replaceAll("%ping%", ping);
-                            String Footer = Utils.chat(plugin.getConfig().get("TBLayout.footer").toString())
+                            String Footer = Utils.chat(plugin.getConfig().get("Chat.Settings.Tablist.TBLayout.footer").toString())
                                     .replaceAll("%player%", player.getName())
                                     .replaceAll("%tps%", tps)
-                                    .replaceAll("%online%", conOnline)
+                                    .replaceAll("%online%", online)
                                     .replaceAll("%n", "\n")
                                     .replaceAll("%balance%", bal)
                                     .replaceAll("%xp%", xp)

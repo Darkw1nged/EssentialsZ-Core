@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import me.darkwinged.Essentials.Utils.EconomyManager;
+import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
 
 public class AccountSetup implements Listener {
 
@@ -15,12 +15,10 @@ public class AccountSetup implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
-			if (plugin.getConfig().getString("Economy.API").equalsIgnoreCase("Vault")) {
-			} else if (plugin.getConfig().getString("Economy.API").equalsIgnoreCase("EssentialsZ")) {
-				double StartingBal = plugin.getConfig().getInt("Starting_Balance");
-				if (EconomyManager.hasAccount(event.getPlayer().getName())) return;
-				EconomyManager.setBalance(event.getPlayer().getName(), StartingBal);
-			}
+			if (plugin.Module_Economy = false) return;
+			double StartingBal = plugin.getConfig().getInt("Starting_Balance");
+			if (EconomyManager.hasAccount(event.getPlayer())) return;
+				EconomyManager.createAccount(event.getPlayer(), StartingBal);
 		}
 	}
 

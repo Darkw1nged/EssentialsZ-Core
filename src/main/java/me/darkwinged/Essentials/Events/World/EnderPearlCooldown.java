@@ -1,7 +1,6 @@
 package me.darkwinged.Essentials.Events.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -34,7 +33,7 @@ public class EnderPearlCooldown implements Listener {
                     if (player.hasPermission(Permissions.bypass) || player.hasPermission(Permissions.GlobalOverwrite))
                         return;
                     if (cooldownTime.containsKey(player.getUniqueId())) {
-                        Utils.Message(player, Errors.getErrors(Errors.CooldownItem));
+                        player.sendMessage(Utils.chat(Errors.getErrors(Errors.CooldownItem)));
                         event.setCancelled(true);
                         player.updateInventory();
                         return;

@@ -3,7 +3,6 @@ package me.darkwinged.Essentials.Events.Chat;
 import me.darkwinged.Essentials.Main;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -65,7 +64,7 @@ public class JoinAndLeaveMessage implements Listener {
                         }
                         String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("join message"))
                                 .replaceAll("%player%", player.getDisplayName());
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, (BaseComponent) new TextComponent(Message));
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat(Message)));
                         event.setJoinMessage(null);
                         break;
                     }

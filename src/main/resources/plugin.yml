@@ -1,10 +1,9 @@
 name: EssentialsZ
 version: 1.4
-api-version: 1.16
+api-version: 1.13
 main: me.darkwinged.Essentials.Main
 authors: [darkwinged, Yovez]
-depend: [ProtocolLib]
-softdepend: [PlaceholderAPI, Vault]
+softdepend: [PlaceholderAPI, Vault, ProtocolLib]
 commands:
   economy:
     aliases:
@@ -23,6 +22,7 @@ commands:
   pouches:
   autosell:
   sell:
+  sellhand:
 
   staffchat:
     aliases:
@@ -40,8 +40,6 @@ commands:
 
   tp:
   tphere:
-  setspawn:
-  spawn:
   hub:
   rtp:
     aliases:
@@ -79,7 +77,14 @@ commands:
       - daily
   repair:
   world:
-  clearlag:
   enderchest:
     aliases:
       - ec
+  disposal:
+    aliases:
+      - trash
+      - bin
+      - garbage
+  craft:
+  kill:
+  god:
