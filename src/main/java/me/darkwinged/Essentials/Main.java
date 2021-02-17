@@ -22,6 +22,7 @@ import me.darkwinged.Essentials.Events.Teleport.OnRespawn;
 import me.darkwinged.Essentials.Events.Teleport.SpawnOnJoin;
 import me.darkwinged.Essentials.Events.World.*;
 import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
+import me.darkwinged.Essentials.Utils.EssentialsZEconomy.Economy_EssentialsZ;
 import me.darkwinged.Essentials.Utils.Lag;
 import me.darkwinged.Essentials.Utils.Lang.CustomConfig;
 import me.darkwinged.Essentials.Utils.Lang.MetricsLite;
@@ -30,6 +31,7 @@ import me.darkwinged.Essentials.Utils.PlaceHolders;
 import me.darkwinged.Essentials.Utils.TeleportUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -40,6 +42,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.ServicePriority;
+import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -51,6 +55,7 @@ public final class Main extends JavaPlugin implements Listener {
 
     public int Delay = getConfig().getInt("Teleportation_Delay");
     public ProtocolManager protocolManager;
+    public ServicesManager sm = getServer().getServicesManager();
 
     public boolean Module_Economy = false;
 
@@ -80,6 +85,7 @@ public final class Main extends JavaPlugin implements Listener {
             getServer().getConsoleSender().sendMessage(Utils.chat("Vault not found! Disabling the economy module."));
             Module_Economy = false;
         } else {
+            sm.register(Economy.class, new Economy_EssentialsZ(), this, ServicePriority.Highest);
             Module_Economy = true;
         }
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
@@ -381,4 +387,5 @@ public final class Main extends JavaPlugin implements Listener {
             }
         }, 0L, 20L);
     }
+
 }
