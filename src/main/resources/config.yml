@@ -78,6 +78,7 @@ Teleportation:
     # If you want anyone to bypass this then give them the following permission: "Essentials.TeleportDelay.Bypass"
     Teleportation_Delay: 5 # In seconds.
     No void: true
+    Spawn onJoin: false
     Hub:
       # WARNING! This will only work for Bungeecord servers.
       enabled: false
@@ -96,6 +97,10 @@ Teleportation:
         default: 3
         vip: 5
         staff: 10
+
+    Message:
+      enabled: true
+      format: "&6%sender% &e-> &6%player%"
 
     Commands:
       Teleport: true
@@ -160,35 +165,56 @@ Chat:
       Leave Message: true
       Chat Ping: true
 
+############################################################
+# +------------------------------------------------------+ #
+# |                 EssentialsZ (World)                  | #
+# +------------------------------------------------------+ #
+############################################################
 
-#########################################################################################################################################################
+Cancel Events:
+  Hunger: false
+  Hopper Craft: false
+  Hopper Craft Message: true
+  Block Place: false
+  Block Break: false
+  Item Pickup: false
+  Item Drop: false
+  Fall Damage: false
+  Experience: false
 
-# World Module
+Cooldowns:
+  Enderpearl: false
+  Enderpeal Time: 60 # seconds
+  Golden Apple: false
+  Golden Apple Time: 60 # seconds
+  Enchanted Golden Apple: false
+  Enchanted Golden Apple Time: 60 # seconds
+  Commands: false
+  Cammands Time: 60 # seconds.
+  Commands Amount: 5
+
+Commands:
+  Ping: true
+  Hat: true
+  Gamemode: true
+  Invsee: true
+  Vanish: true
+  World Creation: true
+  Craft: true
+  Kill: true
+  God: true
+  Heal: true
+  Fly: true
+  Feed: true
+
+World Events:
+  One Player Sleep: false
+  Double Jump: false
+  Silent Join: false
 
 # When someone joins the server and you have `Spawn On Player Join: true` then you can enable this to spawn a firework too.
 Firework On Player Join: false # Default: false
-
-# Disable hopper craft.
-Hopper Craft: false # Default: false
-# Want to send a player a message saying that they cant craft them? [NOTE! This will only work if you have hopper craft disabled.]
-Hopper Craft Message: true # Default: true
-
-# Disable Hunger loss.
-Hunger Loss: false # Default: false
-
-# Disable block place / break in your server.
-Block Place: false # Default: false
-Block Break: false # Default: false
-
-# Disable item pickup / drop in your server.
-Item Pickup: false # Default: false
-Item Drop: false # Default: false
-
-# Double Jump
-Double_Jump: false # Default: false
-
-# Fall Damage, Do not let players take fall damage
-No_Fall_Damage: false # Default: false
+Spawn On Player Join: false # Default false
 
 # Item Drop Holograms
 Item_Holograms: false # Default: false
@@ -197,35 +223,11 @@ Item_Holograms_Amount: true # NOTE! This requires `Item_Holograms` to be true. D
 # NOTE! This requires `Item_Holograms` to be true. ALSO! %amount% will only work if you have `Item_Holograms_Amount` set to true.
 Item_Holograms_Name: "%item% [%amount%]"
 
-# Item cooldowns
-Enderpearl_Cooldown: false # Default: false
-Enderpearl_Cooldown_Time: 60 # NOTE! This is in seconds. Default: 60
+############################################################
+# +------------------------------------------------------+ #
+# |           EssentialsZ (Server Information)           | #
+# |         Do not change any values beyond here.        | #
+# +------------------------------------------------------+ #
+############################################################
 
-Golden_Apple_Cooldown: false # Default: false
-Golden_Apple_Cooldown_Time: 60 # NOTE! This is in seconds. Default: 60
-
-Enchanted_Golden_Apple_Cooldown: false # Default: false
-Enchanted_Golden_Apple_Cooldown_Time: 60 # NOTE! This is in seconds. Default: 60
-
-# Disable XP, Disable all of the xp(experience) that players can get from, mobs and blocks
-No_Experience: false # Default: false
-
-# Command Cooldown
-Command_Cooldown: false # Default: false
-Command_Cooldown_Time: 60 # NOTE! This is in seconds. Default: 60
-Command_Amount: 5 # The amount of commands that they can do before getting a cooldown.
-
-# World Commands
-cmd_Ping: true # Let players see their ping to the server and they can also check others. Default: true
-cmd_Hat: true # Let players put blocks/items on their head. Default: true
-cmd_Gamemode: true # Lets admins go into different gamemodes. Default: true
-cmd_Invsee: true # Let admins see what is in peoples inventory. Default: true
-cmd_Vanish: true # Let admins go into vanish mode
-World_Creation: true # Allows you to create new worlds inside of the sever.
-cmd_Craft: true # Allows players to access a work bench.
-cmd_Kill: true # Allows players to kill other players/entites.
-cmd_God: true # Allows players to enable god mode.
-
-#########################################################################################################################################################
-# [WARNING! DO NOT CHANGE ANY VALUES BEYOND HERE]
 Server_Player_Total: 0

@@ -13,7 +13,7 @@ public enum Errors {
     NoWarpNameProvided, WarpDoesNotExist, WarpAlreadyExist, NoWarpsFound,
     NoHomeNameProvided, NoHomes, HomeDoesNotExist, HomeAlreadyExist,
 
-    GamemodeUsage, WorldGenUsage, InvalidWorld;
+    GamemodeUsage, WorldGenUsage, InvalidWorld, InvalidGameMode, FullFood;
 
     public static String getErrors(Errors type) {
         String errors = "";
@@ -54,7 +54,7 @@ public enum Errors {
                 errors = Utils.chat("&cError! Sorry you do not have enough money for this.");
                 break;
             case UsageEconomy:
-                errors = Utils.chat("&cError! Usage: /economy <add/remove/set> <player> <amount>");
+                errors = Utils.chat("&cError! Usage: /economy <add/remove/set/reset> <player> <amount>");
                 break;
             case UsagePay:
                 errors = Utils.chat("&cError! Usage: /pay <player> <amount>");
@@ -115,6 +115,12 @@ public enum Errors {
                 break;
             case InvalidWorld:
                 errors = Utils.chat("&cError! That is not a valid world or it could not be found.");
+                break;
+            case InvalidGameMode:
+                errors = Utils.chat("&cError! You need to be in survival or adventure mode!");
+                break;
+            case FullFood:
+                errors = Utils.chat("&cError! Already full on food.");
                 break;
         }
         return errors;

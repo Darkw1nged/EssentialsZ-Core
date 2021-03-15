@@ -1,10 +1,8 @@
 package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.PlayersPing;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -28,20 +26,20 @@ public class cmd_Ping implements CommandExecutor {
                     Player target = Bukkit.getPlayer(args[0]);
                     sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Ping Player message")
                             .replaceAll("%player%", target.getName())
-                            .replaceAll("%ping%",""+PlayersPing.getPing(target))));
+                            .replaceAll("%ping%",""+plugin.essentialsZAPI.utils.getPlayerPing(target))));
                 }
                 Player player = (Player)sender;
                 if (player.hasPermission(Permissions.Ping) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length < 1) {
                         player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Ping message")
-                                .replaceAll("%ping%", ""+PlayersPing.getPing(player))));
+                                .replaceAll("%ping%", ""+plugin.essentialsZAPI.utils.getPlayerPing(player))));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[0]);
                     if (player.hasPermission(Permissions.PingOther) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Ping Player message")
                                 .replaceAll("%player%", target.getName())
-                                .replaceAll("%ping%",""+PlayersPing.getPing(target))));
+                                .replaceAll("%ping%",""+plugin.essentialsZAPI.utils.getPlayerPing(target))));
                     } else {
                         Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }

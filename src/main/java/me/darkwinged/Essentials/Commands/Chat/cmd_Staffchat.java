@@ -1,7 +1,6 @@
 package me.darkwinged.Essentials.Commands.Chat;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -18,14 +17,14 @@ public class cmd_Staffchat implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("staffchat")) {
-            if (plugin.getConfig().getBoolean("Chat", true)) {
-                if (plugin.getConfig().getBoolean("Staff_Chat", true)) {
+            if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
+                if (plugin.getConfig().getBoolean("Chat.Settings.Staff chat.enabled", true)) {
                     if (!(sender instanceof Player)) {
                         if (!(args.length >= 1)) {
                             Utils.Message(sender, Errors.getErrors(Errors.MessageEmpty));
                             return true;
                         }
-                        String msg = Utils.chat(plugin.getConfig().getString("Staff_Chat_Format").replaceAll("%player%", sender.getName()));
+                        String msg = Utils.chat(plugin.getConfig().getString("Chat.Settings.Staff chat.Format").replaceAll("%player%", sender.getName()));
                         for (String s : args) {
                             msg = msg + " " + s;
                         }
@@ -44,7 +43,7 @@ public class cmd_Staffchat implements CommandExecutor {
                             return true;
                         }
 
-                        String msg = Utils.chat(plugin.getConfig().getString("Staff_Chat_Format").replaceAll("%player%", player.getName()));
+                        String msg = Utils.chat(plugin.getConfig().getString("Chat.Settings.Staff chat.Format").replaceAll("%player%", player.getName()));
                         for (String s : args) {
                             msg = msg + " " + s;
                         }

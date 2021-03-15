@@ -1,7 +1,6 @@
 package me.darkwinged.Essentials.Commands.Chat;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -18,36 +17,38 @@ public class cmd_Mutechat implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("mutechat")) {
-            if (plugin.getConfig().getBoolean("cmd_mutechat", true)) {
-                if (!(sender instanceof Player)) {
-                    if (!Utils.isChatMuted) {
-                        Utils.isChatMuted = true;
-                        String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Chat")
-                                .replaceAll("%player%", sender.getName()).replaceAll("%setting%", "muted"));
-                        Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
-                    } else {
-                        Utils.isChatMuted = false;
-                        String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Chat")
-                                .replaceAll("%player%", sender.getName()).replaceAll("%setting%", "unmuted"));
-                        Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
+            if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
+                if (plugin.getConfig().getBoolean("Chat.Settings.Commands.Commands.Mutechat", true)) {
+                    if (!(sender instanceof Player)) {
+                        if (!Utils.isChatMuted) {
+                            Utils.isChatMuted = true;
+                            String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Chat Muted")
+                                    .replaceAll("%player%", sender.getName()).replaceAll("%setting%", "muted"));
+                            Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
+                        } else {
+                            Utils.isChatMuted = false;
+                            String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Chat Muted")
+                                    .replaceAll("%player%", sender.getName()).replaceAll("%setting%", "unmuted"));
+                            Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
+                        }
+                        return true;
                     }
-                    return true;
-                }
-                Player player = (Player)sender;
-                if (player.hasPermission(Permissions.MuteChat) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                    if (!Utils.isChatMuted) {
-                        Utils.isChatMuted = true;
-                        String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Chat")
-                                .replaceAll("%player%", sender.getName()).replaceAll("%setting%", "muted"));
-                        Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
+                    Player player = (Player)sender;
+                    if (player.hasPermission(Permissions.MuteChat) || player.hasPermission(Permissions.GlobalOverwrite)) {
+                        if (!Utils.isChatMuted) {
+                            Utils.isChatMuted = true;
+                            String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Chat Muted")
+                                    .replaceAll("%player%", sender.getName()).replaceAll("%setting%", "muted"));
+                            Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
+                        } else {
+                            Utils.isChatMuted = false;
+                            String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Chat Muted")
+                                    .replaceAll("%player%", sender.getName()).replaceAll("%setting%", "unmuted"));
+                            Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
+                        }
                     } else {
-                        Utils.isChatMuted = false;
-                        String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Chat")
-                                .replaceAll("%player%", sender.getName()).replaceAll("%setting%", "unmuted"));
-                        Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
+                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                     }
-                } else {
-                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
                 }
             }
         }

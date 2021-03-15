@@ -17,7 +17,7 @@ public class NoPlaceBreakBlocks implements Listener {
 	@EventHandler
 	public void onBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
-		if (plugin.getConfig().getBoolean("Block Break", true)) {
+		if (plugin.getConfig().getBoolean("Cancel Events.Block Break", true)) {
 			if (player.hasPermission(Permissions.bypass) || player.hasPermission(Permissions.GlobalOverwrite))
 				return;
 			event.setCancelled(true);
@@ -27,7 +27,7 @@ public class NoPlaceBreakBlocks implements Listener {
 	@EventHandler
 	public void onPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
-		if (plugin.getConfig().getBoolean("Block Place", true)) {
+		if (plugin.getConfig().getBoolean("Cancel Events.Block Place", true)) {
 			if (player.hasPermission(Permissions.bypass) || player.hasPermission(Permissions.GlobalOverwrite))
 				return;
 			event.setCancelled(true);

@@ -4,10 +4,13 @@ api-version: 1.13
 main: me.darkwinged.Essentials.Main
 authors: [darkwinged, Yovez]
 softdepend: [PlaceholderAPI, Vault, ProtocolLib]
+load: STARTUP
+loadbefore: [Vault]
 commands:
   economy:
     aliases:
       - econ
+      - eco
   balance:
     aliases:
       - bal
@@ -37,6 +40,15 @@ commands:
   mutechat:
   motd:
   sudo:
+  message:
+    aliases:
+      - pm
+      - msg
+      - dm
+      - to
+  reply:
+    aliases:
+      - r
 
   tp:
   tphere:
@@ -88,3 +100,6 @@ commands:
   craft:
   kill:
   god:
+  heal:
+  fly:
+  feed:

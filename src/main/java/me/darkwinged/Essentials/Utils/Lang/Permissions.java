@@ -3,11 +3,12 @@ package me.darkwinged.Essentials.Utils.Lang;
 public class Permissions {
 
     // Essential Permissions
-    public static String MainPermission = "Essentials.";
+    public static String MainPermission = "EssentialsZ.";
     public static String GlobalOverwrite = MainPermission + "*";
     public static String bypass = MainPermission + "Bypass";
     public static String Reload = MainPermission + "Reload";
     public static String TeleportBypass = MainPermission + "TeleportDelay.Bypass";
+    public static String SafeLogin = MainPermission + "SafeLogin";
 
     // Economy Permissions
     public static String Economy = MainPermission + "Economy";
@@ -23,6 +24,31 @@ public class Permissions {
 
     // Chat Permissions
     public static String ChatColor = MainPermission + "ChatColor";
+    public static String ChatColor_black = MainPermission + "ChatColor.Black";
+    public static String ChatColor_dark_blue = MainPermission + "ChatColor.DarkBlue";
+    public static String ChatColor_dark_green = MainPermission + "ChatColor.DarkGreen";
+    public static String ChatColor_dark_aqua = MainPermission + "ChatColor.DarkAqua";
+    public static String ChatColor_dark_red = MainPermission + "ChatColor.DarkRed";
+    public static String ChatColor_dark_purple = MainPermission + "ChatColor.DarkPurple";
+    public static String ChatColor_gold = MainPermission + "ChatColor.Gold";
+    public static String ChatColor_gray = MainPermission + "ChatColor.Gray";
+    public static String ChatColor_dark_gray = MainPermission + "ChatColor.DarkGray";
+    public static String ChatColor_blue = MainPermission + "ChatColor.Blue";
+    public static String ChatColor_green = MainPermission + "ChatColor.Green";
+    public static String ChatColor_aqua = MainPermission + "ChatColor.Aqua";
+    public static String ChatColor_red = MainPermission + "ChatColor.Red";
+    public static String ChatColor_light_purple = MainPermission + "ChatColor.LightPurple";
+    public static String ChatColor_yellow = MainPermission + "ChatColor.Yellow";
+    public static String ChatColor_white = MainPermission + "ChatColor.White";
+
+    public static String ChatColor_magic = MainPermission + "ChatColor.Magic";
+    public static String ChatColor_bold = MainPermission + "ChatColor.Bold";
+    public static String ChatColor_strikethrough = MainPermission + "ChatColor.Strikethrough";
+    public static String ChatColor_underline = MainPermission + "ChatColor.Underline";
+    public static String ChatColor_italic = MainPermission + "ChatColor.Italic";
+    public static String ChatColor_reset = MainPermission + "ChatColor.Reset";
+
+
     public static String StaffChat = MainPermission + "StaffChat";
     public static String ClearChat = MainPermission + "ClearChat";
     public static String Broadcast = MainPermission + "Broadcast";
@@ -91,5 +117,11 @@ public class Permissions {
     public static String Craft = MainPermission + "Craft";
     public static String Kill = MainPermission + "Kill";
     public static String God = MainPermission + "God";
+    public static String Heal = MainPermission + "Heal";
+    public static String HealOther = MainPermission + "Heal.Other";
+    public static String Feed = MainPermission + "Feed";
+    public static String FeedOther = MainPermission + "Feed.Other";
+    public static String Fly = MainPermission + "Fly";
+    public static String FlyOther = MainPermission + "Fly.Other";
 
 }

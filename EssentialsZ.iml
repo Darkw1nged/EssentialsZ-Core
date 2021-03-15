@@ -21,6 +21,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="EssentialsZAPI-1.0" level="project" />
     <orderEntry type="library" name="Maven: org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
@@ -35,5 +36,23 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.MilkBowl:VaultAPI:1.7" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.13.1-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: me.clip:placeholderapi:2.9.2" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: com.darkwinged:darkwinged:1.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../EssentialsZ Spawn/target/EssentialsZSpawn-1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Maven: com.darkwinged:darkwingedAPI:1.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../EssentialsZ API/target/EssentialsZAPI-1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

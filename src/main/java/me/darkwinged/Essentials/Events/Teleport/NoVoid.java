@@ -1,15 +1,9 @@
 package me.darkwinged.Essentials.Events.Teleport;
 
 import me.darkwinged.Essentials.Main;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class NoVoid implements Listener {
 
@@ -21,7 +15,7 @@ public class NoVoid implements Listener {
     @EventHandler
     public void antivoid(PlayerMoveEvent event) {
         if (plugin.getConfig().getBoolean("Teleportation", true)) {
-            if (plugin.getConfig().getBoolean("No Void", true)) {
+            /*if (plugin.getConfig().getBoolean("No Void", true)) {
                 Player player = event.getPlayer();
                 if (player.getLocation().getY() <= -4) {
                     if (!plugin.SpawnFile.getConfig().contains("Spawn.world")) {
@@ -40,7 +34,7 @@ public class NoVoid implements Listener {
                     player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
                     player.setFallDistance(0F);
                 }
-            }
+            }*/
         }
 
     }

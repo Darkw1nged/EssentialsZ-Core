@@ -17,7 +17,7 @@ public class NoItemDropAndPickup implements Listener {
     @EventHandler
     public void onPickup(PlayerPickupItemEvent event) {
         Player player = event.getPlayer();
-        if (plugin.getConfig().getBoolean("Item Pickup", true)) {
+        if (plugin.getConfig().getBoolean("Cancel Events.Item Pickup", true)) {
             if (player.hasPermission(Permissions.bypass) || player.hasPermission(Permissions.GlobalOverwrite))
                 return;
             event.setCancelled(true);
@@ -27,7 +27,7 @@ public class NoItemDropAndPickup implements Listener {
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
         Player player = event.getPlayer();
-        if (plugin.getConfig().getBoolean("Item Drop", true)) {
+        if (plugin.getConfig().getBoolean("Cancel Events.Item Drop", true)) {
             if (player.hasPermission(Permissions.bypass) || player.hasPermission(Permissions.GlobalOverwrite))
                 return;
             event.setCancelled(true);

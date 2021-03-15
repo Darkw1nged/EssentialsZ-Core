@@ -9,7 +9,9 @@ import me.darkwinged.Essentials.Commands.Teleport.*;
 import me.darkwinged.Essentials.Commands.World.Gamemodes.*;
 import me.darkwinged.Essentials.Commands.World.*;
 import me.darkwinged.Essentials.Commands.cmd_Reload;
-import me.darkwinged.Essentials.Events.Chat.*;
+import me.darkwinged.Essentials.Events.Chat.ChatControl;
+import me.darkwinged.Essentials.Events.Chat.Color;
+import me.darkwinged.Essentials.Events.Chat.JoinAndLeaveMessage;
 import me.darkwinged.Essentials.Events.Economy.AccountSetup;
 import me.darkwinged.Essentials.Events.Economy.BankNotes;
 import me.darkwinged.Essentials.Events.Economy.MoneyPouchesEvent;
@@ -23,15 +25,14 @@ import me.darkwinged.Essentials.Events.Teleport.SpawnOnJoin;
 import me.darkwinged.Essentials.Events.World.*;
 import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
 import me.darkwinged.Essentials.Utils.EssentialsZEconomy.Economy_EssentialsZ;
-import me.darkwinged.Essentials.Utils.Lag;
+import me.darkwinged.Essentials.Utils.EssentialsZEconomy.VaultHook;
 import me.darkwinged.Essentials.Utils.Lang.CustomConfig;
 import me.darkwinged.Essentials.Utils.Lang.MetricsLite;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import me.darkwinged.Essentials.Utils.PlaceHolders;
 import me.darkwinged.Essentials.Utils.TeleportUtils;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.milkbowl.vault.economy.Economy;
+import me.darkwinged.EssentialsZ.EssentialsZAPI;
+import me.darkwinged.EssentialsZSpawn.EssentialsZSpawn;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -42,8 +43,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.ServicePriority;
-import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -53,15 +52,19 @@ import static org.bukkit.Material.getMaterial;
 
 public final class Main extends JavaPlugin implements Listener {
 
+    public static Main getInstance;
     public int Delay = getConfig().getInt("Teleportation_Delay");
+    public final EssentialsZSpawn essentialsZSpawn = (EssentialsZSpawn) Bukkit.getServer().getPluginManager().getPlugin("EssentialsZSpawn");
     public ProtocolManager protocolManager;
-    public ServicesManager sm = getServer().getServicesManager();
+    public Economy_EssentialsZ economy_essentialsZ;
+    private VaultHook vaultHook;
+
+    public EssentialsZAPI essentialsZAPI;
 
     public boolean Module_Economy = false;
 
     public CustomConfig MoneyPouchesFile = new CustomConfig(this, "Economy/Money Pouches");
     public CustomConfig MessagesFile = new CustomConfig(this, "Chat/Messages");
-    public CustomConfig SpawnFile = new CustomConfig(this, "Teleportation/Spawn");
     public CustomConfig BlockedCommandsFile = new CustomConfig(this, "Chat/Blocked Commands");
     public CustomConfig ChatFilterFile = new CustomConfig(this, "Chat/Chat Filter");
     public CustomConfig AutoMessagesFile = new CustomConfig(this, "Chat/Auto Messages");
@@ -72,22 +75,23 @@ public final class Main extends JavaPlugin implements Listener {
     public void onEnable() {
         // Console Start Message
         getServer().getConsoleSender().sendMessage(Utils.chat("&aEssentialsZ Core plugin has been enabled!"));
+        getInstance = this;
 
         // Loading Files
         loadConfig();
         loadCustomFiles();
 
-        // Getting ProtocolLib, Teleport Utils, MetricsLite, PlaceholderAPI, Vault, Bungeecord
+        // Getting ProtocolLib, Teleport Utils, MetricsLite, PlaceholderAPI, Vault, EssentialsZ APi, Bungeecord
         TeleportUtils teleportUtils = new TeleportUtils(this);
         MetricsLite metricsLite = new MetricsLite(this, 9811);
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            getServer().getConsoleSender().sendMessage(Utils.chat("Vault not found! Disabling the economy module."));
-            Module_Economy = false;
-        } else {
-            sm.register(Economy.class, new Economy_EssentialsZ(), this, ServicePriority.Highest);
-            Module_Economy = true;
-        }
+
+        // Vault hook ================================================
+        economy_essentialsZ = new Economy_EssentialsZ();
+        vaultHook = new VaultHook();
+        vaultHook.hook();
+        //=============================================================
+
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceHolders(this).register();
         }
@@ -108,18 +112,18 @@ public final class Main extends JavaPlugin implements Listener {
         registerEvents();
         AutoMessage();
         vanishCheck();
-
-        // Getting TPS
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Lag(), 100L, 1L);
     }
 
     public void onDisable() {
         // Console Stop Message
-        getServer().getConsoleSender().sendMessage(Utils.chat("&cEssentialsZ  Core plugin has been disabled!"));
+        getServer().getConsoleSender().sendMessage(Utils.chat("&cEssentialsZ Core plugin has been disabled!"));
         // Saving the accounts for all of the players
         saveAccounts();
         // Saving the accounts file
         AccountsFile.saveConfig();
+
+        // Unhooking vault
+        vaultHook.unhook();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -143,6 +147,8 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("mutechat").setExecutor(new cmd_Mutechat(this));
         getCommand("motd").setExecutor(new cmd_MOTD(this));
         getCommand("sudo").setExecutor(new cmd_Sudo(this));
+        getCommand("message").setExecutor(new cmd_Message(this));
+        getCommand("reply").setExecutor(new cmd_Reply(this));
 
         // Teleportation
         getCommand("tp").setExecutor(new cmd_TP(this));
@@ -178,6 +184,9 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("craft").setExecutor(new cmd_Craft(this));
         getCommand("kill").setExecutor(new cmd_Kill(this));
         getCommand("god").setExecutor(new cmd_God(this));
+        getCommand("heal").setExecutor(new cmd_Heal(this));
+        getCommand("fly").setExecutor(new cmd_Fly(this));
+        getCommand("feed").setExecutor(new cmd_Feed(this));
 
     }
 
@@ -186,14 +195,9 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
 
         // Chat Events
-        getServer().getPluginManager().registerEvents(new ChatFilterEvent(this), this);
-        getServer().getPluginManager().registerEvents(new BlockedCommandsEvent(this), this);
-        getServer().getPluginManager().registerEvents(new MuteChat(this), this);
+        getServer().getPluginManager().registerEvents(new ChatControl(this), this);
         getServer().getPluginManager().registerEvents(new JoinAndLeaveMessage(this), this);
         getServer().getPluginManager().registerEvents(new Color(this), this);
-        getServer().getPluginManager().registerEvents(new AntiSpam(this), this);
-        getServer().getPluginManager().registerEvents(new Tablist(this), this);
-        getServer().getPluginManager().registerEvents(new ChatPing(this), this);
 
         // Economy Events
         getServer().getPluginManager().registerEvents(new PlayerHeads(this), this);
@@ -212,23 +216,14 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Back(this), this);
 
         // WORLD EVENTS
-        getServer().getPluginManager().registerEvents(new FireworkOnJoin(this), this);
-        getServer().getPluginManager().registerEvents(new NoHopperCraft(this), this);
-        getServer().getPluginManager().registerEvents(new NoHungerLoss(this), this);
         getServer().getPluginManager().registerEvents(new NoItemDropAndPickup(this), this);
         getServer().getPluginManager().registerEvents(new NoPlaceBreakBlocks(this), this);
         getServer().getPluginManager().registerEvents(new ChangeMOTD(this), this);
         getServer().getPluginManager().registerEvents(new DoubleJump(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerEatEvent(this), this);
-        getServer().getPluginManager().registerEvents(new NoFallDamage(this), this);
-        getServer().getPluginManager().registerEvents(new NoExperience(this), this);
-        getServer().getPluginManager().registerEvents(new EnderPearlCooldown(this), this);
-        getServer().getPluginManager().registerEvents(new VanishOnJoin(this), this);
-        getServer().getPluginManager().registerEvents(new CommandCooldown(this), this);
         getServer().getPluginManager().registerEvents(new cmd_Invsee(this), this);
-        getServer().getPluginManager().registerEvents(new OnePlayerSleep(this), this);
         getServer().getPluginManager().registerEvents(new cmd_God(this), this);
-
+        getServer().getPluginManager().registerEvents(new Tablist(this), this);
+        getServer().getPluginManager().registerEvents(new WorldControl(this), this);
     }
 
     // Economy Account Manager
@@ -247,24 +242,17 @@ public final class Main extends JavaPlugin implements Listener {
     // Loading the config and custom files to the server
     private FileConfiguration config;
     private File cfile;
-
     public void loadConfig() {
         config = getConfig();
         config.options().copyDefaults(true);
         saveDefaultConfig();
         cfile = new File(getDataFolder(), "config.yml");
     }
-
     public void loadCustomFiles() {
         // Economy
         AccountsFile.saveDefaultConfig();
         MoneyPouchesFile.saveDefaultConfig();
         WorthFile.saveDefaultConfig();
-
-        // Teleportation
-        SpawnFile.saveDefaultConfig();
-
-        // World
 
         // Chat
         MessagesFile.saveDefaultConfig();
@@ -380,8 +368,7 @@ public final class Main extends JavaPlugin implements Listener {
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     if (Utils.invisible_list.contains(player.getUniqueId())) {
-                        if (Utils.hide_player_list.contains(player.getUniqueId())) return;
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(Utils.chat("&fYou are in &cVanish")));
+                        essentialsZAPI.utils.sendActionBar(player, "&fYou are in &cVanish");
                     }
                 }
             }

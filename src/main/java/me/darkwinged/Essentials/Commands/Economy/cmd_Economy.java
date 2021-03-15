@@ -1,7 +1,6 @@
 package me.darkwinged.Essentials.Commands.Economy;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -25,7 +24,7 @@ public class cmd_Economy implements CommandExecutor {
                 if (plugin.Module_Economy = false) return true;
                 Player player = (Player) sender;
                 if (player.hasPermission(Permissions.Economy) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                    if (args.length != 3) {
+                    if (args.length < 2) {
                         Utils.Message(player, Errors.getErrors(Errors.UsageEconomy));
                         return true;
                     }
@@ -33,10 +32,8 @@ public class cmd_Economy implements CommandExecutor {
                     if (target == null) {
                         player.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPlayerFound)));
                     }
-                    if (args[0].equalsIgnoreCase("add")) {
-                        if (!EconomyManager.hasAccount(target)) {
-                            return true;
-                        }
+                    if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("give")) {
+                        if (!plugin.economy_essentialsZ.hasAccount(target)) return true;
                         double amount;
                         try {
                             amount = Double.parseDouble(args[2]);
@@ -44,12 +41,13 @@ public class cmd_Economy implements CommandExecutor {
                             Utils.Message(player, Errors.getErrors(Errors.InvalidAmount));
                             return true;
                         }
-                        EconomyManager.AddAccount(target, amount);
+                        plugin.economy_essentialsZ.depositPlayer(target, amount);
+                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
+                                + plugin.MessagesFile.getConfig().getString("Economy Add Message")
+                                .replaceAll("%player%", target.getName()).replaceAll("%amount%", amount+"")));
                         return true;
-                    } else if (args[0].equalsIgnoreCase("remove")) {
-                        if (!EconomyManager.hasAccount(target)) {
-                            return true;
-                        }
+                    } else if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("take")) {
+                        if (!plugin.economy_essentialsZ.hasAccount(target)) return true;
                         double amount;
                         try {
                             amount = Double.parseDouble(args[2]);
@@ -57,12 +55,13 @@ public class cmd_Economy implements CommandExecutor {
                             Utils.Message(player, Errors.getErrors(Errors.InvalidAmount));
                             return true;
                         }
-                        EconomyManager.RemoveAccount(target, amount);
+                        plugin.economy_essentialsZ.withdrawPlayer(player, amount);
+                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
+                                + plugin.MessagesFile.getConfig().getString("Economy Remove Message")
+                                .replaceAll("%player%", target.getName()).replaceAll("%amount%", amount+"")));
                         return true;
                     } else if (args[0].equalsIgnoreCase("set")) {
-                        if (!EconomyManager.hasAccount(target)) {
-                            return true;
-                        }
+                        if (!plugin.economy_essentialsZ.hasAccount(target)) return true;
                         double amount;
                         try {
                             amount = Double.parseDouble(args[2]);
@@ -70,8 +69,19 @@ public class cmd_Economy implements CommandExecutor {
                             Utils.Message(player, Errors.getErrors(Errors.InvalidAmount));
                             return true;
                         }
-                        EconomyManager.setAccount(target, amount);
+                        plugin.economy_essentialsZ.withdrawPlayer(target, plugin.economy_essentialsZ.getBalance(target));
+                        plugin.economy_essentialsZ.depositPlayer(target, amount);
+                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
+                                + plugin.MessagesFile.getConfig().getString("Economy Set Message")
+                                .replaceAll("%player%", target.getName()).replaceAll("%amount%", amount+"")));
                         return true;
+                    } else if (args[0].equalsIgnoreCase("reset")) {
+                        if (!plugin.economy_essentialsZ.hasAccount(target)) return true;
+                        plugin.economy_essentialsZ.withdrawPlayer(target, plugin.economy_essentialsZ.getBalance(target));
+                        plugin.economy_essentialsZ.depositPlayer(target, plugin.getConfig().getInt("Economy.Settings.Starting Balance"));
+                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
+                                + plugin.MessagesFile.getConfig().getString("Economy Reset Message"))
+                                .replaceAll("%player%", target.getName()));
                     } else {
                         Utils.Message(player, Errors.getErrors(Errors.UsageEconomy));
                         return true;

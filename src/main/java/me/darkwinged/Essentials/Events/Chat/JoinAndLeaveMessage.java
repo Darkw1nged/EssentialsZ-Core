@@ -32,6 +32,7 @@ public class JoinAndLeaveMessage implements Listener {
             if (!player.hasPlayedBefore()) {
                 if (plugin.getConfig().getBoolean("Show_First_Time_Join_Message", true)) {
                     plugin.getConfig().set("Server_Player_Total", plugin.getConfig().getInt("Server_Player_Total") + 1);
+                    plugin.saveConfig();
                     String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("first time join message"))
                             .replaceAll("%player%", player.getDisplayName())
                             .replaceAll("%total_amount%", plugin.getConfig().getInt("Server_Player_Total") + "");

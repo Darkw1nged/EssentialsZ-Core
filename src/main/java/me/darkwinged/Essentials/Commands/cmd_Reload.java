@@ -1,7 +1,6 @@
 package me.darkwinged.Essentials.Commands;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.ErrorMessages;
 import me.darkwinged.Essentials.Utils.Lang.Errors;
 import me.darkwinged.Essentials.Utils.Lang.Permissions;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
@@ -45,7 +44,6 @@ public class cmd_Reload implements CommandExecutor {
         getServer().getConsoleSender().sendMessage(Utils.chat("&aFun Fact! Essentials was made by darkwinged!"));
         // Loading Files
         plugin.reloadConfig();
-        plugin.SpawnFile.reloadConfig();
         plugin.MessagesFile.reloadConfig();
         plugin.AccountsFile.reloadConfig();
         plugin.LoadWarpsFile();
