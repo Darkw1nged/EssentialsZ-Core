@@ -1,12 +1,18 @@
 package me.darkwinged.Essentials.Utils.EssentialsZEconomy;
 
+import me.darkwinged.Essentials.Main;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
 public class Economy_EssentialsZ implements Economy {
+
+    private final Main plugin = Main.getInstance;
+
     /**
      * Checks if economy method is enabled.
      *
@@ -89,7 +95,8 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public boolean hasAccount(String playerName) {
-        return false;
+        Player player = Bukkit.getPlayer(playerName);
+        return plugin.economyManager.hasAccount(player);
     }
 
     /**
@@ -102,7 +109,7 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public boolean hasAccount(OfflinePlayer player) {
-        return EconomyManager.hasAccount(player);
+        return plugin.economyManager.hasAccount(player);
     }
 
     /**
@@ -112,7 +119,8 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public boolean hasAccount(String playerName, String worldName) {
-        return false;
+        Player player = Bukkit.getPlayer(playerName);
+        return plugin.economyManager.hasAccount(player);
     }
 
     /**
@@ -126,7 +134,7 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public boolean hasAccount(OfflinePlayer player, String worldName) {
-        return EconomyManager.hasAccount(player);
+        return plugin.economyManager.hasAccount(player);
     }
 
     /**
@@ -135,7 +143,10 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public double getBalance(String playerName) {
-        return 0;
+        Player player = Bukkit.getPlayer(playerName);
+        if (plugin.economyManager.hasAccount(player)) {
+            return plugin.economyManager.getAccount(player);
+        } else return 0;
     }
 
     /**
@@ -146,8 +157,8 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public double getBalance(OfflinePlayer player) {
-        if (EconomyManager.hasAccount(player)) {
-            return EconomyManager.getAccount(player);
+        if (plugin.economyManager.hasAccount(player)) {
+            return plugin.economyManager.getAccount(player);
         } else return 0;
     }
 
@@ -158,7 +169,10 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public double getBalance(String playerName, String world) {
-        return 0;
+        Player player = Bukkit.getPlayer(playerName);
+        if (plugin.economyManager.hasAccount(player)) {
+            return plugin.economyManager.getAccount(player);
+        } else return 0;
     }
 
     /**
@@ -171,8 +185,8 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public double getBalance(OfflinePlayer player, String world) {
-        if (EconomyManager.hasAccount(player)) {
-            return EconomyManager.getAccount(player);
+        if (plugin.economyManager.hasAccount(player)) {
+            return plugin.economyManager.getAccount(player);
         } else return 0;
     }
 
@@ -230,7 +244,16 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        return null;
+        Player player = Bukkit.getPlayer(playerName);
+        if (amount < 0)
+            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds");
+
+        if(has(player, amount)) {
+            plugin.economyManager.RemoveAccount(player, amount);
+            return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+        } else {
+            return new EconomyResponse(0, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
+        }
     }
 
     /**
@@ -246,7 +269,7 @@ public class Economy_EssentialsZ implements Economy {
             return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds");
 
         if(has(player, amount)) {
-            EconomyManager.RemoveAccount(player, amount);
+            plugin.economyManager.RemoveAccount(player, amount);
             return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
         } else {
             return new EconomyResponse(0, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
@@ -261,7 +284,16 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return null;
+        Player player = Bukkit.getPlayer(playerName);
+        if (amount < 0)
+            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds");
+
+        if(has(player, amount)) {
+            plugin.economyManager.RemoveAccount(player, amount);
+            return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+        } else {
+            return new EconomyResponse(0, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
+        }
     }
 
     /**
@@ -275,7 +307,15 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
-        return null;
+        if (amount < 0)
+            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds");
+
+        if(has(player, amount)) {
+            plugin.economyManager.RemoveAccount(player, amount);
+            return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+        } else {
+            return new EconomyResponse(0, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
+        }
     }
 
     /**
@@ -285,7 +325,9 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        return null;
+        Player player = Bukkit.getPlayer(playerName);
+        plugin.economyManager.AddAccount(player, amount);
+        return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     /**
@@ -297,15 +339,8 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        if (amount < 0)
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds");
-
-        if(has(player, amount)) {
-            EconomyManager.AddAccount(player, amount);
-            return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
-        } else {
-            return new EconomyResponse(0, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
-        }
+        plugin.economyManager.AddAccount(player, amount);
+        return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     /**
@@ -316,7 +351,9 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        return null;
+        Player player = Bukkit.getPlayer(playerName);
+        plugin.economyManager.AddAccount(player, amount);
+        return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     /**
@@ -330,15 +367,8 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount) {
-        if (amount < 0)
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds");
-
-        if(has(player, amount)) {
-            EconomyManager.AddAccount(player, amount);
-            return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
-        } else {
-            return new EconomyResponse(0, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
-        }
+        plugin.economyManager.AddAccount(player, amount);
+        return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     /**
@@ -406,7 +436,16 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
-        return null;
+        Player player = Bukkit.getPlayer(name);
+        if (amount < 0)
+            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds");
+
+        if(has(player, amount)) {
+            plugin.economyManager.RemoveAccount(player, amount);
+            return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+        } else {
+            return new EconomyResponse(0, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
+        }
     }
 
     /**
@@ -418,7 +457,16 @@ public class Economy_EssentialsZ implements Economy {
      */
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
-        return null;
+        Player player = Bukkit.getPlayer(name);
+        if (amount < 0)
+            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Cannot deposit negative funds");
+
+        if(has(player, amount)) {
+            plugin.economyManager.AddAccount(player, amount);
+            return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+        } else {
+            return new EconomyResponse(0, getBalance(player), EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
+        }
     }
 
     /**

@@ -1,17 +1,9 @@
 package me.darkwinged.Essentials.Commands.Economy;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class cmd_Autosell implements CommandExecutor {
 
@@ -20,6 +12,10 @@ public class cmd_Autosell implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("autosell")) {
+
+            /*
+
+
             if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
                 if (plugin.getConfig().getBoolean("Economy.Settings.Sell.Autosell", true)) {
                     if (plugin.Module_Economy = false) return true;
@@ -64,6 +60,8 @@ public class cmd_Autosell implements CommandExecutor {
                     }
                 }
             }
+
+             */
         }
         return false;
     }

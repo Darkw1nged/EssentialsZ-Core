@@ -15,10 +15,7 @@ import java.util.*;
 
 public class MoneyPouchesEvent implements Listener {
 
-    private Main plugin;
-    public MoneyPouchesEvent(Main plugin) {
-        this.plugin = plugin;
-    }
+    private final Main plugin = Main.getInstance;
 
     HashMap<UUID, Integer> open = new HashMap<>();
 
@@ -34,7 +31,7 @@ public class MoneyPouchesEvent implements Listener {
                         if (name == null || !player.getItemInHand().hasItemMeta()) return;
                         if (!name.equals(player.getItemInHand().getItemMeta().getDisplayName())) return;
                         if (open.containsKey(player.getUniqueId())) return;
-                        if (!EconomyManager.hasAccount(player)) return;
+                        if (!plugin.economyManager.hasAccount(player)) return;
                         // Getting the amount
                         int max = Utils.MoneyPouches_max.get(name);
                         int min = Utils.MoneyPouches_min.get(name);
@@ -55,7 +52,7 @@ public class MoneyPouchesEvent implements Listener {
                         }
                         int open_time = String.valueOf(int_amount).length();
                         // Adding the amount to the players balance
-                        EconomyManager.AddAccount(player, amount);
+                        plugin.economyManager.AddAccount(player, amount);
                         new BukkitRunnable() {
                             public void run() {
                                 if (!open.containsKey(player.getUniqueId())) return;

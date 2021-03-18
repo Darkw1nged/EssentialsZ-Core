@@ -4,7 +4,6 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,8 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class Tablist implements Listener {
 
-    private Main plugin;
-    public Tablist(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -29,7 +27,7 @@ public class Tablist implements Listener {
                             String tps = plugin.essentialsZAPI.utils.getServerTPS();
                             int intOnline = Bukkit.getOnlinePlayers().size() - Utils.invisible_list.size();
                             String online = ""+intOnline;
-                            String bal = ""+EconomyManager.getAccount(player);
+                            String bal = ""+plugin.economyManager.getAccount(player);
                             float getXP = player.getTotalExperience();
                             float getXPLevel = player.getLevel();
                             String xp = String.format("%.0f", getXP);

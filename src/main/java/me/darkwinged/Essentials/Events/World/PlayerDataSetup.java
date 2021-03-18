@@ -1,7 +1,6 @@
 package me.darkwinged.Essentials.Events.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
 import me.darkwinged.Essentials.Utils.Lang.CustomConfig;
 import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.entity.Player;
@@ -12,8 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerDataSetup implements Listener {
 
-    private Main plugin;
-    public PlayerDataSetup(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -29,7 +27,7 @@ public class PlayerDataSetup implements Listener {
         Utils.PlayerData.put(player.getUniqueId(), Data);
 
         Utils.PlayerData.get(player.getUniqueId()).getConfig().set("Player Name", player.getName());
-        Utils.PlayerData.get(player.getUniqueId()).getConfig().set("Balance", EconomyManager.getAccount(player));
+        Utils.PlayerData.get(player.getUniqueId()).getConfig().set("Balance", plugin.economyManager.getAccount(player));
         Utils.PlayerData.get(player.getUniqueId()).getConfig().set("Ip", player.getAddress().getHostString());
         Utils.PlayerData.get(player.getUniqueId()).getConfig().set("Group", "default");
         Utils.PlayerData.get(player.getUniqueId()).getConfig().set("Prefix", "");

@@ -12,10 +12,7 @@ import org.bukkit.entity.Player;
 
 public class cmd_Balance implements CommandExecutor {
 
-	private Main plugin;
-	public cmd_Balance(Main plugin) {
-		this.plugin = plugin;
-	}
+	private final Main plugin = Main.getInstance;
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("balance")) {
@@ -33,7 +30,7 @@ public class cmd_Balance implements CommandExecutor {
 							return true;
 						}
 						sender.sendMessage(Utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Other").replaceAll("%player%", target.getName()) +
-								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economy_essentialsZ.getBalance(target)));
+								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(target)));
 						return true;
 					}
 					Player player = (Player)sender;
@@ -41,13 +38,13 @@ public class cmd_Balance implements CommandExecutor {
 						if (player.hasPermission(Permissions.BalanceOther) || player.hasPermission(Permissions.GlobalOverwrite)) {
 							Player target = Bukkit.getPlayer(args[0]);
 							sender.sendMessage(Utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Other").replaceAll("%player%", target.getName()) +
-									plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economy_essentialsZ.getBalance(target)));
+									plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(target)));
 							return true;
 						}
 					}
 					if (player.hasPermission(Permissions.Balance) || player.hasPermission(Permissions.GlobalOverwrite)) {
 						sender.sendMessage(Utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Prefix") +
-								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economy_essentialsZ.getBalance(player)));
+								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(player)));
 					}
 				}
 			}

@@ -12,11 +12,7 @@ import org.bukkit.entity.Player;
 
 public class cmd_Economy implements CommandExecutor {
 
-    private Main plugin;
-
-    public cmd_Economy(Main plugin) {
-        this.plugin = plugin;
-    }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("economy")) {
@@ -33,7 +29,7 @@ public class cmd_Economy implements CommandExecutor {
                         player.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPlayerFound)));
                     }
                     if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("give")) {
-                        if (!plugin.economy_essentialsZ.hasAccount(target)) return true;
+                        if (!plugin.economyManager.hasAccount(target)) return true;
                         double amount;
                         try {
                             amount = Double.parseDouble(args[2]);
@@ -41,13 +37,13 @@ public class cmd_Economy implements CommandExecutor {
                             Utils.Message(player, Errors.getErrors(Errors.InvalidAmount));
                             return true;
                         }
-                        plugin.economy_essentialsZ.depositPlayer(target, amount);
+                        plugin.economyManager.AddAccount(target, amount);
                         player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
                                 + plugin.MessagesFile.getConfig().getString("Economy Add Message")
                                 .replaceAll("%player%", target.getName()).replaceAll("%amount%", amount+"")));
                         return true;
                     } else if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("take")) {
-                        if (!plugin.economy_essentialsZ.hasAccount(target)) return true;
+                        if (!plugin.economyManager.hasAccount(target)) return true;
                         double amount;
                         try {
                             amount = Double.parseDouble(args[2]);
@@ -55,13 +51,13 @@ public class cmd_Economy implements CommandExecutor {
                             Utils.Message(player, Errors.getErrors(Errors.InvalidAmount));
                             return true;
                         }
-                        plugin.economy_essentialsZ.withdrawPlayer(player, amount);
+                        plugin.economyManager.RemoveAccount(player, amount);
                         player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
                                 + plugin.MessagesFile.getConfig().getString("Economy Remove Message")
                                 .replaceAll("%player%", target.getName()).replaceAll("%amount%", amount+"")));
                         return true;
                     } else if (args[0].equalsIgnoreCase("set")) {
-                        if (!plugin.economy_essentialsZ.hasAccount(target)) return true;
+                        if (!plugin.economyManager.hasAccount(target)) return true;
                         double amount;
                         try {
                             amount = Double.parseDouble(args[2]);
@@ -69,16 +65,15 @@ public class cmd_Economy implements CommandExecutor {
                             Utils.Message(player, Errors.getErrors(Errors.InvalidAmount));
                             return true;
                         }
-                        plugin.economy_essentialsZ.withdrawPlayer(target, plugin.economy_essentialsZ.getBalance(target));
-                        plugin.economy_essentialsZ.depositPlayer(target, amount);
+                        plugin.economyManager.setAccount(target, amount);
                         player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
                                 + plugin.MessagesFile.getConfig().getString("Economy Set Message")
                                 .replaceAll("%player%", target.getName()).replaceAll("%amount%", amount+"")));
                         return true;
                     } else if (args[0].equalsIgnoreCase("reset")) {
-                        if (!plugin.economy_essentialsZ.hasAccount(target)) return true;
-                        plugin.economy_essentialsZ.withdrawPlayer(target, plugin.economy_essentialsZ.getBalance(target));
-                        plugin.economy_essentialsZ.depositPlayer(target, plugin.getConfig().getInt("Economy.Settings.Starting Balance"));
+                        if (!plugin.economyManager.hasAccount(target)) return true;
+                        plugin.economyManager.RemoveAccount(target, plugin.economyManager.getAccount(target));
+                        plugin.economyManager.AddAccount(target, plugin.getConfig().getInt("Economy.Settings.Starting Balance"));
                         player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
                                 + plugin.MessagesFile.getConfig().getString("Economy Reset Message"))
                                 .replaceAll("%player%", target.getName()));

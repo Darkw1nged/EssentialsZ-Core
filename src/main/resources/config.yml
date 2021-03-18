@@ -136,6 +136,10 @@ Chat:
     Staff chat:
       enabled: true
       Format: "&eStaff Chat > %player%:"
+    Message:
+      enabled: true
+      Format: "&eme &f>> &e%target%&f:"
+      Receive: "&e%player% &f>> &eme&f:"
     Auto Messages:
       enabled: true
 

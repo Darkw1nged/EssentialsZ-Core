@@ -1,6 +1,5 @@
 package me.darkwinged.Essentials.Utils.Lang;
 
-import me.darkwinged.Essentials.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
@@ -9,9 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 public class Utils implements Listener {
-
-    private static Main plugin;
-    public Utils(Main plugin) { Utils.plugin = plugin; }
 
     public static String chat(String s) {
         return ChatColor.translateAlternateColorCodes('&', s)
@@ -25,6 +21,7 @@ public class Utils implements Listener {
             exception.printStackTrace();
         }
     }
+
     // Lists
     public static boolean isChatMuted = false;
     public static List<UUID> staff_chat = new ArrayList<>();

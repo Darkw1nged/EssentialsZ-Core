@@ -34,7 +34,6 @@ Teleporting message: "&aYou will be teleported in %delay% seconds."
 Random Teleport message: "&aYou have been teleported to a random location."
 Back Death Message: "&aYou can teleport back to your previous location using. /back"
 Back Message: "&aYou have teleported to your previous location."
-
 Create Warp: "&aYou have successfully created warp: %warp%."
 Remove Warp: "&aYou have successfully removed warp: %warp%."
 Warp Message: "&aYou have teleported to %warp%"

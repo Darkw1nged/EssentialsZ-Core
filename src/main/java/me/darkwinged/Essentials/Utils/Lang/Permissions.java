@@ -48,11 +48,12 @@ public class Permissions {
     public static String ChatColor_italic = MainPermission + "ChatColor.Italic";
     public static String ChatColor_reset = MainPermission + "ChatColor.Reset";
 
-
     public static String StaffChat = MainPermission + "StaffChat";
     public static String ClearChat = MainPermission + "ClearChat";
     public static String Broadcast = MainPermission + "Broadcast";
     public static String MuteChat = MainPermission + "MuteChat";
+    public static String Message = MainPermission + "Message";
+    public static String Reply = MainPermission + "Reply";
 
     public static String Ping = MainPermission + "Ping";
     public static String PingOther = MainPermission + "Ping.Other";

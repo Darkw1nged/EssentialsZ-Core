@@ -53,18 +53,18 @@ import static org.bukkit.Material.getMaterial;
 public final class Main extends JavaPlugin implements Listener {
 
     public static Main getInstance;
-    public int Delay = getConfig().getInt("Teleportation_Delay");
-    public final EssentialsZSpawn essentialsZSpawn = (EssentialsZSpawn) Bukkit.getServer().getPluginManager().getPlugin("EssentialsZSpawn");
+    public EconomyManager economyManager;
     public ProtocolManager protocolManager;
     public Economy_EssentialsZ economy_essentialsZ;
     private VaultHook vaultHook;
-
     public EssentialsZAPI essentialsZAPI;
+    public EssentialsZSpawn essentialsZSpawn;
 
+    public int Delay = getConfig().getInt("Teleportation_Delay");
     public boolean Module_Economy = false;
 
     public CustomConfig MoneyPouchesFile = new CustomConfig(this, "Economy/Money Pouches");
-    public CustomConfig MessagesFile = new CustomConfig(this, "Chat/Messages");
+    public CustomConfig MessagesFile = new CustomConfig(this, "Messages");
     public CustomConfig BlockedCommandsFile = new CustomConfig(this, "Chat/Blocked Commands");
     public CustomConfig ChatFilterFile = new CustomConfig(this, "Chat/Chat Filter");
     public CustomConfig AutoMessagesFile = new CustomConfig(this, "Chat/Auto Messages");
@@ -73,27 +73,31 @@ public final class Main extends JavaPlugin implements Listener {
 
 
     public void onEnable() {
-        // Console Start Message
-        getServer().getConsoleSender().sendMessage(Utils.chat("&aEssentialsZ Core plugin has been enabled!"));
+        if (Bukkit.getPluginManager().getPlugin("EssentialsZAPI") == null) {
+            getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cDisabling plugin, No EssentialsZ API Found."));
+            getServer().getPluginManager().disablePlugin(this);
+        }
         getInstance = this;
 
         // Loading Files
         loadConfig();
         loadCustomFiles();
 
-        // Getting ProtocolLib, Teleport Utils, MetricsLite, PlaceholderAPI, Vault, EssentialsZ APi, Bungeecord
+        // Getting ProtocolLib, Teleport Utils, MetricsLite, PlaceholderAPI, Vault, EssentialsZ APi, Bungeecord, Adding EconomyManager
         TeleportUtils teleportUtils = new TeleportUtils(this);
         MetricsLite metricsLite = new MetricsLite(this, 9811);
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
+
         // Vault hook ================================================
+        economyManager = new EconomyManager();
         economy_essentialsZ = new Economy_EssentialsZ();
         vaultHook = new VaultHook();
         vaultHook.hook();
         //=============================================================
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new PlaceHolders(this).register();
+            new PlaceHolders().register();
         }
         if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
             this.protocolManager = ProtocolLibrary.getProtocolManager();
@@ -102,9 +106,6 @@ public final class Main extends JavaPlugin implements Listener {
         // Loading content to ArrayList(s)
         loadMoneyPouches();
         loadAutoMessages();
-
-        // Adding EconomyManager / loading Accounts
-        new EconomyManager(this);
         loadAccounts();
 
         // Registering Commands / Events / Loops
@@ -112,11 +113,12 @@ public final class Main extends JavaPlugin implements Listener {
         registerEvents();
         AutoMessage();
         vanishCheck();
+
+        // Console Start Message
+        getServer().getConsoleSender().sendMessage(Utils.chat("&aEssentialsZ Core plugin has been enabled!"));
     }
 
     public void onDisable() {
-        // Console Stop Message
-        getServer().getConsoleSender().sendMessage(Utils.chat("&cEssentialsZ Core plugin has been disabled!"));
         // Saving the accounts for all of the players
         saveAccounts();
         // Saving the accounts file
@@ -124,21 +126,38 @@ public final class Main extends JavaPlugin implements Listener {
 
         // Unhooking vault
         vaultHook.unhook();
+
+        // Console Stop Message
+        getServer().getConsoleSender().sendMessage(Utils.chat("&cEssentialsZ Core plugin has been disabled!"));
     }
+
+    /* Message Command
+
+      message:
+        aliases:
+          - pm
+          - msg
+          - dm
+          - to
+      reply:
+        aliases:
+          - r
+
+     */
 
     @SuppressWarnings("ConstantConditions")
     public void registerCommands() {
         getCommand("essentials").setExecutor(new cmd_Reload(this));
 
         // Economy
-        getCommand("balance").setExecutor(new cmd_Balance(this));
-        getCommand("pay").setExecutor(new cmd_Pay(this));
-        getCommand("withdraw").setExecutor(new cmd_Withdraw(this));
-        getCommand("economy").setExecutor(new cmd_Economy(this));
-        getCommand("pouches").setExecutor(new cmd_MoneyPouches(this));
-        getCommand("autosell").setExecutor(new cmd_Autosell(this));
-        getCommand("sellhand").setExecutor(new cmd_Sellhand(this));
-        getCommand("sell").setExecutor(new cmd_Sell(this));
+        getCommand("economy").setExecutor(new cmd_Economy());
+        getCommand("balance").setExecutor(new cmd_Balance());
+        getCommand("pay").setExecutor(new cmd_Pay());
+        getCommand("withdraw").setExecutor(new cmd_Withdraw());
+        //getCommand("pouches").setExecutor(new cmd_MoneyPouches(this));
+        //getCommand("autosell").setExecutor(new cmd_Autosell(this));
+        //getCommand("sellhand").setExecutor(new cmd_Sellhand(this));
+        //getCommand("sell").setExecutor(new cmd_Sell(this));
 
         // Chat
         getCommand("staffchat").setExecutor(new cmd_Staffchat(this));
@@ -147,8 +166,6 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("mutechat").setExecutor(new cmd_Mutechat(this));
         getCommand("motd").setExecutor(new cmd_MOTD(this));
         getCommand("sudo").setExecutor(new cmd_Sudo(this));
-        getCommand("message").setExecutor(new cmd_Message(this));
-        getCommand("reply").setExecutor(new cmd_Reply(this));
 
         // Teleportation
         getCommand("tp").setExecutor(new cmd_TP(this));
@@ -200,10 +217,10 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Color(this), this);
 
         // Economy Events
-        getServer().getPluginManager().registerEvents(new PlayerHeads(this), this);
-        getServer().getPluginManager().registerEvents(new AccountSetup(this), this);
-        getServer().getPluginManager().registerEvents(new BankNotes(this), this);
-        getServer().getPluginManager().registerEvents(new MoneyPouchesEvent(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerHeads(), this);
+        getServer().getPluginManager().registerEvents(new AccountSetup(), this);
+        getServer().getPluginManager().registerEvents(new BankNotes(), this);
+        getServer().getPluginManager().registerEvents(new MoneyPouchesEvent(), this);
 
         // SIGN EVENTS
         getServer().getPluginManager().registerEvents(new Sign_Balance(this), this);
@@ -222,20 +239,20 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new DoubleJump(this), this);
         getServer().getPluginManager().registerEvents(new cmd_Invsee(this), this);
         getServer().getPluginManager().registerEvents(new cmd_God(this), this);
-        getServer().getPluginManager().registerEvents(new Tablist(this), this);
+        getServer().getPluginManager().registerEvents(new Tablist(), this);
         getServer().getPluginManager().registerEvents(new WorldControl(this), this);
     }
 
     // Economy Account Manager
     public void saveAccounts() {
-        for (Map.Entry<UUID, Double> entry : EconomyManager.getAccountMap().entrySet()) {
+        for (Map.Entry<UUID, Double> entry : economyManager.getAccountMap().entrySet()) {
             AccountsFile.getConfig().set("Accounts." + entry.getKey(), entry.getValue());
         }
     }
     public void loadAccounts() {
         if (!AccountsFile.getConfig().contains("Accounts.")) return;
         for (String key : AccountsFile.getConfig().getConfigurationSection("Accounts.").getKeys(false)) {
-            EconomyManager.getAccountMap().put(UUID.fromString(key), AccountsFile.getConfig().getDouble("Accounts." + key));
+            economyManager.BankAccounts.put(UUID.fromString(key), AccountsFile.getConfig().getDouble("Accounts." + key));
         }
     }
 

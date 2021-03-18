@@ -22,11 +22,7 @@ import static java.lang.Math.round;
 
 public class PlayerHeads implements Listener {
 
-    private Main plugin;
-
-    public PlayerHeads(Main plugin) {
-        this.plugin = plugin;
-    }
+    private final Main plugin = Main.getInstance;
 
     @EventHandler
     public void PlayerHeadSell(PlayerInteractEvent event) {
@@ -40,27 +36,27 @@ public class PlayerHeads implements Listener {
                         String TargetName = player.getItemInHand().getItemMeta().getDisplayName();
                         Player target = Bukkit.getPlayer(TargetName);
                         // Player Account
-                        if (!EconomyManager.hasAccount(player)) {
+                        if (!plugin.economyManager.hasAccount(player)) {
                             return;
                         }
                         // Target Account
-                        if (!EconomyManager.hasAccount(target)) {
+                        if (!plugin.economyManager.hasAccount(target)) {
                             return;
                         }
 
                         // Getting the amount
                         double amount;
                         try {
-                            amount = round((EconomyManager.getAccount(target) / 100) * plugin.getConfig().getInt("Economy.Settings.Money Heads.Player Heads Sell " +
+                            amount = round((plugin.economyManager.getAccount(target) / 100) * plugin.getConfig().getInt("Economy.Settings.Money Heads.Player Heads Sell " +
                                     "Amount"));
                         } catch (Exception e) {
                             Utils.Message(player, Errors.getErrors(Errors.InvalidAmount));
                             return;
                         }
                         // Removing the amount from the senders balance
-                        EconomyManager.AddAccount(player, amount);
+                        plugin.economyManager.AddAccount(player, amount);
                         // Adding the amount to the target balance
-                        EconomyManager.RemoveAccount(target, amount);
+                        plugin.economyManager.RemoveAccount(target, amount);
                         player.setItemInHand(new ItemStack(Material.AIR));
                     }
                 }

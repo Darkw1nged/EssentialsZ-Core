@@ -40,15 +40,6 @@ commands:
   mutechat:
   motd:
   sudo:
-  message:
-    aliases:
-      - pm
-      - msg
-      - dm
-      - to
-  reply:
-    aliases:
-      - r
 
   tp:
   tphere:
