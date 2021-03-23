@@ -124,5 +124,5 @@ public class Permissions {
     public static String FeedOther = MainPermission + "Feed.Other";
     public static String Fly = MainPermission + "Fly";
     public static String FlyOther = MainPermission + "Fly.Other";
-
+    public static String Smite = MainPermission + "Smite";
 }

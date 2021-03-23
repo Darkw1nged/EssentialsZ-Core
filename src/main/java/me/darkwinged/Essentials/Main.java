@@ -175,7 +175,7 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("top").setExecutor(new cmd_Top(this));
         getCommand("back").setExecutor(new cmd_Back(this));
         getCommand("setwarp").setExecutor(new cmd_SetWarp(this));
-        getCommand("delwarp").setExecutor(new cmd_DelWarp(this));
+        getCommand("delwarp").setExecutor(new cmd_DelWarp(this));   
         getCommand("warp").setExecutor(new cmd_Warp(this));
         getCommand("warps").setExecutor(new cmd_Warps(this));
         getCommand("sethome").setExecutor(new cmd_SetHome(this));
@@ -184,14 +184,14 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("homes").setExecutor(new cmd_Homes(this));
 
         // World
-        getCommand("hat").setExecutor(new cmd_Hat(this));
-        getCommand("ping").setExecutor(new cmd_Ping(this));
+        getCommand("hat").setExecutor(new cmd_Hat());
+        getCommand("ping").setExecutor(new cmd_Ping());
         getCommand("gma").setExecutor(new cmd_AdventureMode(this));
         getCommand("gmc").setExecutor(new cmd_CreativeMode(this));
         getCommand("gms").setExecutor(new cmd_SurvivalMode(this));
         getCommand("gmsp").setExecutor(new cmd_SpectatorMode(this));
         getCommand("gamemode").setExecutor(new cmd_Gamemode(this));
-        getCommand("invsee").setExecutor(new cmd_Invsee(this));
+        getCommand("invsee").setExecutor(new cmd_Invsee());
         getCommand("vanish").setExecutor(new cmd_Vanish(this));
         getCommand("reward").setExecutor(new cmd_Reward(this));
         getCommand("repair").setExecutor(new cmd_Repair(this));
@@ -203,7 +203,8 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("god").setExecutor(new cmd_God(this));
         getCommand("heal").setExecutor(new cmd_Heal(this));
         getCommand("fly").setExecutor(new cmd_Fly(this));
-        getCommand("feed").setExecutor(new cmd_Feed(this));
+        getCommand("feed").setExecutor(new cmd_Feed());
+        getCommand("smite").setExecutor(new cmd_Smite());
 
     }
 
@@ -212,7 +213,7 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
 
         // Chat Events
-        getServer().getPluginManager().registerEvents(new ChatControl(this), this);
+        getServer().getPluginManager().registerEvents(new ChatControl(), this);
         getServer().getPluginManager().registerEvents(new JoinAndLeaveMessage(this), this);
         getServer().getPluginManager().registerEvents(new Color(this), this);
 
@@ -237,7 +238,6 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new NoPlaceBreakBlocks(this), this);
         getServer().getPluginManager().registerEvents(new ChangeMOTD(this), this);
         getServer().getPluginManager().registerEvents(new DoubleJump(this), this);
-        getServer().getPluginManager().registerEvents(new cmd_Invsee(this), this);
         getServer().getPluginManager().registerEvents(new cmd_God(this), this);
         getServer().getPluginManager().registerEvents(new Tablist(), this);
         getServer().getPluginManager().registerEvents(new WorldControl(this), this);

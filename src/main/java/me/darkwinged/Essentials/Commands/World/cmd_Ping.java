@@ -12,8 +12,7 @@ import org.bukkit.entity.Player;
 
 public class cmd_Ping implements CommandExecutor {
 
-    private Main plugin;
-    public cmd_Ping(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("ping")) {

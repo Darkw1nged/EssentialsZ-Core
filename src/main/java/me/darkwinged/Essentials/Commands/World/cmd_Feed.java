@@ -8,12 +8,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 
 public class cmd_Feed implements CommandExecutor {
 
-    private final Main plugin;
-    public cmd_Feed(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("feed")) {
@@ -66,6 +66,8 @@ public class cmd_Feed implements CommandExecutor {
                             plugin.MessagesFile.getConfig().getString("Feed Other").replaceAll("%player%", target.getName())));
                 } else
                     player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                ArmorStand armorStand = player.getWorld().spawn(player.getLocation(), ArmorStand.class);
+                armorStand.addPassenger(player);
             }
         }
         return false;

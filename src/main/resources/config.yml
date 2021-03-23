@@ -127,12 +127,6 @@ Chat:
       enabled: false
       MOTD: "&6Welcome to my server"
 
-    Chat Filter:
-      enabled: true
-    Anti Spam:
-      enabled: true
-    Blocked Commands:
-      enabled: true
     Staff chat:
       enabled: true
       Format: "&eStaff Chat > %player%:"
@@ -168,6 +162,10 @@ Chat:
     Events:
       Leave Message: true
       Chat Ping: true
+      Filter: true
+      Anti Spam: true
+      Blocked Commands: true
+      Show Item: true
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -210,15 +208,40 @@ Commands:
   Heal: true
   Fly: true
   Feed: true
+  # IMPLEMENT
+  TNT Fill: true
+  Daily: true
+  Smite: true
 
 World Events:
   One Player Sleep: false
   Double Jump: false
   Silent Join: false
+  # IMPLEMENT
+  Inventory Full:
+    enabled: false
+    alert: Actionbar # Actionbar or title
+  Custom Enderchests: false
 
 # When someone joins the server and you have `Spawn On Player Join: true` then you can enable this to spawn a firework too.
 Firework On Player Join: false # Default: false
 Spawn On Player Join: false # Default false
+
+Profiles:
+  enabled: false
+  GUI:
+    Background: true
+    Changeable Icons: true
+    Saves:
+      save-1:
+        material: OAK_LOG
+        name: "&aSave One"
+        lore:
+          - "&aHealth: %health%"
+          - "&aFood: %food%"
+          - "&aItem in Hand: %main_item%"
+          - "&aItem in Off Hand: %off_item%"
+  
 
 # Item Drop Holograms
 Item_Holograms: false # Default: false

@@ -12,8 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class cmd_Hat implements CommandExecutor {
 
-    private Main plugin;
-    public cmd_Hat(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("hat")) {
