@@ -1,7 +1,7 @@
 package me.darkwinged.Essentials.Events.Signs;
 
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -62,7 +62,7 @@ public class Sign_Warp implements Listener {
                 String line1 = sign.getLine(1);
                 if (line0.contains("[Warp]")) {
                     Player player = event.getPlayer();
-                    String warp = line1.toString();
+                    String warp = line1;
                     player.performCommand("warp" + warp);
                 }
             }

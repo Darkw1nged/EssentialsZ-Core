@@ -1,4 +1,4 @@
-package me.darkwinged.Essentials.Utils;
+package me.darkwinged.Essentials.Libaries;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.darkwinged.Essentials.Main;

@@ -13,9 +13,11 @@ public class AccountSetup implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
 			if (plugin.Module_Economy = false) return;
-			double StartingBal = plugin.getConfig().getInt("Starting_Balance");
+
 			if (plugin.economyManager.hasAccount(event.getPlayer())) return;
-				plugin.economyManager.createAccount(event.getPlayer(), StartingBal);
+			plugin.economyManager.createAccount(event.getPlayer(), plugin.getConfig().getDouble("Economy.Settings.Starting Balance"));
+
+
 		}
 	}
 

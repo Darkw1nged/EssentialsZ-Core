@@ -1,4 +1,4 @@
-package me.darkwinged.Essentials.Utils.Lang;
+package me.darkwinged.Essentials.Libaries.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -32,13 +32,15 @@ public class Utils implements Listener {
     public static Map<UUID, CustomConfig> PlayerData = new HashMap<>();
 
     // If players have something toggled
-    public static ArrayList<UUID> invisible_list = new ArrayList<>();
+    public static List<UUID> invisible_list = new ArrayList<>();
     public static List<UUID> Autosell_List = new ArrayList<>();
     public static List<UUID> GodMode_List = new ArrayList<>();
     public static List<UUID> Fly_List = new ArrayList<>();
-
-    // OLD CODE
-    public static HashMap<UUID, UUID> message_list = new HashMap<>();
+    public static List<UUID> Coords_List = new ArrayList<>();
+    public static Map<UUID, Integer> PT_Days = new HashMap<>();
+    public static Map<UUID, Integer> PT_Hours = new HashMap<>();
+    public static Map<UUID, Integer> PT_Minutes = new HashMap<>();
+    public static Map<UUID, Integer> PT_Seconds = new HashMap<>();
 
 
 }

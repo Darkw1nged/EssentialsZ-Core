@@ -1,8 +1,8 @@
 package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -19,7 +19,7 @@ public class cmd_Smite implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Commands.Smite", true)) {
                 if (sender.hasPermission(Permissions.Smite) || sender.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length < 1) {
-                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.SpecifyPlayer), null, null, null));
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.SpecifyPlayer), null, null, null, false));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[0]);
@@ -27,10 +27,10 @@ public class cmd_Smite implements CommandExecutor {
                     loc.getWorld().strikeLightning(loc);
                     loc.getWorld().createExplosion(loc, 2.0F);
                     sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                            plugin.MessagesFile.getConfig().getString("Smite"), null, target, null));
+                            plugin.MessagesFile.getConfig().getString("Smite"), null, target, null, false));
 
                 } else
-                    sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.NoPermission), null, null, null));
+                    sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.NoPermission), null, null, null, false));
             }
         }
         return false;

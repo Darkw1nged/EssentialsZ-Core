@@ -1,4 +1,4 @@
-package me.darkwinged.Essentials.Utils.EssentialsZEconomy;
+package me.darkwinged.Essentials.Libaries.EssentialsZEconomy;
 
 import org.bukkit.OfflinePlayer;
 

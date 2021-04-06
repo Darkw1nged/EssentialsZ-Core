@@ -1,8 +1,7 @@
 package me.darkwinged.Essentials.Events.Economy;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

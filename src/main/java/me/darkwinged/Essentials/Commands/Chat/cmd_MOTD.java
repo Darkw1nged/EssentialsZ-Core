@@ -1,9 +1,9 @@
 package me.darkwinged.Essentials.Commands.Chat;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 public class cmd_MOTD implements CommandExecutor {
 
-    private Main plugin;
+    private final Main plugin;
     public cmd_MOTD(Main plugin) { this.plugin = plugin; }
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {

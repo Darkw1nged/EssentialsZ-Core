@@ -1,9 +1,9 @@
 package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,7 +17,7 @@ public class cmd_Feed implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("feed")) {
-            if (plugin.getConfig().getBoolean("cmd_Feed", true)) {
+            if (plugin.getConfig().getBoolean("Commands.Feed", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length != 1) {
                         sender.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));

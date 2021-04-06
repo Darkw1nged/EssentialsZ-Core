@@ -1,9 +1,9 @@
 package me.darkwinged.Essentials.Commands.Teleport.Staff;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 
 public class cmd_TP implements CommandExecutor {
 
-    private Main plugin;
+    private final Main plugin;
     public cmd_TP(Main plugin) { this.plugin = plugin; }
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {

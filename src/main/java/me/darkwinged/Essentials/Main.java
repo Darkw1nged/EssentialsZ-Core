@@ -3,7 +3,10 @@ package me.darkwinged.Essentials;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import me.darkwinged.Essentials.Commands.Chat.*;
-import me.darkwinged.Essentials.Commands.Economy.*;
+import me.darkwinged.Essentials.Commands.Economy.cmd_Balance;
+import me.darkwinged.Essentials.Commands.Economy.cmd_Economy;
+import me.darkwinged.Essentials.Commands.Economy.cmd_Pay;
+import me.darkwinged.Essentials.Commands.Economy.cmd_Withdraw;
 import me.darkwinged.Essentials.Commands.Teleport.Staff.*;
 import me.darkwinged.Essentials.Commands.Teleport.*;
 import me.darkwinged.Essentials.Commands.World.Gamemodes.*;
@@ -11,42 +14,43 @@ import me.darkwinged.Essentials.Commands.World.*;
 import me.darkwinged.Essentials.Commands.cmd_Reload;
 import me.darkwinged.Essentials.Events.Chat.ChatControl;
 import me.darkwinged.Essentials.Events.Chat.Color;
+import me.darkwinged.Essentials.Events.Chat.Displayname;
 import me.darkwinged.Essentials.Events.Chat.JoinAndLeaveMessage;
 import me.darkwinged.Essentials.Events.Economy.AccountSetup;
 import me.darkwinged.Essentials.Events.Economy.BankNotes;
 import me.darkwinged.Essentials.Events.Economy.MoneyPouchesEvent;
 import me.darkwinged.Essentials.Events.Economy.PlayerHeads;
+import me.darkwinged.Essentials.Events.PlayerData;
 import me.darkwinged.Essentials.Events.Signs.Sign_Balance;
 import me.darkwinged.Essentials.Events.Signs.Sign_Gamemode;
+import me.darkwinged.Essentials.Events.Signs.Sign_Up;
 import me.darkwinged.Essentials.Events.Teleport.Back;
 import me.darkwinged.Essentials.Events.Teleport.NoVoid;
 import me.darkwinged.Essentials.Events.Teleport.OnRespawn;
 import me.darkwinged.Essentials.Events.Teleport.SpawnOnJoin;
 import me.darkwinged.Essentials.Events.World.*;
-import me.darkwinged.Essentials.Utils.EssentialsZEconomy.EconomyManager;
-import me.darkwinged.Essentials.Utils.EssentialsZEconomy.Economy_EssentialsZ;
-import me.darkwinged.Essentials.Utils.EssentialsZEconomy.VaultHook;
-import me.darkwinged.Essentials.Utils.Lang.CustomConfig;
-import me.darkwinged.Essentials.Utils.Lang.MetricsLite;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
-import me.darkwinged.Essentials.Utils.PlaceHolders;
-import me.darkwinged.Essentials.Utils.TeleportUtils;
+import me.darkwinged.Essentials.Libaries.EssentialsZEconomy.EconomyManager;
+import me.darkwinged.Essentials.Libaries.EssentialsZEconomy.Economy_EssentialsZ;
+import me.darkwinged.Essentials.Libaries.Lang.CustomConfig;
+import me.darkwinged.Essentials.Libaries.Lang.MetricsLite;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.PlaceHolders;
+import me.darkwinged.Essentials.Libaries.TeleportUtils;
+import me.darkwinged.Essentials.Libaries.VaultHook;
 import me.darkwinged.EssentialsZ.EssentialsZAPI;
-import me.darkwinged.EssentialsZSpawn.EssentialsZSpawn;
+import me.darkwinged.EssentialsZ.EssentialsZSpawn;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.*;
 
 import static org.bukkit.Material.getMaterial;
 
@@ -56,21 +60,22 @@ public final class Main extends JavaPlugin implements Listener {
     public EconomyManager economyManager;
     public ProtocolManager protocolManager;
     public Economy_EssentialsZ economy_essentialsZ;
-    private VaultHook vaultHook;
-    public EssentialsZAPI essentialsZAPI;
-    public EssentialsZSpawn essentialsZSpawn;
+    public EssentialsZAPI essentialsZAPI = (EssentialsZAPI) Bukkit.getServer().getPluginManager().getPlugin("EssentialsZAPI");
+    public EssentialsZSpawn essentialsZSpawn = (EssentialsZSpawn) Bukkit.getServer().getPluginManager().getPlugin("EssentialsZSpawn");
 
     public int Delay = getConfig().getInt("Teleportation_Delay");
     public boolean Module_Economy = false;
 
-    public CustomConfig MoneyPouchesFile = new CustomConfig(this, "Economy/Money Pouches");
-    public CustomConfig MessagesFile = new CustomConfig(this, "Messages");
-    public CustomConfig BlockedCommandsFile = new CustomConfig(this, "Chat/Blocked Commands");
-    public CustomConfig ChatFilterFile = new CustomConfig(this, "Chat/Chat Filter");
-    public CustomConfig AutoMessagesFile = new CustomConfig(this, "Chat/Auto Messages");
-    public CustomConfig AccountsFile = new CustomConfig(this, "Economy/Accounts");
-    public CustomConfig WorthFile = new CustomConfig(this, "Economy/Worth");
+    private VaultHook vaultHook;
+    private static Chat chat = null;
 
+    public CustomConfig MoneyPouchesFile = new CustomConfig(this, "Economy/Money Pouches", true);
+    public CustomConfig MessagesFile = new CustomConfig(this, "Messages", true);
+    public CustomConfig BlockedCommandsFile = new CustomConfig(this, "Chat/Blocked Commands", true);
+    public CustomConfig ChatFilterFile = new CustomConfig(this, "Chat/Chat Filter", true);
+    public CustomConfig AutoMessagesFile = new CustomConfig(this, "Chat/Auto Messages", true);
+    public CustomConfig WorthFile = new CustomConfig(this, "Economy/Worth", true);
+    public CustomConfig CouponsFile = new CustomConfig(this, "Coupons", true);
 
     public void onEnable() {
         if (Bukkit.getPluginManager().getPlugin("EssentialsZAPI") == null) {
@@ -88,10 +93,11 @@ public final class Main extends JavaPlugin implements Listener {
         MetricsLite metricsLite = new MetricsLite(this, 9811);
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
-
         // Vault hook ================================================
         economyManager = new EconomyManager();
         economy_essentialsZ = new Economy_EssentialsZ();
+
+        setupChat();
         vaultHook = new VaultHook();
         vaultHook.hook();
         //=============================================================
@@ -103,10 +109,8 @@ public final class Main extends JavaPlugin implements Listener {
             this.protocolManager = ProtocolLibrary.getProtocolManager();
         }
 
-        // Loading content to ArrayList(s)
-        loadMoneyPouches();
+        //loadMoneyPouches();
         loadAutoMessages();
-        loadAccounts();
 
         // Registering Commands / Events / Loops
         registerCommands();
@@ -115,35 +119,16 @@ public final class Main extends JavaPlugin implements Listener {
         vanishCheck();
 
         // Console Start Message
-        getServer().getConsoleSender().sendMessage(Utils.chat("&aEssentialsZ Core plugin has been enabled!"));
+        getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&aEssentialsZ Core plugin has been enabled!"));
     }
 
     public void onDisable() {
-        // Saving the accounts for all of the players
-        saveAccounts();
-        // Saving the accounts file
-        AccountsFile.saveConfig();
-
         // Unhooking vault
         vaultHook.unhook();
 
         // Console Stop Message
-        getServer().getConsoleSender().sendMessage(Utils.chat("&cEssentialsZ Core plugin has been disabled!"));
+        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&cEssentialsZ Core plugin has been disabled!", null, null, null, false));
     }
-
-    /* Message Command
-
-      message:
-        aliases:
-          - pm
-          - msg
-          - dm
-          - to
-      reply:
-        aliases:
-          - r
-
-     */
 
     @SuppressWarnings("ConstantConditions")
     public void registerCommands() {
@@ -174,14 +159,14 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("rtp").setExecutor(new cmd_RandomTeleport(this));
         getCommand("top").setExecutor(new cmd_Top(this));
         getCommand("back").setExecutor(new cmd_Back(this));
-        getCommand("setwarp").setExecutor(new cmd_SetWarp(this));
-        getCommand("delwarp").setExecutor(new cmd_DelWarp(this));   
-        getCommand("warp").setExecutor(new cmd_Warp(this));
-        getCommand("warps").setExecutor(new cmd_Warps(this));
-        getCommand("sethome").setExecutor(new cmd_SetHome(this));
-        getCommand("delhome").setExecutor(new cmd_DelHome(this));
-        getCommand("home").setExecutor(new cmd_Home(this));
-        getCommand("homes").setExecutor(new cmd_Homes(this));
+        getCommand("setwarp").setExecutor(new cmd_SetWarp());
+        getCommand("delwarp").setExecutor(new cmd_DelWarp(this));
+        getCommand("warp").setExecutor(new cmd_Warp());
+        getCommand("warps").setExecutor(new cmd_Warps());
+        getCommand("sethome").setExecutor(new cmd_SetHome());
+        getCommand("delhome").setExecutor(new cmd_DelHome());
+        getCommand("home").setExecutor(new cmd_Home());
+        getCommand("homes").setExecutor(new cmd_Homes());
 
         // World
         getCommand("hat").setExecutor(new cmd_Hat());
@@ -192,19 +177,20 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("gmsp").setExecutor(new cmd_SpectatorMode(this));
         getCommand("gamemode").setExecutor(new cmd_Gamemode(this));
         getCommand("invsee").setExecutor(new cmd_Invsee());
-        getCommand("vanish").setExecutor(new cmd_Vanish(this));
-        getCommand("reward").setExecutor(new cmd_Reward(this));
-        getCommand("repair").setExecutor(new cmd_Repair(this));
-        getCommand("world").setExecutor(new cmd_WorldGenerator(this));
-        getCommand("enderchest").setExecutor(new cmd_Enderchest(this));
-        getCommand("disposal").setExecutor(new cmd_Disposal(this));
-        getCommand("craft").setExecutor(new cmd_Craft(this));
-        getCommand("kill").setExecutor(new cmd_Kill(this));
-        getCommand("god").setExecutor(new cmd_God(this));
-        getCommand("heal").setExecutor(new cmd_Heal(this));
-        getCommand("fly").setExecutor(new cmd_Fly(this));
+        getCommand("vanish").setExecutor(new cmd_Vanish());
+        getCommand("repair").setExecutor(new cmd_Repair());
+        getCommand("world").setExecutor(new cmd_CreateWorld());
+        getCommand("delworld").setExecutor(new cmd_DelWorld());
+        getCommand("enderchest").setExecutor(new cmd_Enderchest());
+        getCommand("disposal").setExecutor(new cmd_Disposal());
+        getCommand("craft").setExecutor(new cmd_Craft());
+        getCommand("kill").setExecutor(new cmd_Kill());
+        getCommand("god").setExecutor(new cmd_God());
+        getCommand("heal").setExecutor(new cmd_Heal());
+        getCommand("fly").setExecutor(new cmd_Fly());
         getCommand("feed").setExecutor(new cmd_Feed());
         getCommand("smite").setExecutor(new cmd_Smite());
+        getCommand("filltnt").setExecutor(new cmd_TNTFill());
 
     }
 
@@ -214,8 +200,9 @@ public final class Main extends JavaPlugin implements Listener {
 
         // Chat Events
         getServer().getPluginManager().registerEvents(new ChatControl(), this);
-        getServer().getPluginManager().registerEvents(new JoinAndLeaveMessage(this), this);
-        getServer().getPluginManager().registerEvents(new Color(this), this);
+        getServer().getPluginManager().registerEvents(new JoinAndLeaveMessage(), this);
+        getServer().getPluginManager().registerEvents(new Color(), this);
+        getServer().getPluginManager().registerEvents(new Displayname(), this);
 
         // Economy Events
         getServer().getPluginManager().registerEvents(new PlayerHeads(), this);
@@ -224,36 +211,29 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new MoneyPouchesEvent(), this);
 
         // SIGN EVENTS
-        getServer().getPluginManager().registerEvents(new Sign_Balance(this), this);
-        getServer().getPluginManager().registerEvents(new Sign_Gamemode(this), this);
+        getServer().getPluginManager().registerEvents(new Sign_Balance(), this);
+        getServer().getPluginManager().registerEvents(new Sign_Gamemode(), this);
+        getServer().getPluginManager().registerEvents(new Sign_Up(), this);
 
         // TELEPORTATION EVENTS
-        getServer().getPluginManager().registerEvents(new NoVoid(this), this);
-        getServer().getPluginManager().registerEvents(new OnRespawn(this), this);
-        getServer().getPluginManager().registerEvents(new SpawnOnJoin(this), this);
-        getServer().getPluginManager().registerEvents(new Back(this), this);
+        getServer().getPluginManager().registerEvents(new NoVoid(), this);
+        getServer().getPluginManager().registerEvents(new OnRespawn(), this);
+        getServer().getPluginManager().registerEvents(new SpawnOnJoin(), this);
+        getServer().getPluginManager().registerEvents(new Back(), this);
 
         // WORLD EVENTS
-        getServer().getPluginManager().registerEvents(new NoItemDropAndPickup(this), this);
-        getServer().getPluginManager().registerEvents(new NoPlaceBreakBlocks(this), this);
-        getServer().getPluginManager().registerEvents(new ChangeMOTD(this), this);
-        getServer().getPluginManager().registerEvents(new DoubleJump(this), this);
-        getServer().getPluginManager().registerEvents(new cmd_God(this), this);
+        getServer().getPluginManager().registerEvents(new NoItemDropAndPickup(), this);
+        getServer().getPluginManager().registerEvents(new NoPlaceBreakBlocks(), this);
+        getServer().getPluginManager().registerEvents(new ChangeMOTD(), this);
+        getServer().getPluginManager().registerEvents(new DoubleJump(), this);
+        getServer().getPluginManager().registerEvents(new cmd_God(), this);
         getServer().getPluginManager().registerEvents(new Tablist(), this);
-        getServer().getPluginManager().registerEvents(new WorldControl(this), this);
-    }
+        getServer().getPluginManager().registerEvents(new WorldControl(), this);
+        getServer().getPluginManager().registerEvents(new Rider(), this);
+        getServer().getPluginManager().registerEvents(new ActionBarCoords(), this);
+        getServer().getPluginManager().registerEvents(new Playtime(), this);
 
-    // Economy Account Manager
-    public void saveAccounts() {
-        for (Map.Entry<UUID, Double> entry : economyManager.getAccountMap().entrySet()) {
-            AccountsFile.getConfig().set("Accounts." + entry.getKey(), entry.getValue());
-        }
-    }
-    public void loadAccounts() {
-        if (!AccountsFile.getConfig().contains("Accounts.")) return;
-        for (String key : AccountsFile.getConfig().getConfigurationSection("Accounts.").getKeys(false)) {
-            economyManager.BankAccounts.put(UUID.fromString(key), AccountsFile.getConfig().getDouble("Accounts." + key));
-        }
+        getServer().getPluginManager().registerEvents(new PlayerData(), this);
     }
 
     // Loading the config and custom files to the server
@@ -265,9 +245,11 @@ public final class Main extends JavaPlugin implements Listener {
         saveDefaultConfig();
         cfile = new File(getDataFolder(), "config.yml");
     }
+
     public void loadCustomFiles() {
+        CouponsFile.saveDefaultConfig();
+
         // Economy
-        AccountsFile.saveDefaultConfig();
         MoneyPouchesFile.saveDefaultConfig();
         WorthFile.saveDefaultConfig();
 
@@ -279,20 +261,13 @@ public final class Main extends JavaPlugin implements Listener {
     }
 
     // Getting money pouches
-    public List<String> getConvertedLore(String path) {
-        List<String> oldList = MoneyPouchesFile.getConfig().getStringList(path + ".lore");
-        List<String> newList = new ArrayList<>();
-        for (String a : oldList)
-            newList.add(ChatColor.translateAlternateColorCodes('&', a));
-        return newList;
-    }
     public void loadMoneyPouches() {
         if (!MoneyPouchesFile.getConfig().contains("Tiers.")) return;
         for (String key : MoneyPouchesFile.getConfig().getConfigurationSection("Tiers.").getKeys(false)) {
             ItemStack item = new ItemStack(getMaterial(MoneyPouchesFile.getConfig().getString("Tiers." + key + ".material")));
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(Utils.chat(MoneyPouchesFile.getConfig().getString("Tiers." + key + ".name")));
-            meta.setLore(getConvertedLore("Tiers." + key));
+            meta.setDisplayName(essentialsZAPI.utils.chat(MoneyPouchesFile.getConfig().getString("Tiers." + key + ".name"), null, null, null, false));
+            meta.setLore(essentialsZAPI.utils.getConvertedLore(MoneyPouchesFile.getConfig(), "Tiers."+key));
             item.setItemMeta(meta);
 
             Utils.MoneyPouches_max.put(item.getItemMeta().getDisplayName(), MoneyPouchesFile.getConfig().getInt("Tiers." + key + ".max"));
@@ -309,77 +284,19 @@ public final class Main extends JavaPlugin implements Listener {
     public void AutoMessage() {
         if (getConfig().getBoolean("Chat.enabled", false)) return;
         if (getConfig().getBoolean("Chat.Auto Messages.enabled", true)) {
-            for (Iterator<String> iterator = AutoMessagesFile.getConfig().getConfigurationSection("Messages").getKeys(false).iterator(); iterator.hasNext(); ) {
-                String key = iterator.next();
+            for (String key : AutoMessagesFile.getConfig().getConfigurationSection("Messages").getKeys(false)) {
                 String message = AutoMessagesFile.getConfig().getString("Messages." + key + ".content").replaceAll("%n", "\n");
-                long interval = AutoMessagesFile.getConfig().getInt("Messages." + key + ".interval") * 60;
+                long interval = (long) AutoMessagesFile.getConfig().getInt("Messages." + key + ".interval") * 60;
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
                     public void run() {
-                        Bukkit.broadcastMessage(Utils.chat(message));
+                        Bukkit.broadcastMessage(essentialsZAPI.utils.chat(message, null, null, null, false));
                     }
                 }, 20L * interval, 20L * interval);
             }
         }
     }
 
-    // File creation =====================================================================================
-    // Warps File
-    public FileConfiguration warps;
-    public File warpsfile;
-
-    public void LoadWarpsFile() {
-        warpsfile = new File(getDataFolder(), "World/Warps.yml");
-        warps = YamlConfiguration.loadConfiguration(warpsfile);
-        saveWarps();
-    }
-
-    public void saveWarps() {
-        try {
-            warps.save(warpsfile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public File getWarpsfile() {
-        return warpsfile;
-    }
-
-    public FileConfiguration getWarps() {
-        return warps;
-    }
-
-    // Homes file
-    public FileConfiguration homes;
-    public File homesfile;
-
-    @EventHandler
-    public void homes(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        homesfile = new File(getDataFolder(), "Homes.yml");
-        homes = YamlConfiguration.loadConfiguration(homesfile);
-        if (!homes.contains("Homes.Owner's Name " + player.getName())) {
-            homes.set("Homes.Owner's Name " + player.getName(), "");
-            saveHomes();
-        }
-    }
-
-    public void saveHomes() {
-        try {
-            homes.save(homesfile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public File getHomesFile() {
-        return homesfile;
-    }
-
-    public FileConfiguration getHomes() {
-        return homes;
-    }
-
+    // Checking if player is in vanish and alerting.
     public void vanishCheck() {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
@@ -392,4 +309,13 @@ public final class Main extends JavaPlugin implements Listener {
         }, 0L, 20L);
     }
 
+    private boolean setupChat() {
+        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+        chat = rsp.getProvider();
+        return chat != null;
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
 }

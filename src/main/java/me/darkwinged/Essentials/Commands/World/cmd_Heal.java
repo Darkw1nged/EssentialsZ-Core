@@ -1,9 +1,9 @@
 package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -14,18 +14,14 @@ import org.bukkit.potion.PotionEffectType;
 
 public class cmd_Heal implements CommandExecutor {
 
-    private Main plugin;
-
-    public cmd_Heal(Main plugin) {
-        this.plugin = plugin;
-    }
+    private final Main plugin = Main.getInstance;
 
     private final GameMode creative = GameMode.CREATIVE;
     private final GameMode spectator = GameMode.SPECTATOR;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("heal")) {
-            if (plugin.getConfig().getBoolean("cmd_Heal", true)) {
+            if (plugin.getConfig().getBoolean("Commands.Heal", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length == 1) {
                         Player target = Bukkit.getPlayer(args[0]);

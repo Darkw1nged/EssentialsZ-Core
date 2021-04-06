@@ -1,10 +1,10 @@
 package me.darkwinged.Essentials.Commands.Teleport;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.TeleportUtils;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.TeleportUtils;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,11 +17,11 @@ import java.util.UUID;
 
 public class cmd_RandomTeleport implements CommandExecutor {
 
-    private Main plugin;
+    private final Main plugin;
     public cmd_RandomTeleport(Main plugin) { this.plugin = plugin; }
 
-    private HashMap<UUID, Integer> RandomTeleportDelay = new HashMap<>();
-    private HashMap<UUID, Integer> Cooldown = new HashMap<>();
+    private final HashMap<UUID, Integer> RandomTeleportDelay = new HashMap<>();
+    private final HashMap<UUID, Integer> Cooldown = new HashMap<>();
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("rtp")) {

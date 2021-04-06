@@ -4,7 +4,7 @@
   <groupId>me.darkwinged.EssentialsZ</groupId>
   <artifactId>EssentialsZ</artifactId>
   <name>EssentialsZ</name>
-  <version>1.4</version>
+  <version>1.5</version>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>
@@ -43,10 +43,14 @@
                   <exclude>org.hamcrest:hamcrest-core</exclude>
                   <exclude>net.md-5:bungeecord-chat</exclude>
                   <exclude>commons-lang:commons-lang</exclude>
-                  <exclude>com.google.code</exclude>
+                  <exclude>com.google.code.gson:gson:jar:2.8.0</exclude>
                   <exclude>com.google.guava</exclude>
                   <exclude>net.bytebuddy:byte-buddy</exclude>
                   <exclude>org.yaml:snakeyaml</exclude>
+                  <exclude>org.bukkit:bukkit</exclude>
+                  <exclude>com.googlecode.json-simple:json-simple:jar:1.1.1</exclude>
+                  <exclude>junit</exclude>
+                  <exclude>com.googlecode.json-simple</exclude>
                 </excludes>
               </artifactSet>
             </configuration>
@@ -87,40 +91,34 @@
     <dependency>
       <groupId>com.comphenix.protocol</groupId>
       <artifactId>ProtocolLib</artifactId>
-      <version>4.6.0</version>
+      <version>LATEST</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.github.MilkBowl</groupId>
       <artifactId>VaultAPI</artifactId>
-      <version>1.7</version>
-      <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>bukkit</artifactId>
-          <groupId>org.bukkit</groupId>
-        </exclusion>
-      </exclusions>
+      <version>LATEST</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>me.clip</groupId>
       <artifactId>placeholderapi</artifactId>
-      <version>2.9.2</version>
-      <scope>provided</scope>
+      <version>LATEST</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.darkwinged</groupId>
-      <artifactId>darkwinged</artifactId>
-      <version>1.0</version>
+      <artifactId>darkwingedSpawn</artifactId>
+      <version>1.1</version>
       <scope>system</scope>
-      <systemPath>D:/EssentialsZ Project/EssentialsZ Spawn/target/EssentialsZSpawn-1.0.jar</systemPath>
+      <systemPath>D:/EssentialsZ Project/EssentialsZ Spawn/target/EssentialsZSpawn-1.1.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.darkwinged</groupId>
       <artifactId>darkwingedAPI</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
       <scope>system</scope>
-      <systemPath>D:/EssentialsZ Project/EssentialsZ API/target/EssentialsZAPI-1.0.jar</systemPath>
+      <systemPath>D:/EssentialsZ Project/EssentialsZ API/target/EssentialsZAPI-1.1.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

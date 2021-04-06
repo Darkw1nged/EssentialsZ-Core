@@ -1,5 +1,5 @@
 name: EssentialsZ
-version: 1.4
+version: 1.5
 api-version: 1.13
 main: me.darkwinged.Essentials.Main
 authors: [darkwinged, Yovez]
@@ -80,6 +80,7 @@ commands:
       - daily
   repair:
   world:
+  delworld:
   enderchest:
     aliases:
       - ec
@@ -95,3 +96,4 @@ commands:
   fly:
   feed:
   smite:
+  filltnt:

@@ -1,14 +1,13 @@
 package me.darkwinged.Essentials.Events.Chat;
 
 import com.google.gson.Gson;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -106,10 +105,10 @@ public class ChatControl implements Listener {
         if (plugin.getConfig().getBoolean("Chat", true)) {
             if (plugin.getConfig().getBoolean("Chat.Settings.Events.Chat Ping", true)) {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    if (event.getMessage().contains(player.getName())) {
+                    if (event.getMessage().contains("@"+player.getName())) {
                         if (player == event.getPlayer())
                             return;
-                        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 3.0F, 0.5F);
+                        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.2F, 0.5F);
                     }
                 }
             }
@@ -120,7 +119,7 @@ public class ChatControl implements Listener {
     @EventHandler
     public void showItem(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        String message = event.getMessage();
+        TextComponent message = new TextComponent(event.getMessage());
         if (plugin.getConfig().getBoolean("Chat.Settings.Events.Show Item", true)) {
             if (!player.getInventory().getItemInMainHand().hasItemMeta()) return;
             ItemStack itemStack = player.getInventory().getItemInMainHand();

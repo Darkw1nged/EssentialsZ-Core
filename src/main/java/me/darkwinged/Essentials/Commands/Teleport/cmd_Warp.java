@@ -1,16 +1,15 @@
 package me.darkwinged.Essentials.Commands.Teleport;
 
+import me.darkwinged.Essentials.Libaries.Lang.CustomConfig;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -19,64 +18,62 @@ import java.util.UUID;
 
 public class cmd_Warp implements CommandExecutor {
 
-    private Main plugin;
-    public cmd_Warp(Main plugin) { this.plugin = plugin; }
-    private HashMap<UUID, Integer> TeleportDelay = new HashMap<>();
+    private final Main plugin = Main.getInstance;
+    private final HashMap<UUID, Integer> TeleportDelay = new HashMap<>();
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("warp")) {
-            if (plugin.getConfig().getBoolean("Teleportation", true)) {
-                if (plugin.getConfig().getBoolean("cmd_Warp", true)) {
+            if (plugin.getConfig().getBoolean("Teleportation.enabled", true)) {
+                if (plugin.getConfig().getBoolean("Teleportation.Settings.Warps.enabled", true)) {
                     if (!(sender instanceof Player)) {
-                        Utils.Message(sender, Errors.getErrors(Errors.Console));
+                        sender.sendMessage(Errors.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player) sender;
                     if (args.length == 1) {
-                        if (!plugin.getWarps().contains("Warps." + args[0])) {
-                            Utils.Message(sender, Errors.getErrors(Errors.WarpDoesNotExist));
-                            return true;
-                        }
-                        if (player.hasPermission(Permissions.WarpsOverwrite) || player.hasPermission(Permissions.Warp + args[0]) || player.hasPermission(Permissions.GlobalOverwrite)) {
+                        String WarpName = args[0];
+                        if (player.hasPermission(Permissions.Warp + args[0]) || player.hasPermission(Permissions.WarpsOverwrite) || player.hasPermission(Permissions.GlobalOverwrite)) {
+                            CustomConfig WarpFile = new CustomConfig(plugin, WarpName, "Warps");
+                            if (!WarpFile.getCustomConfigFile().exists()) {
+                                sender.sendMessage(Errors.getErrors(Errors.WarpDoesNotExist));
+                                return true;
+                            }
                             if (player.hasPermission(Permissions.TeleportBypass) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                                FileConfiguration warp = plugin.getWarps();
-                                World world = Bukkit.getWorld(warp.getString("Warps." + args[0] + ".world"));
-                                double x = warp.getDouble("Warps." + args[0] + ".x");
-                                double y = warp.getDouble("Warps." + args[0] + ".y");
-                                double z = warp.getDouble("Warps." + args[0] + ".z");
-                                float yaw = (float) warp.getDouble("Warps." + args[0] + ".yaw");
-                                float pitch = (float) warp.getDouble("Warps." + args[0] + ".pitch");
+                                World world = Bukkit.getWorld(WarpFile.getConfig().getString("world"));
+                                double x = WarpFile.getConfig().getDouble("x");
+                                double y = WarpFile.getConfig().getDouble("y");
+                                double z = WarpFile.getConfig().getDouble("z");
+                                float pitch = (float)  WarpFile.getConfig().getDouble("pitch");
+                                float yaw = (float)  WarpFile.getConfig().getDouble("yaw");
                                 Location loc = new Location(world, x, y, z, yaw, pitch);
                                 player.teleport(loc);
 
-                                String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Warp Message")
-                                        .replaceAll("%warp%", args[0]));
-                                player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
+                                player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                        plugin.MessagesFile.getConfig().getString("Warp Message").replaceAll("%warp%", WarpName),
+                                        player, player, null, false));
                                 return true;
                             }
-                            player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Teleporting message")
-                                    .replaceAll("%delay%", ""+plugin.Delay)));
+                            player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                            plugin.MessagesFile.getConfig().getString("Teleporting message").replaceAll("%%delay%%", ""+plugin.Delay),
+                                    player, player, null, false));
                             TeleportDelay.put(player.getUniqueId(), plugin.Delay);
-
-                            // Counting down from delay that is set in config.
                             new BukkitRunnable() {
                                 public void run() {
                                     if (!TeleportDelay.containsKey(player.getUniqueId())) return;
                                     if (TeleportDelay.get(player.getUniqueId()) <= 0) {
                                         // Sending the player to spawn.
-                                        FileConfiguration warp = plugin.getWarps();
-                                        World world = Bukkit.getWorld(warp.getString("Warps." + args[0] + ".world"));
-                                        double x = warp.getDouble("Warps." + args[0] + ".x");
-                                        double y = warp.getDouble("Warps." + args[0] + ".y");
-                                        double z = warp.getDouble("Warps." + args[0] + ".z");
-                                        float yaw = (float) warp.getDouble("Warps." + args[0] + ".yaw");
-                                        float pitch = (float) warp.getDouble("Warps." + args[0] + ".pitch");
+                                        World world = Bukkit.getWorld(WarpFile.getConfig().getString("world"));
+                                        double x = WarpFile.getConfig().getDouble("x");
+                                        double y = WarpFile.getConfig().getDouble("y");
+                                        double z = WarpFile.getConfig().getDouble("z");
+                                        float pitch = (float)  WarpFile.getConfig().getDouble("pitch");
+                                        float yaw = (float)  WarpFile.getConfig().getDouble("yaw");
                                         Location loc = new Location(world, x, y, z, yaw, pitch);
                                         player.teleport(loc);
 
-                                        String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Warp Message")
-                                                .replaceAll("%warp%", args[0]));
-                                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
+                                        player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                                        plugin.MessagesFile.getConfig().getString("Warp Message").replaceAll("%warp%", WarpName),
+                                                player, player, null, false));
 
                                         // Removing the player from the delay and resetting it
                                         TeleportDelay.remove(player.getUniqueId());
@@ -87,34 +84,39 @@ public class cmd_Warp implements CommandExecutor {
                                     TeleportDelay.put(player.getUniqueId(), TeleportDelay.get(player.getUniqueId()) - 1);
                                 }
                             }.runTaskTimer(plugin, 0L, 20L);
-                        } else {
-                            Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                        }
+
+                        } else
+                            player.sendMessage(Errors.getErrors(Errors.NoPermission));
                     } else {
                         if (args.length != 2) {
-                            Utils.Message(sender, Errors.getErrors(Errors.NoWarpNameProvided));
-                            Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
+                            player.sendMessage(Errors.getErrors(Errors.NoWarpNameProvided));
+                            player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[1]);
-                        if (player.hasPermission(Permissions.WarpsOverwrite) || player.hasPermission(Permissions.Warp + args[0] + ".Other") || player.hasPermission(Permissions.GlobalOverwrite)) {
-                            FileConfiguration warp = plugin.getWarps();
-                            World world = Bukkit.getWorld(warp.getString("Warps." + args[0] + ".world"));
-                            double x = warp.getDouble("Warps." + args[0] + ".x");
-                            double y = warp.getDouble("Warps." + args[0] + ".y");
-                            double z = warp.getDouble("Warps." + args[0] + ".z");
-                            float yaw = (float) warp.getDouble("Warps." + args[0] + ".yaw");
-                            float pitch = (float) warp.getDouble("Warps." + args[0] + ".pitch");
+                        String WarpName = args[0];
+                        if (player.hasPermission(Permissions.Warp + WarpName + ".Other") || player.hasPermission(Permissions.WarpsOverwrite) || player.hasPermission(Permissions.GlobalOverwrite)) {
+
+                            CustomConfig WarpFile = new CustomConfig(plugin, WarpName, "Warps");
+                            if (!WarpFile.getCustomConfigFile().exists()) {
+                                sender.sendMessage(Errors.getErrors(Errors.WarpDoesNotExist));
+                                return true;
+                            }
+
+                            World world = Bukkit.getWorld(WarpFile.getConfig().getString("world"));
+                            double x = WarpFile.getConfig().getDouble("x");
+                            double y = WarpFile.getConfig().getDouble("y");
+                            double z = WarpFile.getConfig().getDouble("z");
+                            float pitch = (float)  WarpFile.getConfig().getDouble("pitch");
+                            float yaw = (float)  WarpFile.getConfig().getDouble("yaw");
                             Location loc = new Location(world, x, y, z, yaw, pitch);
                             target.teleport(loc);
 
-                            String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("Warp Player Message")
-                                    .replaceAll("%warp%", args[0])
-                                    .replaceAll("%player%", args[1]));
-                            player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + Message));
-                        } else {
-                            Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                        }
+                            player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                            plugin.MessagesFile.getConfig().getString("Warp Player Message").replaceAll("%warp%", WarpName),
+                                    player, target, null, false));
+                        } else
+                            player.sendMessage(Errors.getErrors(Errors.NoPermission));
                     }
                 }
             }

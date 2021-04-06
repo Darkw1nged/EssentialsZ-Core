@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 
 public class cmd_MoneyPouches implements CommandExecutor {
 
-    private Main plugin;
+    private final Main plugin;
     public cmd_MoneyPouches(Main plugin) { this.plugin = plugin; }
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {

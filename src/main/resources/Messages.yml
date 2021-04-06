@@ -3,6 +3,9 @@ Prefix: "&eEssentialsZ >> "
 
 # Chat Messages
 first time join message: "&aWelcome &f%player% &ato the server! &6(#%total_amount%)"
+motd:
+  - "Welcome %player%."
+  - "I hope you enjoy your stay."
 join message: "&a[+] &f%player%"
 quit message: "&4[-] &f%player%"
 title message: "&a&lMY &f&lServer"
@@ -61,3 +64,4 @@ Fly Other: "&aYou have %setting% fly for %player%."
 Feed: "&aYou have restored your hunger."
 Feed Other: "&aYou have restored %player% hunger."
 Smite: "&aYou have summoned a lightning strike on %target%"
+TNT Filled: "&aYou have filled the dispensers with tnt."

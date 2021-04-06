@@ -1,9 +1,9 @@
 package me.darkwinged.Essentials.Events.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -24,8 +24,7 @@ import java.util.UUID;
 
 public class WorldControl implements Listener {
 
-    private Main plugin;
-    public WorldControl(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     // Cancel Fall damage
     @EventHandler
@@ -235,33 +234,6 @@ public class WorldControl implements Listener {
                 }.runTaskTimer(plugin, 0L, 20L);
             }
         }
-        if (plugin.getConfig().getBoolean("Cooldowns.Enchanted Golden Apple", true)) {
-            Player player = event.getPlayer();
-            ItemStack item = event.getItem();
-            if (player.hasPermission(Permissions.bypass) || player.hasPermission(Permissions.GlobalOverwrite))
-                return;
-            if (item.getType().equals(Material.ENCHANTED_GOLDEN_APPLE)) {
-                if (cooldownTime_Enchanted.containsKey(player.getUniqueId())) {
-                    Utils.Message(player, Errors.getErrors(Errors.CooldownItem));
-                    event.setCancelled(true);
-                    player.updateInventory();
-                    return;
-                }
-                cooldownTime_Enchanted.put(player.getUniqueId(), plugin.getConfig().getInt("Cooldowns.Enchanted Golden Apple Time"));
-                new BukkitRunnable() {
-                    public void run() {
-                        if (!cooldownTime_Enchanted.containsKey(player.getUniqueId())) return;
-                        if (cooldownTime_Enchanted.get(player.getUniqueId()) <= 0) {
-                            cooldownTime_Enchanted.remove(player.getUniqueId());
-                            cancel();
-                            return;
-                        }
-                        // Removing 1 from the count
-                        cooldownTime_Enchanted.put(player.getUniqueId(), cooldownTime_Enchanted.get(player.getUniqueId()) - 1);
-                    }
-                }.runTaskTimer(plugin, 0L, 20L);
-            }
-        }
     }
 
     // Enderpearl Cooldown
@@ -306,7 +278,6 @@ public class WorldControl implements Listener {
         Utils.invisible_list.remove(player.getUniqueId());
         Utils.GodMode_List.remove(player.getUniqueId());
         Utils.Autosell_List.remove(player.getUniqueId());
-        Utils.message_list.remove(player.getUniqueId());
     }
 
     // Safe login

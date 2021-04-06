@@ -1,9 +1,9 @@
 package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,12 +12,11 @@ import org.bukkit.entity.Player;
 
 public class cmd_Vanish implements CommandExecutor {
 
-    private Main plugin;
-    public cmd_Vanish(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("vanish")) {
-            if (plugin.getConfig().getBoolean("cmd_Vanish", true)) {
+            if (plugin.getConfig().getBoolean("Commands.Vanish", true)) {
                 if (!(sender instanceof Player)) {
                     Utils.Message(sender, Errors.getErrors(Errors.Console));
                     return true;

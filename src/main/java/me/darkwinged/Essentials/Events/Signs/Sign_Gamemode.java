@@ -1,8 +1,8 @@
 package me.darkwinged.Essentials.Events.Signs;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -15,8 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class Sign_Gamemode implements Listener {
 
-    private Main plugin;
-    public Sign_Gamemode(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     @EventHandler
     public void SignCreate(SignChangeEvent event) {

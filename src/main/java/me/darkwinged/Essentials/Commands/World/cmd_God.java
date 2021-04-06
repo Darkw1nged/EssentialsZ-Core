@@ -1,9 +1,9 @@
 package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,12 +15,11 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class cmd_God implements CommandExecutor, Listener {
 
-    private Main plugin;
-    public cmd_God(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("god")) {
-            if (plugin.getConfig().getBoolean("cmd_God", true)) {
+            if (plugin.getConfig().getBoolean("Commands.God", true)) {
                 if (!(sender instanceof Player)) {
                     sender.sendMessage(Utils.chat(Errors.getErrors(Errors.Console)));
                     return true;

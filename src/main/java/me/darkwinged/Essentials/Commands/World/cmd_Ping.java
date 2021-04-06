@@ -1,9 +1,9 @@
 package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,7 +16,7 @@ public class cmd_Ping implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("ping")) {
-            if (plugin.getConfig().getBoolean("cmd_Ping", true)) {
+            if (plugin.getConfig().getBoolean("Commands.Ping", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length < 1) {
                         Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));

@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class cmd_Hub implements CommandExecutor {
 
-    private Main plugin;
+    private final Main plugin;
     public cmd_Hub(Main plugin) { this.plugin = plugin; }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

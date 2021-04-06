@@ -1,9 +1,9 @@
 package me.darkwinged.Essentials.Commands.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,15 +12,11 @@ import org.bukkit.entity.Player;
 
 public class cmd_Fly implements CommandExecutor {
 
-    private final Main plugin;
-
-    public cmd_Fly(Main plugin) {
-        this.plugin = plugin;
-    }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("fly")) {
-            if (plugin.getConfig().getBoolean("cmd_Fly", true)) {
+            if (plugin.getConfig().getBoolean("Commands.Fly", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length != 1) {
                         sender.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));

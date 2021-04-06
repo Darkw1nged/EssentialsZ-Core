@@ -1,4 +1,4 @@
-package me.darkwinged.Essentials.Utils.EssentialsZEconomy;
+package me.darkwinged.Essentials.Libaries;
 
 import me.darkwinged.Essentials.Main;
 import net.milkbowl.vault.economy.Economy;

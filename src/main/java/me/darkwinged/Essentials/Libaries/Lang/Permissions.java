@@ -1,4 +1,4 @@
-package me.darkwinged.Essentials.Utils.Lang;
+package me.darkwinged.Essentials.Libaries.Lang;
 
 public class Permissions {
 
@@ -67,6 +67,7 @@ public class Permissions {
     public static String TPA = MainPermission + "TPA";
     public static String RandomTeleport = MainPermission + "RTP";
     public static String TopTeleport = MainPermission + "Top";
+    public static String UpSign = MainPermission + "Top.Sign.Create";
     public static String BackTeleport = MainPermission + "Back";
 
     public static String WarpsOverwrite = MainPermission + "Warps.*";
@@ -125,4 +126,8 @@ public class Permissions {
     public static String Fly = MainPermission + "Fly";
     public static String FlyOther = MainPermission + "Fly.Other";
     public static String Smite = MainPermission + "Smite";
+    public static String RidePlayer = MainPermission + "Ride.Player";
+
+    public static String TNTFillSurvival = MainPermission + "TNT.Fill";
+    public static String TNTFillCreative = MainPermission + "TNT.Fill.Creative";
 }

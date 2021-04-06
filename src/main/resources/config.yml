@@ -80,7 +80,7 @@ Teleportation:
     No void: true
     Spawn onJoin: false
     Hub:
-      # WARNING! This will only work for Bungeecord servers.
+      # WARNING! This will only work for Bungeecord, waterfall servers.
       enabled: false
       Server Name: "lobby"
 
@@ -98,13 +98,16 @@ Teleportation:
         vip: 5
         staff: 10
 
+    Warps:
+      enabled: true
+      Format: "&6Warps: &f%warps%"
+
     Message:
       enabled: true
       format: "&6%sender% &e-> &6%player%"
 
     Commands:
       Teleport: true
-      warps: true
       top: true
       back: true
 
@@ -119,11 +122,29 @@ Chat:
   Settings:
     Join Messages:
       First Time join: true
+
+      VIP Message:
+        enabled: false
+        Display Name: true
+        Center: false
+        No Join Message: true # Will cancel the other join message and keep VIP if `true`.
+
       Show join Message: true
       Style: CHAT # [CHAT, TITLE, ACTION_BAR, BOSS_BAR]
-      Bossbar_length: 3
+      Join Message Center: false
 
-    MOTD:
+      Bossbar:
+        length: 3 # seconds
+        color: PURPLE
+        style: SOLID
+
+      motd:
+        enabled: true
+        center: false
+
+    Show Leave Message: true
+
+    Server MOTD:
       enabled: false
       MOTD: "&6Welcome to my server"
 
@@ -135,7 +156,10 @@ Chat:
       Format: "&eme &f>> &e%target%&f:"
       Receive: "&e%player% &f>> &eme&f:"
     Auto Messages:
-      enabled: true
+      enabled: false
+    Custom Display Name:
+      enabled: false
+      Format: "<%prefix% %player% %suffix%> %message%"
 
     Tablist:
       enabled: true
@@ -189,10 +213,8 @@ Cooldowns:
   Enderpeal Time: 60 # seconds
   Golden Apple: false
   Golden Apple Time: 60 # seconds
-  Enchanted Golden Apple: false
-  Enchanted Golden Apple Time: 60 # seconds
   Commands: false
-  Cammands Time: 60 # seconds.
+  Cammands Time: 60 # seconds
   Commands Amount: 5
 
 Commands:
@@ -201,6 +223,8 @@ Commands:
   Gamemode: true
   Invsee: true
   Vanish: true
+  Enderchest: true
+  Disposal: true
   World Creation: true
   Craft: true
   Kill: true
@@ -208,25 +232,53 @@ Commands:
   Heal: true
   Fly: true
   Feed: true
-  # IMPLEMENT
-  TNT Fill: true
-  Daily: true
   Smite: true
+  Repair: true
+
+  TNT Fill:
+    enabled: true
+    raduis:
+      x: 10
+      y: 10
+      z: 10
+
+  # IMPLEMENT
+  Daily: true
 
 World Events:
   One Player Sleep: false
   Double Jump: false
   Silent Join: false
+  Ride: false
+  Player Coords:
+    enabled: false
+    style: ACTIONBAR # [ACTIONBAR, BOSS_BAR]
+    update: 2 # seconds
+    message: "&eX: &a%X&e, Y: &a%Y&e, Z: &a%Z"
+    Bossbar:
+      length: 2 # seconds
+      color: PURPLE
+      style: SOLID
+
   # IMPLEMENT
   Inventory Full:
     enabled: false
-    alert: Actionbar # Actionbar or title
-  Custom Enderchests: false
+    alert: ACTIONBAR # [ACTIONBAR, TITLE, CHAT]
+    center: false
 
 # When someone joins the server and you have `Spawn On Player Join: true` then you can enable this to spawn a firework too.
-Firework On Player Join: false # Default: false
-Spawn On Player Join: false # Default false
+Firework On Player Join: false
+Spawn On Player Join: false
 
+Playtime:
+  enabled: false
+  Days: true
+  Hours: true
+  Minutes: true
+  Seconds: true
+  format: "&e%days, %hours, %minutes, %seconds"
+
+# IMPLEMENT
 Profiles:
   enabled: false
   GUI:
@@ -241,14 +293,6 @@ Profiles:
           - "&aFood: %food%"
           - "&aItem in Hand: %main_item%"
           - "&aItem in Off Hand: %off_item%"
-  
-
-# Item Drop Holograms
-Item_Holograms: false # Default: false
-# Display The amount of item that the stack holds.
-Item_Holograms_Amount: true # NOTE! This requires `Item_Holograms` to be true. Default: true
-# NOTE! This requires `Item_Holograms` to be true. ALSO! %amount% will only work if you have `Item_Holograms_Amount` set to true.
-Item_Holograms_Name: "%item% [%amount%]"
 
 ############################################################
 # +------------------------------------------------------+ #

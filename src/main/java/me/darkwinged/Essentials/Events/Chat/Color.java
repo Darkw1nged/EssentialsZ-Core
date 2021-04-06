@@ -1,7 +1,7 @@
 package me.darkwinged.Essentials.Events.Chat;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -12,8 +12,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class Color implements Listener {
 
-    private Main plugin;
-    public Color(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
@@ -107,6 +106,7 @@ public class Color implements Listener {
                 String Message = event.getMessage().replaceAll("&r", "§r");
                 event.setMessage(Message);
             }
+
         }
     }
 

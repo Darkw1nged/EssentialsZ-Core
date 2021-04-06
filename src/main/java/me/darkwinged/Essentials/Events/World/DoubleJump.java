@@ -1,8 +1,8 @@
 package me.darkwinged.Essentials.Events.World;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,10 +15,7 @@ import org.bukkit.util.Vector;
 
 public class DoubleJump implements Listener {
 
-    private Main plugin;
-    public DoubleJump(Main plugin) {
-        this.plugin = plugin;
-    }
+    private final Main plugin = Main.getInstance;
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {

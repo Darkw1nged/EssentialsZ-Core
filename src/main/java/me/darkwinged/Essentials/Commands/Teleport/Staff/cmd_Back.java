@@ -1,9 +1,9 @@
 package me.darkwinged.Essentials.Commands.Teleport.Staff;
 
 import me.darkwinged.Essentials.Main;
-import me.darkwinged.Essentials.Utils.Lang.Errors;
-import me.darkwinged.Essentials.Utils.Lang.Permissions;
-import me.darkwinged.Essentials.Utils.Lang.Utils;
+import me.darkwinged.Essentials.Libaries.Lang.Errors;
+import me.darkwinged.Essentials.Libaries.Lang.Permissions;
+import me.darkwinged.Essentials.Libaries.Lang.Utils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class cmd_Back implements CommandExecutor {
 
-    private Main plugin;
+    private final Main plugin;
     public cmd_Back(Main plugin) { this.plugin = plugin; }
 
     public static HashMap<UUID, Location> back_loc = new HashMap<>();
