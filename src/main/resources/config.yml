@@ -143,6 +143,7 @@ Chat:
         center: false
 
     Show Leave Message: true
+    Auto Messages: true
 
     Server MOTD:
       enabled: false
@@ -155,8 +156,6 @@ Chat:
       enabled: true
       Format: "&eme &f>> &e%target%&f:"
       Receive: "&e%player% &f>> &eme&f:"
-    Auto Messages:
-      enabled: false
     Custom Display Name:
       enabled: false
       Format: "<%prefix% %player% %suffix%> %message%"
@@ -250,6 +249,7 @@ World Events:
   Double Jump: false
   Silent Join: false
   Ride: false
+  Nether Water: false
   Player Coords:
     enabled: false
     style: ACTIONBAR # [ACTIONBAR, BOSS_BAR]
@@ -259,14 +259,15 @@ World Events:
       length: 2 # seconds
       color: PURPLE
       style: SOLID
-
-  # IMPLEMENT
   Inventory Full:
     enabled: false
-    alert: ACTIONBAR # [ACTIONBAR, TITLE, CHAT]
+    alert: CHAT # [ACTIONBAR, TITLE, CHAT]
+    message: "&cInventory is full."
     center: false
+    Title:
+      header: "&cInventory is full."
+      Footer: "&8Clear your inventory."
 
-# When someone joins the server and you have `Spawn On Player Join: true` then you can enable this to spawn a firework too.
 Firework On Player Join: false
 Spawn On Player Join: false
 

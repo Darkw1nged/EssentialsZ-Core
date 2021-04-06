@@ -1,13 +1,13 @@
-# Placeholders Key:
-#     %n || This will add a new line.
-
 Messages:
   '1':
     content: '&6I appear every 5 minutes!'
-    interval: 5
+    interval: 5 # minutes
+    center: false
   '2':
-    content: '&6I appear every 2 minutes!'
+    content: '&cHere is some centered text.'
     interval: 2
+    center: true
   '3':
-    content: '&bI appear every 3 minutes!'
+    content: '&bHere is some centered text as well.%nHere is another line!'
     interval: 3
+    center: true
