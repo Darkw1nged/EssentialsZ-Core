@@ -1,12 +1,17 @@
 package me.darkwinged.EssentialsZ.Libaries.EssentialsZEconomy;
 
+import me.darkwinged.EssentialsZ.Libaries.Lang.CustomConfig;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class EconomyManager {
+
+	private final Main plugin = Main.getInstance;
 
 	public Map<UUID, Double> BankAccounts = new HashMap<>();
 	public boolean hasAccount(OfflinePlayer player) { return BankAccounts.containsKey(player.getUniqueId()); }
@@ -31,4 +36,15 @@ public class EconomyManager {
 	public Map<UUID, Double> getAccountMap() {
 		return BankAccounts;
 	}
+
+	public void saveBalance(Player player) {
+		CustomConfig Data = new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");
+		if (!Data.getConfig().contains("lastKnownName")) return;
+		Data.getConfig().set("money", getAccount(player));
+	}
+	public void loadBalance(Player player) {
+		CustomConfig Data = new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");
+		BankAccounts.put(player.getUniqueId(), Data.getConfig().getDouble("money"));
+	}
+
 }

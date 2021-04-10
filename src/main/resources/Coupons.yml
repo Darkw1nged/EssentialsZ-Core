@@ -1,0 +1,25 @@
+Coupons:
+  Bank Note:
+    material: PAPER
+    name: "&bMoney"
+    lore:
+      - "&7(Right-Click) &aTo claim."
+      - ""
+      - "&e* &fMoney: &a$1000"
+    Action:
+      - "[CMD] eco add %player% 1000"
+      - "[MESSAGE] %player% has claimed the %coupon%! GG!"
+
+  Speed Effect:
+    material: REDSTONE_BLOCK
+    name: "&cSpeed"
+    lore:
+      - "&7(Right-Click) &aTo claim."
+      - ""
+      - "&e* &fSpeed effect"
+      - "&e* &fStrength: &a1"
+      - "&e* &fTime: &a60 seconds"
+    Action:
+      - "[EFFECT] %player% speed 60 1"
+      - "[MESSAGE] %player% has claimed the %coupon%! GG!"
+      - "[PLAYER_MESSAGE] You have speed 1 for the next 60 seconds."

@@ -1,6 +1,6 @@
-package me.darkwinged.Essentials.Events.Teleport;
+package me.darkwinged.EssentialsZ.Events.Teleport;
 
-import me.darkwinged.Essentials.Main;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -2,8 +2,8 @@ package me.darkwinged.EssentialsZ.Libaries.Lang;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -22,12 +22,26 @@ public class Utils implements Listener {
         }
     }
 
+    public static List<String> MoneyPouchLoreFormat(FileConfiguration config, String path) {
+        if (config == null) {
+            return null;
+        } else {
+            List<String> oldList = config.getStringList(path + ".lore");
+            List<String> newList = new ArrayList();
+            Iterator var5 = oldList.iterator();
+
+            while(var5.hasNext()) {
+                String a = (String)var5.next();
+                newList.add(ChatColor.translateAlternateColorCodes('&', a));
+            }
+
+            return newList;
+        }
+    }
+
     // Lists
     public static boolean isChatMuted = false;
     public static List<UUID> staff_chat = new ArrayList<>();
-    public static Map<String, ItemStack> MoneyPouches = new HashMap<>();
-    public static Map<String, Integer> MoneyPouches_max = new HashMap<>();
-    public static Map<String, Integer> MoneyPouches_min = new HashMap<>();
     public static List<String> AutoMessages = new ArrayList<>();
     public static Map<UUID, CustomConfig> PlayerData = new HashMap<>();
 

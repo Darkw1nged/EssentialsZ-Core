@@ -58,6 +58,7 @@ public class JoinAndLeaveMessage implements Listener {
                 }
                 if (plugin.getConfig().getBoolean("Chat.Settings.Join Messages.VIP Message.enabled", true) &&
                         plugin.getConfig().getBoolean("Chat.Settings.Join Messages.VIP Message.No Join Message", true)) {
+                    event.setJoinMessage(null);
                     return;
                 }
 
@@ -85,8 +86,8 @@ public class JoinAndLeaveMessage implements Listener {
                         break;
 
                     case "BOSS_BAR":
-                        BarColor color = (BarColor) plugin.getConfig().get("Chat.Settings.Join Messages.Bossbar.color");
-                        BarStyle style = (BarStyle) plugin.getConfig().get("Chat.Settings.Join Messages.Bossbar.style");
+                        BarColor color = BarColor.valueOf(plugin.getConfig().getString("Chat.Settings.Join Messages.Bossbar.color"));
+                        BarStyle style = BarStyle.valueOf(plugin.getConfig().getString("Chat.Settings.Join Messages.Bossbar.style"));
 
                         plugin.essentialsZAPI.utils.sendAllBossbar(player,
                                 plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("join message"), player, null, player, false),

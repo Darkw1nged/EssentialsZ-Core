@@ -3,7 +3,8 @@ version: 1.5
 api-version: 1.13
 main: me.darkwinged.EssentialsZ.Main
 authors: [darkwinged, Yovez]
-softdepend: [PlaceholderAPI, Vault, ProtocolLib]
+softdepend: [PlaceholderAPI, Vault, ProtocolLib, EssentialsZSpawn]
+depend: [EssentialsZAPI]
 load: STARTUP
 loadbefore: [Vault]
 commands:

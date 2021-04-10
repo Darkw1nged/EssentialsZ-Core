@@ -3,10 +3,7 @@ package me.darkwinged.EssentialsZ;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import me.darkwinged.EssentialsZ.Commands.Chat.*;
-import me.darkwinged.EssentialsZ.Commands.Economy.cmd_Balance;
-import me.darkwinged.EssentialsZ.Commands.Economy.cmd_Economy;
-import me.darkwinged.EssentialsZ.Commands.Economy.cmd_Pay;
-import me.darkwinged.EssentialsZ.Commands.Economy.cmd_Withdraw;
+import me.darkwinged.EssentialsZ.Commands.Economy.*;
 import me.darkwinged.EssentialsZ.Commands.Teleport.Staff.*;
 import me.darkwinged.EssentialsZ.Commands.Teleport.*;
 import me.darkwinged.EssentialsZ.Commands.World.Gamemodes.*;
@@ -43,14 +40,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-
-import static org.bukkit.Material.getMaterial;
 
 public final class Main extends JavaPlugin implements Listener {
 
@@ -107,7 +100,6 @@ public final class Main extends JavaPlugin implements Listener {
             this.protocolManager = ProtocolLibrary.getProtocolManager();
         }
 
-        //loadMoneyPouches();
         loadAutoMessages();
 
         // Registering Commands / Events / Loops
@@ -121,6 +113,11 @@ public final class Main extends JavaPlugin implements Listener {
     }
 
     public void onDisable() {
+        // Saving accounts
+        for (Player online : Bukkit.getOnlinePlayers()) {
+            economyManager.saveBalance(online);
+        }
+
         // Unhooking vault
         vaultHook.unhook();
 
@@ -137,7 +134,7 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("balance").setExecutor(new cmd_Balance());
         getCommand("pay").setExecutor(new cmd_Pay());
         getCommand("withdraw").setExecutor(new cmd_Withdraw());
-        //getCommand("pouches").setExecutor(new cmd_MoneyPouches(this));
+        getCommand("pouches").setExecutor(new cmd_MoneyPouches());
         //getCommand("autosell").setExecutor(new cmd_Autosell(this));
         //getCommand("sellhand").setExecutor(new cmd_Sellhand(this));
         //getCommand("sell").setExecutor(new cmd_Sell(this));
@@ -231,6 +228,7 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerCoords(), this);
         getServer().getPluginManager().registerEvents(new Playtime(), this);
         getServer().getPluginManager().registerEvents(new NetherWater(), this);
+        getServer().getPluginManager().registerEvents(new InventoryFull(), this);
 
         getServer().getPluginManager().registerEvents(new PlayerData(), this);
     }
@@ -259,43 +257,28 @@ public final class Main extends JavaPlugin implements Listener {
         AutoMessagesFile.saveDefaultConfig();
     }
 
-    // Getting money pouches
-    public void loadMoneyPouches() {
-        if (!MoneyPouchesFile.getConfig().contains("Tiers.")) return;
-        for (String key : MoneyPouchesFile.getConfig().getConfigurationSection("Tiers.").getKeys(false)) {
-            ItemStack item = new ItemStack(getMaterial(MoneyPouchesFile.getConfig().getString("Tiers." + key + ".material")));
-            ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(essentialsZAPI.utils.chat(MoneyPouchesFile.getConfig().getString("Tiers." + key + ".name"), null, null, null, false));
-            meta.setLore(essentialsZAPI.utils.getConvertedLore(MoneyPouchesFile.getConfig(), "Tiers."+key));
-            item.setItemMeta(meta);
-
-            Utils.MoneyPouches_max.put(item.getItemMeta().getDisplayName(), MoneyPouchesFile.getConfig().getInt("Tiers." + key + ".max"));
-            Utils.MoneyPouches_min.put(item.getItemMeta().getDisplayName(), MoneyPouchesFile.getConfig().getInt("Tiers." + key + ".min"));
-            Utils.MoneyPouches.put(item.getItemMeta().getDisplayName(), item);
-        }
-    }
-
     // Managing auto messages
     public void loadAutoMessages() {
         if (!AutoMessagesFile.getConfig().contains("Messages.")) return;
         Utils.AutoMessages.addAll(AutoMessagesFile.getConfig().getStringList("Messages"));
     }
     public void AutoMessage() {
-        if (getConfig().getBoolean("Chat.enabled", false)) return;
-        if (getConfig().getBoolean("Chat.Settings.Auto Messages", true)) {
-            for (String key : AutoMessagesFile.getConfig().getConfigurationSection("Messages").getKeys(false)) {
-                String message = AutoMessagesFile.getConfig().getString("Messages." + key + ".content").replaceAll("%n", "\n");
-                long interval = (long) AutoMessagesFile.getConfig().getInt("Messages." + key + ".interval") * 60;
-                Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-                    public void run() {
-                        if (AutoMessagesFile.getConfig().getBoolean("Messages." + key + ".center", true)) {
-                            Bukkit.broadcastMessage(essentialsZAPI.utils.chat(essentialsZAPI.utils.CenteredMessage(message),
-                                    null, null, null, false));
-                            return;
+        if (getConfig().getBoolean("Chat.enabled", true)) {
+            if (getConfig().getBoolean("Chat.Settings.Auto Messages", true)) {
+                for (String key : AutoMessagesFile.getConfig().getConfigurationSection("Messages").getKeys(false)) {
+                    String message = AutoMessagesFile.getConfig().getString("Messages." + key + ".content").replaceAll("%n", "\n");
+                    long interval = (long) AutoMessagesFile.getConfig().getInt("Messages." + key + ".interval") * 60;
+                    Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+                        public void run() {
+                            if (AutoMessagesFile.getConfig().getBoolean("Messages." + key + ".center", true)) {
+                                Bukkit.broadcastMessage(essentialsZAPI.utils.chat(essentialsZAPI.utils.CenteredMessage(message),
+                                        null, null, null, false));
+                                return;
+                            }
+                            Bukkit.broadcastMessage(essentialsZAPI.utils.chat(message, null, null, null, false));
                         }
-                        Bukkit.broadcastMessage(essentialsZAPI.utils.chat(message, null, null, null, false));
-                    }
-                }, 20L * interval, 20L * interval);
+                    }, 20L * interval, 20L * interval);
+                }
             }
         }
     }

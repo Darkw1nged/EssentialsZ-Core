@@ -33,7 +33,7 @@ public class PlayerData implements Listener {
 
             Data.saveConfig();
 
-            plugin.economyManager.BankAccounts.put(player.getUniqueId(), Data.getConfig().getDouble("money"));
+            plugin.economyManager.loadBalance(player);
             Utils.PT_Days.put(player.getUniqueId(), Data.getConfig().getInt("Playtime.Days"));
             Utils.PT_Hours.put(player.getUniqueId(), Data.getConfig().getInt("Playtime.Hours"));
             Utils.PT_Minutes.put(player.getUniqueId(), Data.getConfig().getInt("Playtime.Minutes"));
@@ -56,6 +56,8 @@ public class PlayerData implements Listener {
 
         Data.getConfig().set("money", plugin.economyManager.getAccount(player));
         Data.getConfig().set("ipAddress", player.getAddress().getHostString());
+        Data.getConfig().set("isVanished", false);
+        Data.getConfig().set("isJailed", false );
 
         // Playtime
         Data.getConfig().set("Playtime.Days", Utils.PT_Days.get(player.getUniqueId()));
@@ -103,7 +105,7 @@ public class PlayerData implements Listener {
         Data.getConfig().set("timestamps.lastLogout.location.pitch", pitch);
 
         Data.saveConfig();
-        plugin.economyManager.BankAccounts.remove(player.getUniqueId());
+        plugin.economyManager.saveBalance(player);
         Utils.PT_Days.remove(player.getUniqueId());
         Utils.PT_Hours.remove(player.getUniqueId());
         Utils.PT_Minutes.remove(player.getUniqueId());

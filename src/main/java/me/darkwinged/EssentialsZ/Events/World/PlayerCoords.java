@@ -16,7 +16,9 @@ public class PlayerCoords implements Listener {
 
     @EventHandler
     public void update(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
         if (plugin.getConfig().getBoolean("World Events.Player Coords.enabled", true)) {
+            if (!Utils.Coords_List.contains(player.getUniqueId())) return;
             Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
                 public void run() {
                     for (Player player : Bukkit.getOnlinePlayers()) {
@@ -37,8 +39,8 @@ public class PlayerCoords implements Listener {
                                             .replaceAll("%X", X).replaceAll("%Y", Y).replaceAll("%Z", Z));
                                     break;
                                 case "BOSS_BAR":
-                                    BarColor color = (BarColor) plugin.getConfig().get("World Events.Player Coords.Bossbar.color");
-                                    BarStyle style = (BarStyle) plugin.getConfig().get("World Events.Player Coords.Bossbar.style");
+                                    BarColor color = BarColor.valueOf(plugin.getConfig().getString("World Events.Player Coords.Bossbar.color").toUpperCase());
+                                    BarStyle style = BarStyle.valueOf(plugin.getConfig().getString("World Events.Player Coords.Bossbar.style"));
 
                                     plugin.essentialsZAPI.utils.sendAllBossbar(player,
                                             plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("World Events.Player Coords.message")

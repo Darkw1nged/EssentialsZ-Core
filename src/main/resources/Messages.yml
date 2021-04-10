@@ -24,6 +24,7 @@ Economy Set Message: "&aYou have set %player% balance to %amount%."
 Economy Reset Message: "&aYou have reset %player% balance."
 Payed: "&aYou have paid %amount% to %player%."
 Money Pouch Given: "&aYou have received a money pouch."
+Money Pouch Open: "&aYou have opened a money pouch and got %amount%"
 Autosell Toggle: "&aYou have %setting% autosell."
 
 # Teleportation Messages
