@@ -1,9 +1,8 @@
 package me.darkwinged.EssentialsZ.Commands.Economy;
 
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,25 +25,32 @@ public class cmd_Balance implements CommandExecutor {
 						}
 						Player target = Bukkit.getPlayer(args[0]);
 						if (target == null) {
-							sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPlayerFound)));
+							sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
 							return true;
 						}
-						sender.sendMessage(Utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Other").replaceAll("%player%", target.getName()) +
-								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(target)));
+						sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Other") +
+								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(target),
+								target, target, null, false));
 						return true;
 					}
 					Player player = (Player)sender;
 					if (args.length == 1) {
 						if (player.hasPermission(Permissions.BalanceOther) || player.hasPermission(Permissions.GlobalOverwrite)) {
 							Player target = Bukkit.getPlayer(args[0]);
-							sender.sendMessage(Utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Other").replaceAll("%player%", target.getName()) +
-									plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(target)));
+							if (target == null) {
+								player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+								return true;
+							}
+							sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Other") +
+									plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(target),
+									target, target, null, false));
 							return true;
 						}
 					}
 					if (player.hasPermission(Permissions.Balance) || player.hasPermission(Permissions.GlobalOverwrite)) {
-						sender.sendMessage(Utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Prefix") +
-								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(player)));
+						sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Prefix") +
+								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(player),
+								null, null, null, false));
 					}
 				}
 			}

@@ -1,7 +1,7 @@
 package me.darkwinged.EssentialsZ.Commands.Teleport;
 
+import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Main;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,28 +13,29 @@ import java.io.IOException;
 
 public class cmd_Hub implements CommandExecutor {
 
-    private final Main plugin;
-    public cmd_Hub(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("hub")) {
-            if (plugin.getConfig().getBoolean("Teleportation", true)) {
-                if (!(sender instanceof Player))
-                    return true;
-                Player p = (Player)sender;
-                ByteArrayOutputStream b = new ByteArrayOutputStream();
-                DataOutputStream out = new DataOutputStream(b);
-                if (plugin.getConfig().getBoolean("cmd_Hub", true)) {
+            if (plugin.getConfig().getBoolean("Teleportation.enabled", true)) {
+                if (plugin.getConfig().getBoolean("Teleportation.Settings.Hub.enabled", true)) {
+                    if (!(sender instanceof Player)) {
+                        sender.sendMessage(Errors.getErrors(Errors.Console));
+                        return true;
+                    }
+                    Player player = (Player)sender;
+                    ByteArrayOutputStream b = new ByteArrayOutputStream();
+                    DataOutputStream out = new DataOutputStream(b);
                     try {
                         out.writeUTF("Connect");
-                        out.writeUTF(plugin.getConfig().getString("Server Name"));
+                        out.writeUTF(plugin.getConfig().getString("Teleportation.Settings.Hub.Server Name"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    p.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+                    player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+
                 } else {
-                    p.sendMessage(ChatColor.RED + "Server has disabled this command!");
-                    return true;
+                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
                 }
             }
         }

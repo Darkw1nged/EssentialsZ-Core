@@ -40,6 +40,8 @@ public class cmd_Warps implements CommandExecutor {
                                 .replaceAll("%warps%", warp_list), null, null, null, false));
                     } else
                         player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                } else {
+                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
                 }
             }
 

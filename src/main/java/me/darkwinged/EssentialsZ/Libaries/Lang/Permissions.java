@@ -23,6 +23,8 @@ public class Permissions {
     public static String Sell = MainPermission + "Sell";
 
     // Chat Permissions
+
+    // Chat Color Permissions =====================================================================
     public static String ChatColor = MainPermission + "ChatColor";
     public static String ChatColor_black = MainPermission + "ChatColor.Black";
     public static String ChatColor_dark_blue = MainPermission + "ChatColor.DarkBlue";
@@ -48,6 +50,33 @@ public class Permissions {
     public static String ChatColor_italic = MainPermission + "ChatColor.Italic";
     public static String ChatColor_reset = MainPermission + "ChatColor.Reset";
 
+    // Sign Color Permissions =====================================================================
+    public static String SignColor = MainPermission + "SignColor";
+    public static String SignColor_black = MainPermission + "SignColor.Black";
+    public static String SignColor_dark_blue = MainPermission + "SignColor.DarkBlue";
+    public static String SignColor_dark_green = MainPermission + "SignColor.DarkGreen";
+    public static String SignColor_dark_aqua = MainPermission + "SignColor.DarkAqua";
+    public static String SignColor_dark_red = MainPermission + "SignColor.DarkRed";
+    public static String SignColor_dark_purple = MainPermission + "SignColor.DarkPurple";
+    public static String SignColor_gold = MainPermission + "SignColor.Gold";
+    public static String SignColor_gray = MainPermission + "SignColor.Gray";
+    public static String SignColor_dark_gray = MainPermission + "SignColor.DarkGray";
+    public static String SignColor_blue = MainPermission + "SignColor.Blue";
+    public static String SignColor_green = MainPermission + "SignColor.Green";
+    public static String SignColor_aqua = MainPermission + "SignColor.Aqua";
+    public static String SignColor_red = MainPermission + "SignColor.Red";
+    public static String SignColor_light_purple = MainPermission + "SignColor.LightPurple";
+    public static String SignColor_yellow = MainPermission + "SignColor.Yellow";
+    public static String SignColor_white = MainPermission + "SignColor.White";
+
+    public static String SignColor_magic = MainPermission + "SignColor.Magic";
+    public static String SignColor_bold = MainPermission + "SignColor.Bold";
+    public static String SignColor_strikethrough = MainPermission + "SignColor.Strikethrough";
+    public static String SignColor_underline = MainPermission + "SignColor.Underline";
+    public static String SignColor_italic = MainPermission + "SignColor.Italic";
+    public static String SignColor_reset = MainPermission + "SignColor.Reset";
+    // ============================================================================================
+
     public static String StaffChat = MainPermission + "StaffChat";
     public static String ClearChat = MainPermission + "ClearChat";
     public static String Broadcast = MainPermission + "Broadcast";
@@ -62,9 +91,11 @@ public class Permissions {
     public static String VIPJoin = MainPermission + "VIP";
 
     // Teleportation Permissions
-    public static String TP = MainPermission + "TP";
-    public static String TPhere = MainPermission + "TP.here";
-    public static String TPA = MainPermission + "TPA";
+    public static String TP = MainPermission + "teleport";
+    public static String TPhere = MainPermission + "teleport.here";
+    public static String TPhereAll = MainPermission + "teleport.here.all";
+    public static String TPhereEntities = MainPermission + "teleport.here.entities";
+    public static String TPA = MainPermission + "teleport.ask";
     public static String RandomTeleport = MainPermission + "RTP";
     public static String TopTeleport = MainPermission + "Top";
     public static String UpSign = MainPermission + "Top.Sign.Create";
@@ -84,6 +115,7 @@ public class Permissions {
     public static String SetHomesVIP = MainPermission + "Homes.Set.VIP";
     public static String SetHomesStaff = MainPermission + "Homes.Set.Staff";
     public static String Homes = MainPermission + "Homes.List";
+    public static String HomesOther = MainPermission + "Homes.List.Other";
     public static String Home = MainPermission + "Homes";
     public static String HomesSign = MainPermission + "Homes.Sign.Create";
 
@@ -127,6 +159,7 @@ public class Permissions {
     public static String FlyOther = MainPermission + "Fly.Other";
     public static String Smite = MainPermission + "Smite";
     public static String RidePlayer = MainPermission + "Ride.Player";
+    public static String CPS = MainPermission + "CPS.Check";
 
     public static String TNTFillSurvival = MainPermission + "TNT.Fill";
     public static String TNTFillCreative = MainPermission + "TNT.Fill.Creative";

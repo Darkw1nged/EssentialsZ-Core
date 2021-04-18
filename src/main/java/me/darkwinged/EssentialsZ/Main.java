@@ -9,10 +9,10 @@ import me.darkwinged.EssentialsZ.Commands.Teleport.*;
 import me.darkwinged.EssentialsZ.Commands.World.Gamemodes.*;
 import me.darkwinged.EssentialsZ.Commands.World.*;
 import me.darkwinged.EssentialsZ.Commands.cmd_Reload;
-import me.darkwinged.EssentialsZ.Events.Chat.ChatControl;
-import me.darkwinged.EssentialsZ.Events.Chat.Color;
-import me.darkwinged.EssentialsZ.Events.Chat.Displayname;
-import me.darkwinged.EssentialsZ.Events.Chat.JoinAndLeaveMessage;
+import me.darkwinged.EssentialsZ.Events.Chat.*;
+import me.darkwinged.EssentialsZ.Events.Chat.JoinMessage.DefaultJoinMessage;
+import me.darkwinged.EssentialsZ.Events.Chat.JoinMessage.OtherJoinMessage;
+import me.darkwinged.EssentialsZ.Events.Chat.JoinMessage.VIPJoinMessage;
 import me.darkwinged.EssentialsZ.Events.Economy.AccountSetup;
 import me.darkwinged.EssentialsZ.Events.Economy.BankNotes;
 import me.darkwinged.EssentialsZ.Events.Economy.MoneyPouchesEvent;
@@ -39,13 +39,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
-public final class Main extends JavaPlugin implements Listener {
+public final class Main extends JavaPlugin {
 
     public static Main getInstance;
     public EconomyManager economyManager;
@@ -54,19 +53,23 @@ public final class Main extends JavaPlugin implements Listener {
     public EssentialsZAPI essentialsZAPI = (EssentialsZAPI) Bukkit.getServer().getPluginManager().getPlugin("EssentialsZAPI");
     public EssentialsZSpawn essentialsZSpawn = (EssentialsZSpawn) Bukkit.getServer().getPluginManager().getPlugin("EssentialsZSpawn");
 
-    public int Delay = getConfig().getInt("Teleportation_Delay");
+    public int Delay = getConfig().getInt("Teleportation.Settings.Teleportation Delay");
     public boolean Module_Economy = false;
 
     private VaultHook vaultHook;
     private static Chat chat = null;
 
-    public CustomConfig MoneyPouchesFile = new CustomConfig(this, "Economy/Money Pouches", true);
+    // Feature Files
+    public CustomConfig MoneyPouchesFile = new CustomConfig(this, "Features/Money Pouches", true);
+    public CustomConfig ExperiencePouchesFile = new CustomConfig(this, "Features/Experience Pouches", true);
+    public CustomConfig BlockedCommandsFile = new CustomConfig(this, "Features/Blocked Commands", true);
+    public CustomConfig ChatFilterFile = new CustomConfig(this, "Features/Chat Filter", true);
+    public CustomConfig AutoMessagesFile = new CustomConfig(this, "Features/Auto Messages", true);
+    public CustomConfig WorthFile = new CustomConfig(this, "Features/Worth", true);
+    public CustomConfig CouponsFile = new CustomConfig(this, "Features/Coupons", true);
+
+    public CustomConfig ServerDataFile = new CustomConfig(this, "Data/Server Data", true);
     public CustomConfig MessagesFile = new CustomConfig(this, "Messages", true);
-    public CustomConfig BlockedCommandsFile = new CustomConfig(this, "Chat/Blocked Commands", true);
-    public CustomConfig ChatFilterFile = new CustomConfig(this, "Chat/Chat Filter", true);
-    public CustomConfig AutoMessagesFile = new CustomConfig(this, "Chat/Auto Messages", true);
-    public CustomConfig WorthFile = new CustomConfig(this, "Economy/Worth", true);
-    public CustomConfig CouponsFile = new CustomConfig(this, "Coupons", true);
 
     public void onEnable() {
         if (Bukkit.getPluginManager().getPlugin("EssentialsZAPI") == null) {
@@ -87,6 +90,9 @@ public final class Main extends JavaPlugin implements Listener {
         // Vault hook ================================================
         economyManager = new EconomyManager();
         economy_essentialsZ = new Economy_EssentialsZ();
+        for (Player online : Bukkit.getOnlinePlayers()) {
+            economyManager.loadBalance(online);
+        }
 
         setupChat();
         vaultHook = new VaultHook();
@@ -109,7 +115,8 @@ public final class Main extends JavaPlugin implements Listener {
         vanishCheck();
 
         // Console Start Message
-        getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&aEssentialsZ Core plugin has been enabled!"));
+        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&aEssentialsZ Core plugin has been enabled!",
+                null, null, null, false));
     }
 
     public void onDisable() {
@@ -122,12 +129,13 @@ public final class Main extends JavaPlugin implements Listener {
         vaultHook.unhook();
 
         // Console Stop Message
-        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&cEssentialsZ Core plugin has been disabled!", null, null, null, false));
+        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&cEssentialsZ Core plugin has been disabled!",
+                null, null, null, false));
     }
 
     @SuppressWarnings("ConstantConditions")
     public void registerCommands() {
-        getCommand("essentials").setExecutor(new cmd_Reload(this));
+        getCommand("essentials").setExecutor(new cmd_Reload());
 
         // Economy
         getCommand("economy").setExecutor(new cmd_Economy());
@@ -140,22 +148,22 @@ public final class Main extends JavaPlugin implements Listener {
         //getCommand("sell").setExecutor(new cmd_Sell(this));
 
         // Chat
-        getCommand("staffchat").setExecutor(new cmd_Staffchat(this));
-        getCommand("clearchat").setExecutor(new cmd_Clearchat(this));
-        getCommand("broadcast").setExecutor(new cmd_Broadcast(this));
-        getCommand("mutechat").setExecutor(new cmd_Mutechat(this));
-        getCommand("motd").setExecutor(new cmd_MOTD(this));
-        getCommand("sudo").setExecutor(new cmd_Sudo(this));
+        getCommand("staffchat").setExecutor(new cmd_Staffchat());
+        getCommand("clearchat").setExecutor(new cmd_Clearchat());
+        getCommand("broadcast").setExecutor(new cmd_Broadcast());
+        getCommand("mutechat").setExecutor(new cmd_Mutechat());
+        getCommand("motd").setExecutor(new cmd_MOTD());
+        getCommand("sudo").setExecutor(new cmd_Sudo());
 
         // Teleportation
-        getCommand("tp").setExecutor(new cmd_TP(this));
-        getCommand("tphere").setExecutor(new cmd_TPhere(this));
-        getCommand("hub").setExecutor(new cmd_Hub(this));
-        getCommand("rtp").setExecutor(new cmd_RandomTeleport(this));
-        getCommand("top").setExecutor(new cmd_Top(this));
-        getCommand("back").setExecutor(new cmd_Back(this));
+        getCommand("tp").setExecutor(new cmd_Teleport());
+        getCommand("tphere").setExecutor(new cmd_TeleportHere());
+        getCommand("hub").setExecutor(new cmd_Hub());
+        getCommand("rtp").setExecutor(new cmd_RandomTeleport());
+        getCommand("top").setExecutor(new cmd_Top());
+        getCommand("back").setExecutor(new cmd_Back());
         getCommand("setwarp").setExecutor(new cmd_SetWarp());
-        getCommand("delwarp").setExecutor(new cmd_DelWarp(this));
+        getCommand("delwarp").setExecutor(new cmd_DelWarp());
         getCommand("warp").setExecutor(new cmd_Warp());
         getCommand("warps").setExecutor(new cmd_Warps());
         getCommand("sethome").setExecutor(new cmd_SetHome());
@@ -186,16 +194,16 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("feed").setExecutor(new cmd_Feed());
         getCommand("smite").setExecutor(new cmd_Smite());
         getCommand("filltnt").setExecutor(new cmd_TNTFill());
+        getCommand("cps").setExecutor(new cmd_CPS());
 
     }
 
     public void registerEvents() {
-        // Registering events in this class
-        getServer().getPluginManager().registerEvents(this, this);
-
         // Chat Events
         getServer().getPluginManager().registerEvents(new ChatControl(), this);
-        getServer().getPluginManager().registerEvents(new JoinAndLeaveMessage(), this);
+        getServer().getPluginManager().registerEvents(new DefaultJoinMessage(), this);
+        getServer().getPluginManager().registerEvents(new VIPJoinMessage(), this);
+        getServer().getPluginManager().registerEvents(new OtherJoinMessage(), this);
         getServer().getPluginManager().registerEvents(new Color(), this);
         getServer().getPluginManager().registerEvents(new Displayname(), this);
 
@@ -242,16 +250,14 @@ public final class Main extends JavaPlugin implements Listener {
         saveDefaultConfig();
         cfile = new File(getDataFolder(), "config.yml");
     }
-
     public void loadCustomFiles() {
-        CouponsFile.saveDefaultConfig();
-
-        // Economy
-        MoneyPouchesFile.saveDefaultConfig();
-        WorthFile.saveDefaultConfig();
-
-        // Chat
+        ServerDataFile.saveDefaultConfig();
         MessagesFile.saveDefaultConfig();
+
+        CouponsFile.saveDefaultConfig();
+        MoneyPouchesFile.saveDefaultConfig();
+        ExperiencePouchesFile.saveDefaultConfig();
+        WorthFile.saveDefaultConfig();
         BlockedCommandsFile.saveDefaultConfig();
         ChatFilterFile.saveDefaultConfig();
         AutoMessagesFile.saveDefaultConfig();
@@ -298,6 +304,7 @@ public final class Main extends JavaPlugin implements Listener {
 
     private boolean setupChat() {
         RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+        if (rsp == null) return chat == null;
         chat = rsp.getProvider();
         return chat != null;
     }

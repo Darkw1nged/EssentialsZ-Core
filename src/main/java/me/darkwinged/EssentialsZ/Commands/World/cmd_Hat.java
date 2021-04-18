@@ -1,9 +1,8 @@
 package me.darkwinged.EssentialsZ.Commands.World;
 
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +17,7 @@ public class cmd_Hat implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("hat")) {
             if (plugin.getConfig().getBoolean("Commands.Hat", true)) {
                 if (!(sender instanceof Player)) {
-                    Utils.Message(sender, Errors.getErrors(Errors.Console));
+                    sender.sendMessage(Errors.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player) sender;
@@ -30,8 +29,10 @@ public class cmd_Hat implements CommandExecutor {
                     player.getInventory().setHelmet(inHand);
                     player.getInventory().setItemInHand(null);
                 } else {
-                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
+                   player.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }
+            } else {
+                sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
             }
         }
         return true;

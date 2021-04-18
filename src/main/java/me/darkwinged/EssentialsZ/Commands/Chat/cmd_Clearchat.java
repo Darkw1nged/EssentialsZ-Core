@@ -12,13 +12,12 @@ import org.bukkit.entity.Player;
 
 public class cmd_Clearchat implements CommandExecutor {
 
-    private final Main plugin;
-    public cmd_Clearchat(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("clearchat")) {
-            if (plugin.getConfig().getBoolean("Chat", true)) {
-                if (plugin.getConfig().getBoolean("cmd_Clearchat", true)) {
+            if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
+                if (plugin.getConfig().getBoolean("Chat.Settings.Commands.Clearchat", true)) {
                     if (!(sender instanceof Player)) {
                         for (int i = 0; i < 500; i++)
                             Bukkit.broadcastMessage(" ");
@@ -30,9 +29,8 @@ public class cmd_Clearchat implements CommandExecutor {
                         for (int i = 0; i < 500; i++)
                             Bukkit.broadcastMessage(" ");
                         Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("ClearChat Message").replaceAll("%player%", player.getName())));
-                    } else {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                    }
+                    } else
+                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }
             }
         }

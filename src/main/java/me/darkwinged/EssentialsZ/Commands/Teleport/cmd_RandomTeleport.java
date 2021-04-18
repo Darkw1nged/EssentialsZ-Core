@@ -1,10 +1,9 @@
 package me.darkwinged.EssentialsZ.Commands.Teleport;
 
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
 import me.darkwinged.EssentialsZ.Libaries.TeleportUtils;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,35 +16,34 @@ import java.util.UUID;
 
 public class cmd_RandomTeleport implements CommandExecutor {
 
-    private final Main plugin;
-    public cmd_RandomTeleport(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     private final HashMap<UUID, Integer> RandomTeleportDelay = new HashMap<>();
     private final HashMap<UUID, Integer> Cooldown = new HashMap<>();
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("rtp")) {
-            if (plugin.getConfig().getBoolean("Teleportation", true)) {
-                if (plugin.getConfig().getBoolean("cmd_RandomTeleport", true)) {
+            if (plugin.getConfig().getBoolean("Teleportation.enabled", true)) {
+                if (plugin.getConfig().getBoolean("Teleportation.Settings.Random Teleport.enabled", true)) {
                     if (!(sender instanceof Player)) {
-                        Utils.Message(sender, Errors.getErrors(Errors.Console));
+                        sender.sendMessage(Errors.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player)sender;
                     if (player.hasPermission(Permissions.RandomTeleport) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (RandomTeleportDelay.containsKey(player.getUniqueId()) || Cooldown.containsKey(player.getUniqueId())) {
-                            Utils.Message(sender, Errors.getErrors(Errors.Cooldown));
+                            player.sendMessage(Errors.getErrors(Errors.Cooldown));
                             return true;
                         }
                         if (player.hasPermission(Permissions.TeleportBypass) || player.hasPermission(Permissions.GlobalOverwrite)) {
                             Location randomLocation = TeleportUtils.findSafeLocationRandom(player);
                             player.teleport(randomLocation);
-                            player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                                    plugin.MessagesFile.getConfig().getString("Random Teleport message")));
+                            player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                    plugin.MessagesFile.getConfig().getString("Random Teleport message"), null, null, null, false));
                             return true;
                         } else {
-                            player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Teleporting message")
-                                    .replaceAll("%delay%", ""+plugin.Delay)));
+                            player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Teleporting message")
+                                    .replaceAll("%delay%", ""+plugin.Delay), null, null, null, false));
                             RandomTeleportDelay.put(player.getUniqueId(), plugin.Delay);
                             new BukkitRunnable() {
                                 public void run() {
@@ -53,8 +51,9 @@ public class cmd_RandomTeleport implements CommandExecutor {
                                     if (RandomTeleportDelay.get(player.getUniqueId()) <= 0) {
                                         Location randomLocation = TeleportUtils.findSafeLocationRandom(player);
                                         player.teleport(randomLocation);
-                                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                                                plugin.MessagesFile.getConfig().getString("Random Teleport message")));
+                                        player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                                plugin.MessagesFile.getConfig().getString("Random Teleport message"),
+                                                null, null, null, false));
 
                                         RandomTeleportDelay.remove(player.getUniqueId());
                                         Cooldown.put(player.getUniqueId(), plugin.getConfig().getInt("RandomTeleport_Cooldown") );
@@ -75,9 +74,10 @@ public class cmd_RandomTeleport implements CommandExecutor {
                                 }
                             }.runTaskTimer(plugin, 0L, 20L);
                         }
-                    } else {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                    }
+                    } else
+                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                } else {
+                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
                 }
             }
         }

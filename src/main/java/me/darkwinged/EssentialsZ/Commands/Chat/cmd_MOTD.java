@@ -11,8 +11,7 @@ import org.bukkit.entity.Player;
 
 public class cmd_MOTD implements CommandExecutor {
 
-    private final Main plugin;
-    public cmd_MOTD(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("motd")) {

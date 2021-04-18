@@ -1,10 +1,9 @@
 package me.darkwinged.EssentialsZ.Commands.Teleport;
 
 import me.darkwinged.EssentialsZ.Libaries.Lang.CustomConfig;
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -59,9 +58,10 @@ public class cmd_SetHome  implements CommandExecutor {
                                 plugin.MessagesFile.getConfig().getString("Home")
                                         .replaceAll("%home%", HomeName).replaceAll("%setting%", "created"),
                                 player, null, null, false));
-                    } else {
-                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPermission)));
-                    }
+                    } else
+                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                } else {
+                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
                 }
             }
         }

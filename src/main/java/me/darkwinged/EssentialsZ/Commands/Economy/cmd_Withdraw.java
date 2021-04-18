@@ -1,9 +1,8 @@
 package me.darkwinged.EssentialsZ.Commands.Economy;
 
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -60,9 +59,11 @@ public class cmd_Withdraw implements CommandExecutor {
                             item = new ItemStack(Material.getMaterial(plugin.getConfig().getString("Economy.Settings.Bank Notes.Item.material")));
                         }
                         ItemMeta meta = item.getItemMeta();
-                        meta.setDisplayName(Utils.chat(plugin.getConfig().getString("Economy.Settings.Bank Notes.Item.name")));
+                        meta.setDisplayName(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Economy.Settings.Bank Notes.Item.name"),
+                                null, null, null, false));
                         List<String> lore = new ArrayList<>();
-                        lore.add(Utils.chat(plugin.getConfig().getString("Economy.Settings.Bank Notes.Item.amount")) + amount);
+                        lore.add(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Economy.Settings.Bank Notes.Item.amount"),
+                                null, null, null, false) + amount);
                         meta.setLore(lore);
                         item.setItemMeta(meta);
 

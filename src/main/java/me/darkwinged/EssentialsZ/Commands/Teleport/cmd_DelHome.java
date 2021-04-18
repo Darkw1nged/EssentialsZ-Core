@@ -1,10 +1,9 @@
 package me.darkwinged.EssentialsZ.Commands.Teleport;
 
 import me.darkwinged.EssentialsZ.Libaries.Lang.CustomConfig;
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -78,9 +77,10 @@ public class cmd_DelHome implements CommandExecutor {
                                         target, target, null, false));
                             }
                         }
-                    } else {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                    }
+                    } else
+                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                } else {
+                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
                 }
             }
         }

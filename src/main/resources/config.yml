@@ -76,9 +76,27 @@ Teleportation:
   enabled: true
   Settings:
     # If you want anyone to bypass this then give them the following permission: "Essentials.TeleportDelay.Bypass"
-    Teleportation_Delay: 5 # In seconds.
+    Teleportation Delay: 5 # In seconds.
     No void: true
     Spawn onJoin: false
+
+    Spawn:
+      Settings:
+        Size: 50 # 25 x 25
+        Flags:
+          Cancel-Build: true
+          Cancel-PVP: true
+          Cancel-Mob-Spawning: true
+          Cancel-Animal-Spawning: true
+          Cancel-Explosions: true
+          Cancel-Mob-Grief: true
+          Cancel-Chest-Access: true
+          Cancel-Interact: true
+          Cancel-Redstone: true
+          Cancel-Chat: false
+          Cancel-Teleport: false
+          Cancel-Lose-Hunger: false
+
     Hub:
       # WARNING! This will only work for Bungeecord, waterfall servers.
       enabled: false
@@ -107,7 +125,7 @@ Teleportation:
       format: "&6%sender% &e-> &6%player%"
 
     Commands:
-      Teleport: true
+      teleport: true
       top: true
       back: true
 
@@ -148,6 +166,9 @@ Chat:
     Server MOTD:
       enabled: false
       MOTD: "&6Welcome to my server"
+    Chat Ping:
+      enabled: false
+      color: 'a' # What color the name changes to.
 
     Staff chat:
       enabled: true
@@ -158,7 +179,7 @@ Chat:
       Receive: "&e%player% &f>> &eme&f:"
     Custom Display Name:
       enabled: false
-      Format: "<%prefix% %player% %suffix%> %message%"
+      Format: "<%prefix%%player%%suffix%> %message%"
 
     Tablist:
       enabled: true
@@ -184,11 +205,9 @@ Chat:
 
     Events:
       Leave Message: true
-      Chat Ping: true
       Filter: true
       Anti Spam: true
       Blocked Commands: true
-      Show Item: true
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -233,7 +252,7 @@ Commands:
   Feed: true
   Smite: true
   Repair: true
-
+  CPS: true
   TNT Fill:
     enabled: true
     raduis:
@@ -294,12 +313,3 @@ Profiles:
           - "&aFood: %food%"
           - "&aItem in Hand: %main_item%"
           - "&aItem in Off Hand: %off_item%"
-
-############################################################
-# +------------------------------------------------------+ #
-# |           EssentialsZ (Server Information)           | #
-# |         Do not change any values beyond here.        | #
-# +------------------------------------------------------+ #
-############################################################
-
-Server_Player_Total: 0

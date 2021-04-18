@@ -37,9 +37,9 @@ public class cmd_Kill  implements CommandExecutor {
                                     ((Player) entity).setHealth(0);
                                 } else return true;
 
-                                player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Kill " +
-                                        "Entities")));
                             }
+                            player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Kill " +
+                                    "Entities")));
                             return true;
                         } else if (args[0].equalsIgnoreCase("@a")) {
                             for (Player online : Bukkit.getOnlinePlayers()) {

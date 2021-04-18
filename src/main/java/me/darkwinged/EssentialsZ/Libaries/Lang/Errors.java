@@ -4,7 +4,7 @@ import me.darkwinged.EssentialsZ.Main;
 
 public enum Errors {
 
-    NoPermission, Console, SpecifyPlayer, NoPlayerFound, Cooldown, CooldownItem, SenderInstaceOfPlayer,
+    NoPermission, Console, SpecifyPlayer, NoPlayerFound, Cooldown, CooldownItem, SenderInstaceOfPlayer, DisabledCommand,
 
     MessageEmpty,
 
@@ -17,7 +17,7 @@ public enum Errors {
     NoWarpNameProvided, WarpDoesNotExist, WarpAlreadyExist, NoWarpsFound,
     NoHomeNameProvided, NoHomes, HomeDoesNotExist, HomeAlreadyExist,
 
-    GamemodeUsage, WorldGenUsage, InvalidWorld, InvalidGameMode, FullFood;
+    GamemodeUsage, WorldGenUsage, InvalidWorld, InvalidGameMode, FullFood, Length;
 
     private static final Main plugin = Main.getInstance;
 
@@ -44,6 +44,9 @@ public enum Errors {
                 break;
             case SenderInstaceOfPlayer:
                 errors = plugin.essentialsZAPI.utils.chat("&cError! Please choose another player", null, null, null, false);
+                break;
+            case DisabledCommand:
+                errors = plugin.essentialsZAPI.utils.chat("&cError! Server has disabled this command!", null, null, null, false);
                 break;
 
             case MessageEmpty:
@@ -92,7 +95,7 @@ public enum Errors {
                 errors = plugin.essentialsZAPI.utils.chat("&cError! Usage: /tp <player> OR /tp <player> <player>", null, null, null, false);
                 break;
             case TPhereUsage:
-                errors = plugin.essentialsZAPI.utils.chat("&cError! Usage: /tphere <player>", null, null, null, false);
+                errors = plugin.essentialsZAPI.utils.chat("&cError! Usage: /tphere <player, @e, @a>", null, null, null, false);
                 break;
             case NoPreviousLocation:
                 errors = plugin.essentialsZAPI.utils.chat("&cError! Could not find a previous location.", null, null, null, false);
@@ -137,6 +140,9 @@ public enum Errors {
                 break;
             case FullFood:
                 errors = plugin.essentialsZAPI.utils.chat("&cError! Already full on food.", null, null, null, false);
+                break;
+            case Length:
+                errors = plugin.essentialsZAPI.utils.chat("&cError! Please specify how long for.", null, null, null, false);
                 break;
         }
         return errors;

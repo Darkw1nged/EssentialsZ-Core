@@ -12,8 +12,7 @@ import org.bukkit.entity.Player;
 
 public class cmd_Staffchat implements CommandExecutor {
 
-    private final Main plugin;
-    public cmd_Staffchat(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("staffchat")) {
@@ -21,22 +20,22 @@ public class cmd_Staffchat implements CommandExecutor {
                 if (plugin.getConfig().getBoolean("Chat.Settings.Staff chat.enabled", true)) {
                     if (!(sender instanceof Player)) {
                         if (!(args.length >= 1)) {
-                            Utils.Message(sender, Errors.getErrors(Errors.MessageEmpty));
+                            sender.sendMessage(Errors.getErrors(Errors.MessageEmpty));
                             return true;
                         }
                         String msg = Utils.chat(plugin.getConfig().getString("Chat.Settings.Staff chat.Format").replaceAll("%player%", sender.getName()));
                         for (String s : args) {
                             msg = msg + " " + s;
                         }
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-                            if (player.hasPermission(Permissions.StaffChat) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                                if (!Utils.staff_chat.contains(player))
-                                    player.sendMessage(msg);
+                        for (Player online : Bukkit.getOnlinePlayers()) {
+                            if (online.hasPermission(Permissions.StaffChat) || online.hasPermission(Permissions.GlobalOverwrite)) {
+                                if (!Utils.staff_chat.contains(online.getUniqueId()))
+                                    online.sendMessage(msg);
                             }
                         }
                         return true;
                     }
-                    Player player = (Player)sender;
+                    Player player = (Player) sender;
                     if (player.hasPermission(Permissions.StaffChat) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (!(args.length >= 1)) {
                             Utils.Message(sender, Errors.getErrors(Errors.MessageEmpty));
@@ -49,13 +48,12 @@ public class cmd_Staffchat implements CommandExecutor {
                         }
                         for (Player online : Bukkit.getOnlinePlayers()) {
                             if (online.hasPermission(Permissions.StaffChat) || online.hasPermission(Permissions.GlobalOverwrite)) {
-                                if (!Utils.staff_chat.contains(online))
+                                if (!Utils.staff_chat.contains(online.getUniqueId()))
                                     online.sendMessage(msg);
                             }
                         }
-                    } else {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                    }
+                    } else
+                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }
             }
         }

@@ -1,13 +1,10 @@
 package me.darkwinged.EssentialsZ.Events.Chat;
 
-import com.google.gson.Gson;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
 import me.darkwinged.EssentialsZ.Main;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
@@ -70,7 +66,7 @@ public class ChatControl implements Listener {
     // Blocked Commands
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-        if (plugin.getConfig().getBoolean("Chat", true)) {
+        if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
             if (plugin.getConfig().getBoolean("Chat.Settings.Events.Blocked Commands", true)) {
                 Player player = event.getPlayer();
                 for (String msg : event.getMessage().split(" ")) {
@@ -87,7 +83,7 @@ public class ChatControl implements Listener {
     // Chat Filter
     @EventHandler
     public void antiswear(AsyncPlayerChatEvent event) {
-        if (plugin.getConfig().getBoolean("Chat", true)) {
+        if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
             if (plugin.getConfig().getBoolean("Chat.Settings.Events.Filter", true)) {
                 String censor = "#$@&%*!";
                 String msg = event.getMessage();
@@ -102,12 +98,14 @@ public class ChatControl implements Listener {
     // Chat ping
     @EventHandler
     public void Ping(AsyncPlayerChatEvent event) {
-        if (plugin.getConfig().getBoolean("Chat", true)) {
-            if (plugin.getConfig().getBoolean("Chat.Settings.Events.Chat Ping", true)) {
+        if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
+            if (plugin.getConfig().getBoolean("Chat.Settings.Chat Ping.enabled", true)) {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     if (event.getMessage().contains("@"+player.getName())) {
                         if (player == event.getPlayer())
                             return;
+                        String color = "&" + plugin.getConfig().getString("Chat.Settings.Chat Ping.color");
+                        event.getMessage().replaceAll(player.getName(), ChatColor.translateAlternateColorCodes('&', color+player.getName()));
                         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.2F, 0.5F);
                     }
                 }
@@ -115,24 +113,21 @@ public class ChatControl implements Listener {
         }
     }
 
-    // Show Item
+    // Quit message
     @EventHandler
-    public void showItem(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
-        TextComponent message = new TextComponent(event.getMessage());
-        if (plugin.getConfig().getBoolean("Chat.Settings.Events.Show Item", true)) {
-            if (!player.getInventory().getItemInMainHand().hasItemMeta()) return;
-            ItemStack itemStack = player.getInventory().getItemInMainHand();
-            Gson gson = new Gson();
-            String ItemInfo = gson.toJson(itemStack);
-
-            BaseComponent[] hoverEventComponents = new BaseComponent[]{
-                    new TextComponent(ItemInfo)
-            };
-
-            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverEventComponents));
+    public void onQuit(PlayerQuitEvent event) {
+        if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
+            if (plugin.getConfig().getBoolean("Chat.Settings.Show Leave Message", true)) {
+                Player player = event.getPlayer();
+                if (Utils.invisible_list.contains(player.getUniqueId())) {
+                    event.setQuitMessage(null);
+                    return;
+                }
+                event.setQuitMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("quit message"), player, null, player, false));
+                return;
+            }
+            event.setQuitMessage(null);
         }
     }
-
 
 }

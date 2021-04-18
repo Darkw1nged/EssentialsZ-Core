@@ -1,9 +1,8 @@
 package me.darkwinged.EssentialsZ.Commands.Economy;
 
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -57,9 +56,8 @@ public class cmd_Pay implements CommandExecutor {
                         plugin.economyManager.RemoveAccount(player, amount);
                         // Adding the amount to the target balance
                         plugin.economyManager.AddAccount(target, amount);
-                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Payed")
-                                .replaceAll("%player%", target.getName())
-                                .replaceAll("%amount%", ""+amount)));
+                        player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Payed")
+                                .replaceAll("%amount%", ""+amount), target, target, null, false));
                     } else
                         player.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }

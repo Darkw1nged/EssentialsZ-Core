@@ -1,6 +1,7 @@
 package me.darkwinged.EssentialsZ.Events;
 
 import me.darkwinged.EssentialsZ.Libaries.Lang.CustomConfig;
+import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
 import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.entity.Player;
@@ -28,8 +29,15 @@ public class PlayerData implements Listener {
 
             Data.getConfig().set("lastKnownName", player.getName());
             Data.getConfig().set("timestamps.lastLogin", time_format.format(login));
-            Data.getConfig().set("Prefix", plugin.getChat().getPlayerPrefix(player));
-            Data.getConfig().set("Suffix", plugin.getChat().getPlayerSuffix(player));
+            if (plugin.getChat() != null) {
+                Data.getConfig().set("Prefix", plugin.getChat().getPlayerPrefix(player));
+                Data.getConfig().set("Suffix", plugin.getChat().getPlayerSuffix(player));
+            }
+            if (player.hasPermission(Permissions.VIPJoin) || player.hasPermission(Permissions.GlobalOverwrite)) {
+                Data.getConfig().set("isVIP", true);
+            } else {
+                Data.getConfig().set("isVIP", false);
+            }
 
             Data.saveConfig();
 
@@ -47,8 +55,10 @@ public class PlayerData implements Listener {
         Utils.PT_Seconds.put(player.getUniqueId(), 0);
 
         Data.getConfig().set("lastKnownName", player.getName());
-        Data.getConfig().set("Prefix", plugin.getChat().getPlayerPrefix(player));
-        Data.getConfig().set("Suffix", plugin.getChat().getPlayerSuffix(player));
+        if (plugin.getChat() != null) {
+            Data.getConfig().set("Prefix", plugin.getChat().getPlayerPrefix(player));
+            Data.getConfig().set("Suffix", plugin.getChat().getPlayerSuffix(player));
+        }
 
         // Time Stamps
         Data.getConfig().set("timestamps.lastLogin", time_format.format(login));
@@ -57,7 +67,13 @@ public class PlayerData implements Listener {
         Data.getConfig().set("money", plugin.economyManager.getAccount(player));
         Data.getConfig().set("ipAddress", player.getAddress().getHostString());
         Data.getConfig().set("isVanished", false);
-        Data.getConfig().set("isJailed", false );
+        Data.getConfig().set("isJailed", false);
+        Data.getConfig().set("hasPlayedBefore", false);
+        if (player.hasPermission(Permissions.VIPJoin) || player.hasPermission(Permissions.GlobalOverwrite)) {
+            Data.getConfig().set("isVIP", true);
+        } else {
+            Data.getConfig().set("isVIP", false);
+        }
 
         // Playtime
         Data.getConfig().set("Playtime.Days", Utils.PT_Days.get(player.getUniqueId()));
@@ -78,8 +94,10 @@ public class PlayerData implements Listener {
         if (!Data.getConfig().contains("lastKnownName")) return;
 
         Data.getConfig().set("money", plugin.economyManager.getAccount(player));
-        Data.getConfig().set("Prefix", plugin.getChat().getPlayerPrefix(player));
-        Data.getConfig().set("Suffix", plugin.getChat().getPlayerSuffix(player));
+        if (plugin.getChat() != null) {
+            Data.getConfig().set("Prefix", plugin.getChat().getPlayerPrefix(player));
+            Data.getConfig().set("Suffix", plugin.getChat().getPlayerSuffix(player));
+        }
 
         Data.getConfig().set("Playtime.Days", Utils.PT_Days.get(player.getUniqueId()));
         Data.getConfig().set("Playtime.Hours", Utils.PT_Hours.get(player.getUniqueId()));

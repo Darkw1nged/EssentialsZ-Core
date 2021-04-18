@@ -1,9 +1,10 @@
 package me.darkwinged.EssentialsZ.Events.World;
 
-import me.darkwinged.EssentialsZ.Main;
+import me.darkwinged.EssentialsZ.Commands.World.cmd_CPS;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -19,8 +20,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 public class WorldControl implements Listener {
 
@@ -148,7 +148,7 @@ public class WorldControl implements Listener {
                 }.runTaskTimer(plugin, 0L, 20L);
                 return;
             }
-            Utils.Message(player, Errors.getErrors(Errors.Cooldown));
+            player.sendMessage(Errors.getErrors(Errors.Cooldown));
             event.setCancelled(true);
         }
     }
@@ -176,10 +176,12 @@ public class WorldControl implements Listener {
                 world.setThundering(false);
                 world.setStorm(false);
                 event.setCancelled(true);
-                Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("One Player Sleep")));
+                Bukkit.broadcastMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("One Player Sleep"),
+                        null, null, null, false));
             } else {
                 event.setCancelled(true);
-                player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Already Day")));
+                player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Already Day"),
+                        null, null, null, false));
             }
         }
     }
@@ -214,7 +216,7 @@ public class WorldControl implements Listener {
                 return;
             if (item.getType().equals(Material.GOLDEN_APPLE)) {
                 if (cooldownTime_Normal.containsKey(player.getUniqueId())) {
-                    Utils.Message(player, Errors.getErrors(Errors.CooldownItem));
+                    player.sendMessage(Errors.getErrors(Errors.CooldownItem));
                     event.setCancelled(true);
                     player.updateInventory();
                     return;
@@ -248,7 +250,7 @@ public class WorldControl implements Listener {
                     if (player.hasPermission(Permissions.bypass) || player.hasPermission(Permissions.GlobalOverwrite))
                         return;
                     if (cooldownTime.containsKey(player.getUniqueId())) {
-                        player.sendMessage(Utils.chat(Errors.getErrors(Errors.CooldownItem)));
+                        player.sendMessage(Errors.getErrors(Errors.CooldownItem));
                         event.setCancelled(true);
                         player.updateInventory();
                         return;
@@ -288,6 +290,38 @@ public class WorldControl implements Listener {
             if (player.isFlying()) {
                 player.setFlying(true);
                 player.setAllowFlight(true);
+            }
+        }
+    }
+
+    // CPS checker
+    public static Map<UUID, Integer> player_CPS = new HashMap<>();
+    public static Map<UUID, Integer> Highest_CPS = new HashMap<>();
+    private final Map<UUID, Integer> previous_time = new HashMap<>();
+
+    @EventHandler
+    public void CPS_Check(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if (!previous_time.containsKey(player.getUniqueId())) {
+            previous_time.put(player.getUniqueId(), 0);
+            Highest_CPS.put(player.getUniqueId(), 0);
+            player_CPS.put(player.getUniqueId(), 0);
+        }
+        if (cmd_CPS.Check.containsKey(player.getUniqueId())) {
+            if (event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+                if (previous_time.get(player.getUniqueId()).equals(cmd_CPS.Check.get(player.getUniqueId()))) {
+                    if (player_CPS.containsKey(player.getUniqueId())) {
+                        player_CPS.put(player.getUniqueId(), player_CPS.get(player.getUniqueId()) + 1);
+                    } else {
+                        player_CPS.put(player.getUniqueId(), 1);
+                    }
+                } else {
+                    previous_time.put(player.getUniqueId(), cmd_CPS.Check.get(player.getUniqueId()));
+                    if (Highest_CPS.get(player.getUniqueId()) < player_CPS.get(player.getUniqueId())) {
+                        Highest_CPS.put(player.getUniqueId(), player_CPS.get(player.getUniqueId()));
+                    }
+                    player_CPS.put(player.getUniqueId(), 0);
+                }
             }
         }
     }

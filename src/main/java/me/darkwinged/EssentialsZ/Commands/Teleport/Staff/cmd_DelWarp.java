@@ -11,13 +11,12 @@ import org.bukkit.entity.Player;
 
 public class cmd_DelWarp implements CommandExecutor {
 
-    private final Main plugin;
-    public cmd_DelWarp(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("delwarp")) {
             if (plugin.getConfig().getBoolean("Teleportation", true)) {
-                if (plugin.getConfig().getBoolean("cmd_DelWarp", true)) {
+                if (plugin.getConfig().getBoolean("Teleportation.Settings.Warps.enabled", true)) {
                     if (!(sender instanceof Player)) {
                         if (args.length < 1) {
                             sender.sendMessage(Errors.getErrors(Errors.NoWarpNameProvided));
@@ -50,6 +49,8 @@ public class cmd_DelWarp implements CommandExecutor {
                                         plugin.MessagesFile.getConfig().getString("Remove Warp").replaceAll("%warp%", WarpName), null,
                                 null, null, false));
                     }
+                } else {
+                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
                 }
             }
         }

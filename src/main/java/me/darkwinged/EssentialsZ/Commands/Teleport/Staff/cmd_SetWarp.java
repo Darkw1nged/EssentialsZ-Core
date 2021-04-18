@@ -3,7 +3,6 @@ package me.darkwinged.EssentialsZ.Commands.Teleport.Staff;
 import me.darkwinged.EssentialsZ.Libaries.Lang.CustomConfig;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
 import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -50,9 +49,10 @@ public class cmd_SetWarp implements CommandExecutor {
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("Create Warp").replaceAll("%warp%", ProvidedWarp),
                                 null, null, null, false));
-                    } else {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                    }
+                    } else
+                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                } else {
+                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
                 }
             }
         }

@@ -118,6 +118,8 @@ public class cmd_Warp implements CommandExecutor {
                         } else
                             player.sendMessage(Errors.getErrors(Errors.NoPermission));
                     }
+                } else {
+                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
                 }
             }
 

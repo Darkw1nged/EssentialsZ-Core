@@ -1,9 +1,8 @@
 package me.darkwinged.EssentialsZ.Commands.Teleport.Staff;
 
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,15 +12,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class cmd_TP implements CommandExecutor {
+public class cmd_Teleport implements CommandExecutor {
 
-    private final Main plugin;
-    public cmd_TP(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("tp")) {
-            if (plugin.getConfig().getBoolean("Teleportation", true)) {
-                if (plugin.getConfig().getBoolean("cmd_TP", true)) {
+            if (plugin.getConfig().getBoolean("Teleportation.enabled", true)) {
+                if (plugin.getConfig().getBoolean("Teleportation.Commands.teleport", true)) {
                     if (!(sender instanceof Player)) {
                         if (args.length != 2) {
                             sender.sendMessage(ChatColor.RED + "Error! Usage: /tp <player> <player>");
@@ -30,21 +28,19 @@ public class cmd_TP implements CommandExecutor {
                             Player target1 = Bukkit.getPlayer(args[0]);
                             Player target2 = Bukkit.getPlayer(args[1]);
                             if (target1 == null) {
-                                Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
+                                sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target2 == null) {
-                                Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
+                                sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target1 == target2) {
-                                Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
+                                sender.sendMessage(Errors.getErrors(Errors.SenderInstaceOfPlayer));
                                 return true;
                             }
-                            String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("TP Other message")
-                                    .replaceAll("%target2%", target2.getDisplayName())
-                                    .replaceAll("%target%", target1.getDisplayName()));
-                            sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
+                            sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                    plugin.MessagesFile.getConfig().getString("TP Other message"), target1, target1, null, false ));
                             target1.teleport(target2);
                         }
                         return true;
@@ -55,66 +51,63 @@ public class cmd_TP implements CommandExecutor {
                         if (args.length == 1) {
                             Player target = Bukkit.getPlayer(args[0]);
                             if (target == null) {
-                                Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
+                                player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (player == target) {
-                                Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
+                                player.sendMessage(Errors.getErrors(Errors.SenderInstaceOfPlayer));
                                 return true;
                             }
-                            String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("TP message"))
-                                    .replaceAll("%player%", target.getDisplayName());
-                            player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
+                            player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                    plugin.MessagesFile.getConfig().getString("TP message"), target, target, null, false));
                             player.teleport(target);
                         } else if (args.length == 2) {
                             if (args[0].equalsIgnoreCase("world")) {
                                 if (Bukkit.getWorld(args[1]) != null) {
                                     World world = Bukkit.getWorld(args[1]);
                                     player.teleport(world.getSpawnLocation());
-                                    player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("TP World message").replaceAll("%world%", world.getName())));
+                                    player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("TP World message")
+                                            .replaceAll("%world%", world.getName()), null, null, null, false));
                                 } else {
-                                    Utils.Message(sender, Errors.getErrors(Errors.InvalidWorld));
+                                    player.sendMessage(Errors.getErrors(Errors.InvalidWorld));
                                 }
                                 return true;
                             }
                             Player target1 = Bukkit.getPlayer(args[0]);
                             Player target2 = Bukkit.getPlayer(args[1]);
                             if (target1 == null) {
-                                Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
+                                player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target2 == null) {
-                                Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
+                                player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target1 == target2) {
-                                Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
+                                player.sendMessage(Errors.getErrors(Errors.SenderInstaceOfPlayer));
                                 return true;
                             }
-                            String Message = Utils.chat(plugin.MessagesFile.getConfig().getString("TP Other message")
-                                            .replaceAll("%target2%", target2.getDisplayName())
-                                            .replaceAll("%target%", target1.getDisplayName()));
-                            player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
+                            player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("TP Other message")
+                                    .replaceAll("%target2%", target2.getDisplayName()), target1, target1, null, false));
                             target1.teleport(target2);
                         } else if (args.length == 3) {
                             if (args[0].equalsIgnoreCase("world")) {
                                 if (Bukkit.getWorld(args[1]) != null) {
                                     Player target = Bukkit.getPlayer(args[2]);
                                     if (target == null) {
-                                        Utils.Message(sender, Errors.getErrors(Errors.NoPlayerFound));
+                                        player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
                                         return true;
                                     }
                                     if (player == target) {
-                                        Utils.Message(sender, Errors.getErrors(Errors.SenderInstaceOfPlayer));
+                                        player.sendMessage(Errors.getErrors(Errors.SenderInstaceOfPlayer));
                                         return true;
                                     }
                                     World world = Bukkit.getWorld(args[1]);
                                     target.teleport(world.getSpawnLocation());
-                                    player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("TP World Other message")
-                                                        .replaceAll("%world%", world.getName())
-                                                        .replaceAll("%player%", target.getName())));
+                                    player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("TP World Other message")
+                                                        .replaceAll("%world%", world.getName()), target, target, null, false));
                                 } else {
-                                    Utils.Message(sender, Errors.getErrors(Errors.InvalidWorld));
+                                    player.sendMessage(Errors.getErrors(Errors.InvalidWorld));
                                 }
                                 return true;
                             }
@@ -126,19 +119,18 @@ public class cmd_TP implements CommandExecutor {
                                         int z = Integer.parseInt(args[2]);
                                         Location loc = new Location(player.getWorld(), x, y, z);
                                         player.teleport(loc);
-                                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("TP Cords message")
+                                        player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("TP Cords message")
                                                 .replaceAll("%X%", ""+x)
                                                 .replaceAll("%Y%", ""+y)
-                                                .replaceAll("%Z%", ""+z)));
+                                                .replaceAll("%Z%", ""+z), null, null, null, false));
                                     }
                                 }
                             }
                         }
-                    } else {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                        return true;
-                    }
-
+                    } else
+                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                } else {
+                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
                 }
             }
         }
