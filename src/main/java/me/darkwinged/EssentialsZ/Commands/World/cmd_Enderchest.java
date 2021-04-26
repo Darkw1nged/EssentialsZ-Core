@@ -18,7 +18,7 @@ public class cmd_Enderchest implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("enderchest")) {
             if (plugin.getConfig().getBoolean("Commands.Enderchest", true)) {
                 if (!(sender instanceof Player)) {
-                    Utils.Message(sender, Errors.getErrors(Errors.Console));
+                    sender.sendMessage(Errors.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player)sender;
@@ -26,16 +26,14 @@ public class cmd_Enderchest implements CommandExecutor {
                     if (player.hasPermission(Permissions.EnderchestOther) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         Player target = Bukkit.getPlayer(args[0]);
                         player.openInventory(target.getEnderChest());
-                    } else {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                    }
+                    } else 
+                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
                     return true;
                 }
                 if (player.hasPermission(Permissions.Enderchest) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     player.openInventory(player.getEnderChest());
-                } else {
-                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                }
+                } else 
+                    player.sendMessage(Errors.getErrors(Errors.NoPermission));
             }
         }
         return false;
