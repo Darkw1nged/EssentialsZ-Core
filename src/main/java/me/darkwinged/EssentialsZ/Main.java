@@ -174,11 +174,11 @@ public final class Main extends JavaPlugin {
         // World
         getCommand("hat").setExecutor(new cmd_Hat());
         getCommand("ping").setExecutor(new cmd_Ping());
-        getCommand("gma").setExecutor(new cmd_AdventureMode(this));
-        getCommand("gmc").setExecutor(new cmd_CreativeMode(this));
-        getCommand("gms").setExecutor(new cmd_SurvivalMode(this));
-        getCommand("gmsp").setExecutor(new cmd_SpectatorMode(this));
-        getCommand("gamemode").setExecutor(new cmd_Gamemode(this));
+        getCommand("gma").setExecutor(new cmd_AdventureMode());
+        getCommand("gmc").setExecutor(new cmd_CreativeMode());
+        getCommand("gms").setExecutor(new cmd_SurvivalMode());
+        getCommand("gmsp").setExecutor(new cmd_SpectatorMode());
+        getCommand("gamemode").setExecutor(new cmd_Gamemode());
         getCommand("invsee").setExecutor(new cmd_Invsee());
         getCommand("vanish").setExecutor(new cmd_Vanish());
         getCommand("repair").setExecutor(new cmd_Repair());
