@@ -22,7 +22,7 @@ public class cmd_DelWorld implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Commands.World Creation", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length != 1) {
-                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.InvalidWorld)));
+                        sender.sendMessage(Errors.getErrors(Errors.InvalidWorld));
                         return true;
                     }
                     if (Bukkit.getWorld(args[0]) != null) {
@@ -35,7 +35,7 @@ public class cmd_DelWorld implements CommandExecutor {
                 Player player = (Player) sender;
                 if (player.hasPermission(Permissions.RemoveWorld) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length != 1) {
-                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.InvalidWorld)));
+                        sender.sendMessage(Errors.getErrors(Errors.InvalidWorld));
                         return true;
                     }
                     if (Bukkit.getWorld(args[0]) != null) {
@@ -44,7 +44,7 @@ public class cmd_DelWorld implements CommandExecutor {
                         deleteWorld(deleteFolder);
                     }
                 } else {
-                    sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPermission)));
+                    sender.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }
 
             }
