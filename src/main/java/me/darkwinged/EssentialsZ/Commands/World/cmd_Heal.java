@@ -26,7 +26,7 @@ public class cmd_Heal implements CommandExecutor {
                     if (args.length == 1) {
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
-                            sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPlayerFound)));
+                            sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         if (target.getGameMode().equals(creative) || target.getGameMode().equals(spectator)) {
@@ -36,10 +36,10 @@ public class cmd_Heal implements CommandExecutor {
                         target.setHealth(20.0);
                         target.setFoodLevel(20);
                         removepotions(target);
-                        sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) +
-                                Utils.chat(plugin.MessagesFile.getConfig().getString("Healed Other").replaceAll("%player%", target.getName())));
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) +
+                                plugin.MessagesFile.getConfig().getString("Healed Other"), target, target, null, false));
                     } else {
-                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.SpecifyPlayer)));
+                        sender.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));
                     }
                     return true;
                 }
@@ -48,7 +48,7 @@ public class cmd_Heal implements CommandExecutor {
                     if (player.hasPermission(Permissions.HealOther) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
-                            sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPlayerFound)));
+                            sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         if (target.getGameMode().equals(creative) || target.getGameMode().equals(spectator)) {
@@ -58,8 +58,8 @@ public class cmd_Heal implements CommandExecutor {
                         target.setHealth(20.0);
                         target.setFoodLevel(20);
                         removepotions(target);
-                        sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) +
-                                Utils.chat(plugin.MessagesFile.getConfig().getString("Healed Other").replaceAll("%player%", target.getName())));
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) +
+                                plugin.MessagesFile.getConfig().getString("Healed Other"), target, target, null, false));
                     } else {
                         player.sendMessage(Errors.getErrors(Errors.NoPermission));
                     }
@@ -72,11 +72,10 @@ public class cmd_Heal implements CommandExecutor {
                         player.setHealth(20.0);
                         player.setFoodLevel(20);
                         removepotions(player);
-                        sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) +
-                                Utils.chat(plugin.MessagesFile.getConfig().getString("Healed")));
-                    } else {
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) +
+                                plugin.MessagesFile.getConfig().getString("Healed"), null, null, null, false);
+                    } else 
                         player.sendMessage(Errors.getErrors(Errors.NoPermission));
-                    }
                 }
             }
         }
