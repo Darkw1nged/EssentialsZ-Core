@@ -33,7 +33,7 @@ public class cmd_Feed implements CommandExecutor {
                         return true;
                     }
                     target.setFoodLevel(20);
-                    sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                    sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                             plugin.MessagesFile.getConfig().getString("Feed Other").replaceAll("%player%", target.getName())));
                     return true;
                 }
@@ -45,7 +45,7 @@ public class cmd_Feed implements CommandExecutor {
                             return true;
                         }
                         player.setFoodLevel(20);
-                        sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("Feed")));
                     } else
                         player.sendMessage(Errors.getErrors(Errors.NoPermission));
@@ -62,7 +62,7 @@ public class cmd_Feed implements CommandExecutor {
                         return true;
                     }
                     target.setFoodLevel(20);
-                    sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                    sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                             plugin.MessagesFile.getConfig().getString("Feed Other").replaceAll("%player%", target.getName())));
                 } else
                     player.sendMessage(Errors.getErrors(Errors.NoPermission));
