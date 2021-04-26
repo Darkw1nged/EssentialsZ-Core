@@ -21,7 +21,7 @@ public class cmd_Repair implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("repair")) {
             if (plugin.getConfig().getBoolean("Commands.Repair")) {
                 if (!(sender instanceof Player)) {
-                    Utils.Message(sender, Errors.getErrors(Errors.Console));
+                    sender.sendMessage(Errors.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player)sender;
@@ -47,9 +47,9 @@ public class cmd_Repair implements CommandExecutor {
                                             player.getInventory().getItem(i).setDurability((short) 0);
                                     } catch (Exception ignored) { }
                                 }
-                                player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair Inventory")));
+                                player.sendMessage(plugin.essentialsZAPI.utils(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair Inventory"), target, target, null, false)));
                             } else {
-                                Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
+                                sender.sendMessage(Errors.getErrors(Errors.NoPermission));
                             }
                             break;
                         case "chest":
@@ -76,12 +76,12 @@ public class cmd_Repair implements CommandExecutor {
                                             } catch (Exception ignored) { }
                                         }
                                     }
-                                    player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair Chest")));
+                                    player.sendMessage(plugin.essentialsZAPI.utils(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair Chest"), target, target, null, false)));
                                 } else {
-                                    player.sendMessage(Utils.chat("&cError! Chest was not found."));
+                                    player.sendMessage(plugin.essentialsZAPI.utils("&cError! Chest was not found.", target, target, null, false)));
                                 }
                             } else {
-                                Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
+                                sender.sendMessage(Errors.getErrors(Errors.NoPermission));
                             }
                             break;
                     }
@@ -89,9 +89,9 @@ public class cmd_Repair implements CommandExecutor {
                 if (player.hasPermission(Permissions.Repair) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (player.getItemInHand().getDurability() == 0) return true;
                     player.getItemInHand().setDurability((short) 0);
-                    player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair")));
+                    player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair"), target, target, null, false));
                 } else {
-                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
+                    sender.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }
             }
         }
