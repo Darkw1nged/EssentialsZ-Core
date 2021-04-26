@@ -20,14 +20,15 @@ public class cmd_Craft implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("craft")) {
             if (plugin.getConfig().getBoolean("Commands.Craft", true)) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(Utils.chat(Errors.getErrors(Errors.Console)));
+                    sender.sendMessage(Errors.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player)sender;
                 if (player.hasPermission(Permissions.Craft) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     Inventory inv = Bukkit.createInventory(null, InventoryType.WORKBENCH);
                     player.openInventory(inv);
-                }
+                } else
+                    player.sendMessage(Errors.getErrors(Errors.NoPermission));
             }
         }
         return false;
