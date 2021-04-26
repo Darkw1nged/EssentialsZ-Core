@@ -34,7 +34,7 @@ public class cmd_Feed implements CommandExecutor {
                     }
                     target.setFoodLevel(20);
                     sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                            plugin.MessagesFile.getConfig().getString("Feed Other").replaceAll("%player%", target.getName())));
+                            plugin.MessagesFile.getConfig().getString("Feed Other"), target, target, null, false));
                     return true;
                 }
                 Player player = (Player)sender;
@@ -46,7 +46,7 @@ public class cmd_Feed implements CommandExecutor {
                         }
                         player.setFoodLevel(20);
                         sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                                plugin.MessagesFile.getConfig().getString("Feed")));
+                                plugin.MessagesFile.getConfig().getString("Feed"), target, target, null, false));
                     } else
                         player.sendMessage(Errors.getErrors(Errors.NoPermission));
                     return true;
@@ -63,11 +63,9 @@ public class cmd_Feed implements CommandExecutor {
                     }
                     target.setFoodLevel(20);
                     sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                            plugin.MessagesFile.getConfig().getString("Feed Other").replaceAll("%player%", target.getName())));
+                            plugin.MessagesFile.getConfig().getString("Feed Other"), target, target, null, false));
                 } else
                     player.sendMessage(Errors.getErrors(Errors.NoPermission));
-                ArmorStand armorStand = player.getWorld().spawn(player.getLocation(), ArmorStand.class);
-                armorStand.addPassenger(player);
             }
         }
         return false;
