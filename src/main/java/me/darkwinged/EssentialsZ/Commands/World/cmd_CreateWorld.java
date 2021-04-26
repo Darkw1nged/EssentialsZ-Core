@@ -21,7 +21,7 @@ public class cmd_CreateWorld implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Commands.World Creation", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length != 5) {
-                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.WorldGenUsage)));
+                        sender.sendMessage(Errors.getErrors(Errors.WorldGenUsage));
                         return true;
                     }
                     if (args[0].equalsIgnoreCase("create")) {
@@ -183,7 +183,7 @@ public class cmd_CreateWorld implements CommandExecutor {
                 Player player = (Player)sender;
                 if (player.hasPermission(Permissions.CreateWorld) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length != 5) {
-                        sender.sendMessage(Utils.chat(Errors.getErrors(Errors.WorldGenUsage)));
+                        sender.sendMessage(Errors.getErrors(Errors.WorldGenUsage));
                         return true;
                     }
                     if (args[0].equalsIgnoreCase("create")) {
@@ -341,7 +341,7 @@ public class cmd_CreateWorld implements CommandExecutor {
                         world.createWorld();
                     }
                 } else {
-                    sender.sendMessage(Utils.chat(Errors.getErrors(Errors.NoPermission)));
+                    sender.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }
             }
         }
