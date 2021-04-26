@@ -19,14 +19,15 @@ public class cmd_Disposal implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("disposal")) {
             if (plugin.getConfig().getBoolean("Commands.Disposal", true)) {
                 if (!(sender instanceof Player)) {
-                    Utils.Message(sender, Errors.getErrors(Errors.Console));
+                    sender.sendMessage(Errors.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player)sender;
                 if (player.hasPermission(Permissions.Disposal) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     Inventory inv = Bukkit.createInventory(null, 27, Utils.chat("&7Disposal"));
                     player.openInventory(inv);
-                }
+                } else 
+                    player.sendMessage(Errors.getErrors(Errors.NoPermission));
             }
 
         }
