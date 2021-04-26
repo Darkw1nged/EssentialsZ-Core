@@ -17,23 +17,23 @@ public class cmd_Invsee implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("invsee")) {
             if (plugin.getConfig().getBoolean("Commands.Invsee", true)) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.Console), null, null, null, false));
+                    sender.sendMessage(Errors.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player)sender;
                 if (player.hasPermission(Permissions.Invsee) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length != 1) {
-                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.NoPlayerFound), null, null, null, false));
+                        sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == null) {
-                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.NoPlayerFound), null, null, null, false));
+                        sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
                         return true;
                     }
                     player.openInventory(target.getInventory());
                 } else {
-                    sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.NoPermission), null, null, null, false));
+                    sender.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }
             }
         }
