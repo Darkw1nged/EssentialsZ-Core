@@ -1,9 +1,8 @@
 package me.darkwinged.EssentialsZ.Commands.World;
 
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -36,7 +35,7 @@ public class cmd_Heal implements CommandExecutor {
                         target.setHealth(20.0);
                         target.setFoodLevel(20);
                         removepotions(target);
-                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) +
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("Healed Other"), target, target, null, false));
                     } else {
                         sender.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));
@@ -58,7 +57,7 @@ public class cmd_Heal implements CommandExecutor {
                         target.setHealth(20.0);
                         target.setFoodLevel(20);
                         removepotions(target);
-                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) +
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("Healed Other"), target, target, null, false));
                     } else {
                         player.sendMessage(Errors.getErrors(Errors.NoPermission));
@@ -72,8 +71,8 @@ public class cmd_Heal implements CommandExecutor {
                         player.setHealth(20.0);
                         player.setFoodLevel(20);
                         removepotions(player);
-                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) +
-                                plugin.MessagesFile.getConfig().getString("Healed"), null, null, null, false);
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                plugin.MessagesFile.getConfig().getString("Healed"), null, null, null, false));
                     } else 
                         player.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }

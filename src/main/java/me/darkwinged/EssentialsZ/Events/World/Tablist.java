@@ -3,13 +3,18 @@ package me.darkwinged.EssentialsZ.Events.World;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import me.darkwinged.EssentialsZ.Main;
+import me.darkwinged.EssentialsZ.Libaries.Lang.CustomConfig;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class Tablist implements Listener {
 
@@ -23,9 +28,15 @@ public class Tablist implements Listener {
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
                     public void run() {
                         for (Player player : Bukkit.getOnlinePlayers()) {
+                            CustomConfig Data = Utils.getDataFile(player);
+                            List<UUID> ghost = new ArrayList<>();
+                            if (Data.getConfig().getBoolean("isVanished", true)) {
+                                ghost.add(player.getUniqueId());
+                            }
+
                             PacketContainer pc = plugin.protocolManager.createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
                             String tps = plugin.essentialsZAPI.utils.getServerTPS();
-                            int intOnline = Bukkit.getOnlinePlayers().size() - Utils.invisible_list.size();
+                            int intOnline = Bukkit.getOnlinePlayers().size() - ghost.size();
                             String online = ""+intOnline;
                             String bal = ""+plugin.economyManager.getAccount(player);
                             float getXP = player.getTotalExperience();

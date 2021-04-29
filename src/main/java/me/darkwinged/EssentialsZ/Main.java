@@ -9,7 +9,9 @@ import me.darkwinged.EssentialsZ.Commands.Teleport.*;
 import me.darkwinged.EssentialsZ.Commands.World.Gamemodes.*;
 import me.darkwinged.EssentialsZ.Commands.World.*;
 import me.darkwinged.EssentialsZ.Commands.cmd_Reload;
-import me.darkwinged.EssentialsZ.Events.Chat.*;
+import me.darkwinged.EssentialsZ.Events.Chat.ChatControl;
+import me.darkwinged.EssentialsZ.Events.Chat.Color;
+import me.darkwinged.EssentialsZ.Events.Chat.Displayname;
 import me.darkwinged.EssentialsZ.Events.Chat.JoinMessage.DefaultJoinMessage;
 import me.darkwinged.EssentialsZ.Events.Chat.JoinMessage.OtherJoinMessage;
 import me.darkwinged.EssentialsZ.Events.Chat.JoinMessage.VIPJoinMessage;
@@ -65,11 +67,11 @@ public final class Main extends JavaPlugin {
     public CustomConfig BlockedCommandsFile = new CustomConfig(this, "Features/Blocked Commands", true);
     public CustomConfig ChatFilterFile = new CustomConfig(this, "Features/Chat Filter", true);
     public CustomConfig AutoMessagesFile = new CustomConfig(this, "Features/Auto Messages", true);
-    public CustomConfig WorthFile = new CustomConfig(this, "Features/Worth", true);
     public CustomConfig CouponsFile = new CustomConfig(this, "Features/Coupons", true);
 
     public CustomConfig ServerDataFile = new CustomConfig(this, "Data/Server Data", true);
     public CustomConfig MessagesFile = new CustomConfig(this, "Messages", true);
+    public CustomConfig WorthFile = new CustomConfig(this, "Worth", true);
 
     public void onEnable() {
         if (Bukkit.getPluginManager().getPlugin("EssentialsZAPI") == null) {
@@ -133,7 +135,6 @@ public final class Main extends JavaPlugin {
                 null, null, null, false));
     }
 
-    @SuppressWarnings("ConstantConditions")
     public void registerCommands() {
         getCommand("essentials").setExecutor(new cmd_Reload());
 
@@ -241,14 +242,12 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerData(), this);
     }
 
-    // Loading the config and custom files to the server
-    private FileConfiguration config;
-    private File cfile;
     public void loadConfig() {
-        config = getConfig();
+        // Loading the config and custom files to the server
+        FileConfiguration config = getConfig();
         config.options().copyDefaults(true);
         saveDefaultConfig();
-        cfile = new File(getDataFolder(), "config.yml");
+        File cfile = new File(getDataFolder(), "config.yml");
     }
     public void loadCustomFiles() {
         ServerDataFile.saveDefaultConfig();
@@ -291,10 +290,13 @@ public final class Main extends JavaPlugin {
 
     // Checking if player is in vanish and alerting.
     public void vanishCheck() {
+        if (Bukkit.getVersion().contains("1.7") || Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") ||
+                Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11") || Bukkit.getVersion().contains("1.12")) return;
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    if (Utils.invisible_list.contains(player.getUniqueId())) {
+                    CustomConfig Data = Utils.getDataFile(player);
+                    if (Data.getConfig().getBoolean("isVanished", true)) {
                         essentialsZAPI.utils.sendActionBar(player, "&fYou are in &cVanish");
                     }
                 }

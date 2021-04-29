@@ -38,27 +38,27 @@ public class cmd_Kill  implements CommandExecutor {
                                 } else return true;
 
                             }
-                            player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Kill " +
-                                    "Entities")));
+                            player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                    plugin.MessagesFile.getConfig().getString("Kill Entities"), null, null, null, false));
                             return true;
                         } else if (args[0].equalsIgnoreCase("@a")) {
                             for (Player online : Bukkit.getOnlinePlayers()) {
                                 online.setHealth(0);
-                                player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Kill " +
-                                        "Players")));
+                                player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                        plugin.MessagesFile.getConfig().getString("Kill Players"), online, online, null, false));
                             }
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
                             player.setHealth(0);
-                            player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Killed " +
-                                    "Message").replaceAll("%player%", player.getName())));
+                            player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                    plugin.MessagesFile.getConfig().getString("Killed Message"), player, player, null, false));
                             return true;
                         }
                         target.setHealth(0.0);
-                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Killed " +
-                                "Message").replaceAll("%player%", target.getName())));
+                        player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                plugin.MessagesFile.getConfig().getString("Killed Message"), target, target, null, false));
                     }
                 }
             }

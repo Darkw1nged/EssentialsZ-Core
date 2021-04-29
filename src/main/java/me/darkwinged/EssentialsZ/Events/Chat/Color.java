@@ -2,6 +2,7 @@ package me.darkwinged.EssentialsZ.Events.Chat;
 
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
 import me.darkwinged.EssentialsZ.Main;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -117,16 +118,12 @@ public class Color implements Listener {
             String Line_2 = event.getLine(1);
             String Line_3 = event.getLine(2);
             String Line_4 = event.getLine(3);
-            assert Line_1 != null;
-            assert Line_2 != null;
-            assert Line_3 != null;
-            assert Line_4 != null;
 
             if (player.hasPermission(Permissions.SignColor_black) || player.hasPermission(Permissions.SignColor) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                event.setLine(0, Line_1.replaceAll("&0", "§0"));
-                event.setLine(1, Line_2.replaceAll("&0", "§0"));
-                event.setLine(2, Line_3.replaceAll("&0", "§0"));
-                event.setLine(3, Line_4.replaceAll("&0", "§0"));
+                event.setLine(0, ChatColor.translateAlternateColorCodes('&', Line_1));
+                event.setLine(1, event.getLine(1).replaceAll("&0", "§0"));
+                event.setLine(2, event.getLine(2).replaceAll("&0", "§0"));
+                event.setLine(3, event.getLine(3).replaceAll("&0", "§0"));
                 sign.update(true);
             }
             if (player.hasPermission(Permissions.SignColor_dark_blue) || player.hasPermission(Permissions.SignColor) || player.hasPermission(Permissions.GlobalOverwrite)) {

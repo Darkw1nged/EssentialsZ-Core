@@ -29,7 +29,7 @@ public class MoneyPouchesEvent implements Listener {
             if (plugin.getConfig().getBoolean("Economy.Settings.Money Pouches.enabled", true)) {
                 if (plugin.Module_Economy = false) return;
                 Player player = event.getPlayer();
-                ItemStack item = player.getInventory().getItemInMainHand();
+                ItemStack item = player.getInventory().getItemInHand();
                 ItemStack pouch = null;
                 int max = 0;
                 int min = 0;
@@ -66,7 +66,6 @@ public class MoneyPouchesEvent implements Listener {
                                 plugin.MessagesFile.getConfig().getString("Money Pouch Open")
                                         .replaceAll("%amount%", plugin.getConfig().getString("Economy.Settings.Currency Symbol") + amount),
                                 null, null, null, false));
-                        player.getInventory().getItemInOffHand().setAmount(player.getInventory().getItemInOffHand().getAmount() - 1);
                     }
 
                     /*
@@ -129,7 +128,7 @@ public class MoneyPouchesEvent implements Listener {
             pouch = item;
         }
         if (pouch == null) return;
-        if (pouch.isSimilar(player.getInventory().getItemInMainHand())) {
+        if (pouch.isSimilar(player.getInventory().getItemInHand())) {
             event.setCancelled(true);
         }
     }

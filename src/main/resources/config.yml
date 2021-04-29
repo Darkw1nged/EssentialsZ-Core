@@ -1,10 +1,10 @@
 #########################################################################################################################################################
 #                                                                                                                                                       #
-#                WELCOME to the "EssentialsZ" config! Here is where you can disable and enable full gamemode types // events // commands.               #
-#                                             This plugin has been made to be 90% customizable!                                                         #
+#                   WELCOME to the "EssentialsZ" config! Here is where you can disable and enable full Sections // events // commands.                  #
+#                                               This plugin has been made to be 90% customizable!                                                       #
 #                                                                                                                                                       #
-#    PLEASE NOTE!! If you have enabled one gamemode.. For example "Prisons: enabled". Then if you enable another one then they will all be disabled!    #
-#                     PLEASE NOTE!! Gamesmodes have not been planned just yet but they will be coming out in a future update.                           #
+#                   NOTE! Chat Color has been built into this plugin. There is many sub plugins to this project make sure you check                     #
+#                                                                     them out.                                                                         #
 #                                                                                                                                                       #
 #########################################################################################################################################################
 
@@ -33,8 +33,8 @@ Economy:
     # When someone does there is a chance that their head will drop and then players can sell it for a profit.
     Money Heads:
       enabled: true
-      Player Heads Drop Chance: 13 # This is the percentage (0 - 100).
-      Player Heads Sell Amount: 5 # The percentage of the players balance that will be removed.
+      Drop Chance: 13 # This is the percentage (0 - 100).
+      Sell Amount: 5 # The percentage of the players balance that will be removed.
 
     Bank Notes:
       enabled: true
@@ -81,21 +81,20 @@ Teleportation:
     Spawn onJoin: false
 
     Spawn:
-      Settings:
-        Size: 50 # 25 x 25
-        Flags:
-          Cancel-Build: true
-          Cancel-PVP: true
-          Cancel-Mob-Spawning: true
-          Cancel-Animal-Spawning: true
-          Cancel-Explosions: true
-          Cancel-Mob-Grief: true
-          Cancel-Chest-Access: true
-          Cancel-Interact: true
-          Cancel-Redstone: true
-          Cancel-Chat: false
-          Cancel-Teleport: false
-          Cancel-Lose-Hunger: false
+      Size: 50 # 25 x 25
+      Flags:
+        Cancel-Build: true
+        Cancel-PVP: true
+        Cancel-Mob-Spawning: true
+        Cancel-Animal-Spawning: true
+        Cancel-Explosions: true
+        Cancel-Mob-Grief: true
+        Cancel-Chest-Access: true
+        Cancel-Interact: true
+        Cancel-Redstone: true
+        Cancel-Chat: false
+        Cancel-Teleport: false
+        Cancel-Lose-Hunger: false
 
     Hub:
       # WARNING! This will only work for Bungeecord, waterfall servers.
@@ -145,7 +144,6 @@ Chat:
         enabled: false
         Display Name: true
         Center: false
-        No Join Message: true # Will cancel the other join message and keep VIP if `true`.
 
       Show join Message: true
       Style: CHAT # [CHAT, TITLE, ACTION_BAR, BOSS_BAR]
@@ -160,8 +158,7 @@ Chat:
         enabled: true
         center: false
 
-    Show Leave Message: true
-    Auto Messages: true
+    Auto Messages: false
 
     Server MOTD:
       enabled: false
@@ -182,7 +179,7 @@ Chat:
       Format: "<%prefix%%player%%suffix%> %message%"
 
     Tablist:
-      enabled: true
+      enabled: false
       # Placeholders Key:
       #     %player% || This will get the players name.
       #     %tps% || This will get the servers TPS(Ticks per Second).
@@ -253,6 +250,10 @@ Commands:
   Smite: true
   Repair: true
   CPS: true
+  Weather: true
+  Time: true
+  Player Weather: true
+  Player Time: true
   TNT Fill:
     enabled: true
     raduis:

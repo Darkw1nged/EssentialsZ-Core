@@ -21,8 +21,6 @@ public class VIPJoinMessage implements Listener {
             if (Data.getConfig().getBoolean("isVanished", true)) return;
             if (Data.getConfig().getBoolean("isVIP", true)) {
                 if (plugin.getConfig().getBoolean("Chat.Settings.Join Messages.VIP Message.enabled", true)) {
-                    if (plugin.getConfig().getBoolean("Chat.Settings.Join Messages.VIP Message.No Join Message", true))
-                        event.setJoinMessage(null);
 
                     if (plugin.getConfig().getBoolean("Chat.Settings.Join Messages.VIP Message.Center")) {
                         String message = plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("join message"), player, null, player, true);

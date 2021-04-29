@@ -7,8 +7,7 @@ import org.bukkit.command.CommandSender;
 
 public class cmd_Autosell implements CommandExecutor {
 
-    private final Main plugin;
-    public cmd_Autosell(Main plugin) { this.plugin = plugin; }
+    private final Main plugin = Main.getInstance;
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("autosell")) {

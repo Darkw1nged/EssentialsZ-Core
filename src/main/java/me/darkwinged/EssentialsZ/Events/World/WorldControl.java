@@ -1,6 +1,7 @@
 package me.darkwinged.EssentialsZ.Events.World;
 
 import me.darkwinged.EssentialsZ.Commands.World.cmd_CPS;
+import me.darkwinged.EssentialsZ.Libaries.Lang.CustomConfig;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
@@ -20,7 +21,9 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class WorldControl implements Listener {
 
@@ -191,9 +194,10 @@ public class WorldControl implements Listener {
     public void VanishOnJoin(PlayerJoinEvent event) {
         if (plugin.getConfig().getBoolean("Commands.Vanish", true)) {
             Player player = event.getPlayer();
+            CustomConfig Data = Utils.getDataFile(player);
             if (plugin.getConfig().getBoolean("World Events.Silent Join", true)) {
                 if (player.hasPermission(Permissions.SilentJoin) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                    Utils.invisible_list.add(player.getUniqueId());
+                    Data.getConfig().set("isVanished", true);
                     for (Player online : Bukkit.getOnlinePlayers()) {
                         online.hidePlayer(player);
                     }
@@ -222,6 +226,33 @@ public class WorldControl implements Listener {
                     return;
                 }
                 cooldownTime_Normal.put(player.getUniqueId(), plugin.getConfig().getInt("Cooldowns.Golden Apple Time"));
+                new BukkitRunnable() {
+                    public void run() {
+                        if (!cooldownTime_Normal.containsKey(player.getUniqueId())) return;
+                        if (cooldownTime_Normal.get(player.getUniqueId()) <= 0) {
+                            cooldownTime_Normal.remove(player.getUniqueId());
+                            cancel();
+                            return;
+                        }
+                        // Removing 1 from the count
+                        cooldownTime_Normal.put(player.getUniqueId(), cooldownTime_Normal.get(player.getUniqueId()) - 1);
+                    }
+                }.runTaskTimer(plugin, 0L, 20L);
+            }
+        }
+        if (plugin.getConfig().getBoolean("Cooldowns.Enchanted Golden Apple", true)) {
+            Player player = event.getPlayer();
+            ItemStack item = event.getItem();
+            if (player.hasPermission(Permissions.bypass) || player.hasPermission(Permissions.GlobalOverwrite))
+                return;
+            if (item.getType().equals(Material.APPLE)) {
+                if (cooldownTime_Normal.containsKey(player.getUniqueId())) {
+                    player.sendMessage(Errors.getErrors(Errors.CooldownItem));
+                    event.setCancelled(true);
+                    player.updateInventory();
+                    return;
+                }
+                cooldownTime_Normal.put(player.getUniqueId(), plugin.getConfig().getInt("Cooldowns.Enchanted Golden Apple Time"));
                 new BukkitRunnable() {
                     public void run() {
                         if (!cooldownTime_Normal.containsKey(player.getUniqueId())) return;
@@ -277,7 +308,6 @@ public class WorldControl implements Listener {
     @EventHandler
     public void RemovePlayer(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        Utils.invisible_list.remove(player.getUniqueId());
         Utils.GodMode_List.remove(player.getUniqueId());
         Utils.Autosell_List.remove(player.getUniqueId());
     }

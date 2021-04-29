@@ -19,7 +19,7 @@ public class cmd_Smite implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Commands.Smite", true)) {
                 if (sender.hasPermission(Permissions.Smite) || sender.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length < 1) {
-                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.SpecifyPlayer), null, null, null, false));
+                        sender.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[0]);
@@ -27,10 +27,10 @@ public class cmd_Smite implements CommandExecutor {
                     loc.getWorld().strikeLightning(loc);
                     loc.getWorld().createExplosion(loc, 2.0F);
                     sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                            plugin.MessagesFile.getConfig().getString("Smite"), null, target, null, false));
+                            plugin.MessagesFile.getConfig().getString("Smite"), target, target, null, false));
 
                 } else
-                    sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.NoPermission), null, null, null, false));
+                    sender.sendMessage(Errors.getErrors(Errors.NoPermission));
             }
         }
         return false;

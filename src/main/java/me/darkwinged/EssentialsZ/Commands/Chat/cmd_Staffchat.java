@@ -1,9 +1,11 @@
 package me.darkwinged.EssentialsZ.Commands.Chat;
 
-import me.darkwinged.EssentialsZ.Main;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,10 +29,15 @@ public class cmd_Staffchat implements CommandExecutor {
                         for (String s : args) {
                             msg = msg + " " + s;
                         }
+
+                        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+
                         for (Player online : Bukkit.getOnlinePlayers()) {
                             if (online.hasPermission(Permissions.StaffChat) || online.hasPermission(Permissions.GlobalOverwrite)) {
                                 if (!Utils.staff_chat.contains(online.getUniqueId()))
-                                    online.sendMessage(msg);
+                                    out.writeUTF("MessageRaw");
+                                    out.writeUTF(String.valueOf(online));
+                                    out.writeUTF("{\"text\":\"" + msg + "\"}");
                             }
                         }
                         return true;
@@ -46,10 +53,13 @@ public class cmd_Staffchat implements CommandExecutor {
                         for (String s : args) {
                             msg = msg + " " + s;
                         }
+                        ByteArrayDataOutput out = ByteStreams.newDataOutput();
                         for (Player online : Bukkit.getOnlinePlayers()) {
                             if (online.hasPermission(Permissions.StaffChat) || online.hasPermission(Permissions.GlobalOverwrite)) {
                                 if (!Utils.staff_chat.contains(online.getUniqueId()))
-                                    online.sendMessage(msg);
+                                    out.writeUTF("MessageRaw");
+                                out.writeUTF(String.valueOf(online));
+                                out.writeUTF("{\"text\":\"" + msg + "\"}");
                             }
                         }
                     } else

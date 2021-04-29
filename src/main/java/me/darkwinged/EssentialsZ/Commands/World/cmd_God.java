@@ -28,14 +28,14 @@ public class cmd_God implements CommandExecutor, Listener {
                 if (player.hasPermission(Permissions.God) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (Utils.GodMode_List.contains(player.getUniqueId())) {
                         Utils.GodMode_List.remove(player.getUniqueId());
-                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                        player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("God Mode")
-                                .replaceAll("%setting%", "disabled")));
+                                        .replaceAll("%setting%", "disabled"), null, null, null, false));
                     } else {
                         Utils.GodMode_List.add(player.getUniqueId());
-                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                        player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("God Mode")
-                                        .replaceAll("%setting%", "enabled")));
+                                        .replaceAll("%setting%", "enabled"), null, null, null, false));
                     }
                 }
             }

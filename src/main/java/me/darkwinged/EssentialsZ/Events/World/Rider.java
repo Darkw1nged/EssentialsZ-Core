@@ -25,29 +25,25 @@ public class Rider implements Listener {
                     Location loc = new Location(target.getWorld(), target.getLocation().getX(), target.getLocation().getY() - 5, target.getLocation().getZ());
 
                     ArmorStand armorStand = target.getWorld().spawn(loc, ArmorStand.class);
-                    armorStand.setAI(false);
                     armorStand.setBasePlate(false);
                     armorStand.setCanPickupItems(false);
-                    armorStand.setCollidable(false);
                     armorStand.setGravity(false);
-                    armorStand.setInvulnerable(true);
                     armorStand.setRemoveWhenFarAway(true);
-                    armorStand.setSilent(true);
                     armorStand.setVisible(false);
                     armorStand.setSmall(true);
                     armorStand.setHealth(2);
                     armorStand.setMaxHealth(2);
-                    armorStand.addPassenger(player);
+                    armorStand.setPassenger(player);
 
                     Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
                         public void run() {
-                            if (armorStand.getPassengers().isEmpty()) {
+                            if (armorStand.getPassenger().isEmpty()) {
                                 armorStand.remove();
                             }
                         }
                     }, 0L, 20);
 
-                    target.addPassenger(armorStand);
+                    target.setPassenger(armorStand);
                 }
             }
         }

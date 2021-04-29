@@ -1,9 +1,9 @@
 package me.darkwinged.EssentialsZ.Commands.World;
 
-import me.darkwinged.EssentialsZ.Main;
+import me.darkwinged.EssentialsZ.Libaries.Lang.CustomConfig;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,19 +18,21 @@ public class cmd_Vanish implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("vanish")) {
             if (plugin.getConfig().getBoolean("Commands.Vanish", true)) {
                 if (!(sender instanceof Player)) {
-                    Utils.Message(sender, Errors.getErrors(Errors.Console));
+                    sender.sendMessage(Errors.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player) sender;
+                CustomConfig Data = new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");
                 if (player.hasPermission(Permissions.Vanish) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                    if (Utils.invisible_list.contains(player.getUniqueId())) {
+                    if (Data.getConfig().getBoolean("isVanished", true)) {
                         for (Player people : Bukkit.getOnlinePlayers()) {
                             people.showPlayer(player);
                         }
-                        Utils.invisible_list.remove(player.getUniqueId());
-                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                                Utils.chat(plugin.MessagesFile.getConfig().getString("Vanish").replaceAll("%setting%", "disabled"))));
-                    } else if (!Utils.invisible_list.contains(player.getUniqueId())) {
+                        Data.getConfig().set("isVanished", false);
+                        player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                        plugin.MessagesFile.getConfig().getString("Vanish").replaceAll("%setting%", "disabled"),
+                                player, player, null, false));
+                    } else {
                         for (Player people : Bukkit.getOnlinePlayers()) {
                             if (people.hasPermission(Permissions.SeeVanish) || people.hasPermission(Permissions.GlobalOverwrite)) {
                                 people.showPlayer(player);
@@ -38,13 +40,13 @@ public class cmd_Vanish implements CommandExecutor {
                                 people.hidePlayer(player);
                             }
                         }
-                        Utils.invisible_list.add(player.getUniqueId());
-                        player.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                                Utils.chat(plugin.MessagesFile.getConfig().getString("Vanish").replaceAll("%setting%", "enabled"))));
+                        Data.getConfig().set("isVanished", true);
+                        player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                        plugin.MessagesFile.getConfig().getString("Vanish").replaceAll("%setting%", "enabled"),
+                                player, player, null, false));
                     }
-                } else {
-                    Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                }
+                } else
+                    player.sendMessage(Errors.getErrors(Errors.NoPermission));
             }
         }
         return false;

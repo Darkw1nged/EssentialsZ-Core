@@ -1,10 +1,10 @@
 package me.darkwinged.EssentialsZ.Events.Chat;
 
+import me.darkwinged.EssentialsZ.Libaries.Lang.CustomConfig;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
 import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -98,15 +98,19 @@ public class ChatControl implements Listener {
     // Chat ping
     @EventHandler
     public void Ping(AsyncPlayerChatEvent event) {
+        String message = event.getMessage();
+        Player sender = event.getPlayer();
+
         if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
             if (plugin.getConfig().getBoolean("Chat.Settings.Chat Ping.enabled", true)) {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    if (event.getMessage().contains("@"+player.getName())) {
-                        if (player == event.getPlayer())
-                            return;
-                        String color = "&" + plugin.getConfig().getString("Chat.Settings.Chat Ping.color");
-                        event.getMessage().replaceAll(player.getName(), ChatColor.translateAlternateColorCodes('&', color+player.getName()));
-                        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.2F, 0.5F);
+                    String Ping = "@" + player.getName();
+                    String color = "&" + plugin.getConfig().getString("Chat.Settings.Chat Ping.color");
+
+                    if (message.contains(Ping)) {
+                        if (player == sender) return;
+                        event.setMessage(event.getMessage().replaceAll(Ping, color+Ping));
+                        player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.2F, 0.5F);
                     }
                 }
             }
@@ -117,9 +121,10 @@ public class ChatControl implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
-            if (plugin.getConfig().getBoolean("Chat.Settings.Show Leave Message", true)) {
+            if (plugin.getConfig().getBoolean("Chat.Settings.Events.Leave Message", true)) {
                 Player player = event.getPlayer();
-                if (Utils.invisible_list.contains(player.getUniqueId())) {
+                CustomConfig Data = new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");
+                if (Data.getConfig().getBoolean("isVanished", true)) {
                     event.setQuitMessage(null);
                     return;
                 }

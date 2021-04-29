@@ -1,6 +1,5 @@
 name: EssentialsZ
 version: ${project.version}
-api-version: 1.13
 main: me.darkwinged.EssentialsZ.Main
 authors: [darkwinged, Yovez]
 softdepend: [PlaceholderAPI, Vault, ProtocolLib, EssentialsZSpawn]

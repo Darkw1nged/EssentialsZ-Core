@@ -1,14 +1,12 @@
 package me.darkwinged.EssentialsZ.Commands.World;
 
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 
 public class cmd_Feed implements CommandExecutor {
@@ -46,7 +44,7 @@ public class cmd_Feed implements CommandExecutor {
                         }
                         player.setFoodLevel(20);
                         sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                                plugin.MessagesFile.getConfig().getString("Feed"), target, target, null, false));
+                                plugin.MessagesFile.getConfig().getString("Feed"), player, player, null, false));
                     } else
                         player.sendMessage(Errors.getErrors(Errors.NoPermission));
                     return true;

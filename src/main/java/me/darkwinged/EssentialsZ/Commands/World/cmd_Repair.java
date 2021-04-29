@@ -1,9 +1,8 @@
 package me.darkwinged.EssentialsZ.Commands.World;
 
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -12,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashSet;
 
 public class cmd_Repair implements CommandExecutor {
 
@@ -29,7 +30,6 @@ public class cmd_Repair implements CommandExecutor {
                     switch (args[0]) {
                         case "all":
                             if (player.hasPermission(Permissions.RepairAll) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                                player.getInventory().getItemInOffHand().setDurability((short) 0);
                                 ItemStack[] arrayOfItemStack;
                                 int localItemStack1 = (arrayOfItemStack = player.getInventory().getArmorContents()).length;
                                 for (int ix = 0; ix < localItemStack1; ix++) {
@@ -47,14 +47,14 @@ public class cmd_Repair implements CommandExecutor {
                                             player.getInventory().getItem(i).setDurability((short) 0);
                                     } catch (Exception ignored) { }
                                 }
-                                player.sendMessage(plugin.essentialsZAPI.utils(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair Inventory"), target, target, null, false)));
+                                player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair Inventory"), null, null, null, false));
                             } else {
                                 sender.sendMessage(Errors.getErrors(Errors.NoPermission));
                             }
                             break;
                         case "chest":
                             if (player.hasPermission(Permissions.RepairChest)) {
-                                Block block = player.getTargetBlock(null, 5);
+                                Block block = player.getTargetBlock((HashSet<Byte>) null, 5);
                                 if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.TRAPPED_CHEST)) {
                                     Chest chest = (Chest)block.getState();
                                     if (chest.getInventory().getSize() == 54) {
@@ -76,9 +76,9 @@ public class cmd_Repair implements CommandExecutor {
                                             } catch (Exception ignored) { }
                                         }
                                     }
-                                    player.sendMessage(plugin.essentialsZAPI.utils(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair Chest"), target, target, null, false)));
+                                    player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair Chest"), null, null, null, false));
                                 } else {
-                                    player.sendMessage(plugin.essentialsZAPI.utils("&cError! Chest was not found.", target, target, null, false)));
+                                    player.sendMessage(plugin.essentialsZAPI.utils.chat("&cError! Chest was not found.", null, null, null, false));
                                 }
                             } else {
                                 sender.sendMessage(Errors.getErrors(Errors.NoPermission));
@@ -89,7 +89,7 @@ public class cmd_Repair implements CommandExecutor {
                 if (player.hasPermission(Permissions.Repair) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (player.getItemInHand().getDurability() == 0) return true;
                     player.getItemInHand().setDurability((short) 0);
-                    player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair"), target, target, null, false));
+                    player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair"), null, null, null, false));
                 } else {
                     sender.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }

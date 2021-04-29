@@ -1,5 +1,7 @@
 package me.darkwinged.EssentialsZ.Commands.Chat;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
 import me.darkwinged.EssentialsZ.Main;

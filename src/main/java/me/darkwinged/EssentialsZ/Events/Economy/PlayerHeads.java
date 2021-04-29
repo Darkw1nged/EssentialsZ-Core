@@ -30,7 +30,7 @@ public class PlayerHeads implements Listener {
                 if (plugin.Module_Economy = false) return;
 
                 Player player = event.getPlayer();
-                if (player.getItemInHand().getType().equals(Material.PLAYER_HEAD)) {
+                if (player.getItemInHand().getType().equals(Material.SKULL_ITEM)) {
                     if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                         String TargetName = player.getItemInHand().getItemMeta().getDisplayName();
                         Player target = Bukkit.getPlayer(TargetName);
@@ -46,8 +46,7 @@ public class PlayerHeads implements Listener {
                         // Getting the amount
                         double amount;
                         try {
-                            amount = round((plugin.economyManager.getAccount(target) / 100) * plugin.getConfig().getInt("Economy.Settings.Money Heads.Player Heads Sell " +
-                                    "Amount"));
+                            amount = round((plugin.economyManager.getAccount(target) / 100) * plugin.getConfig().getInt("Economy.Settings.Money Heads.Sell Amount"));
                         } catch (Exception e) {
                             Utils.Message(player, Errors.getErrors(Errors.InvalidAmount));
                             return;
@@ -66,17 +65,20 @@ public class PlayerHeads implements Listener {
     @EventHandler
     public void PlayerHeadChance(PlayerDeathEvent event) {
         if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
-            Player player = event.getEntity();
-            Random rand = new Random();
-            int n = rand.nextInt(100) + 1;
-            if (n <= plugin.getConfig().getInt("Economy.Settings.Money Heads.Player Heads Drop Chance")) {
-                ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
-                SkullMeta meta = (SkullMeta) skull.getItemMeta();
-                meta.setOwner(player.getName());
-                meta.setDisplayName(player.getName());
-                skull.setItemMeta(meta);
+            if (plugin.getConfig().getBoolean("Economy.Settings.Money Heads.enabled", true)) {
+                if (plugin.Module_Economy = false) return;
+                Player player = event.getEntity();
+                Random rand = new Random();
+                int n = rand.nextInt(100) + 1;
+                if (n <= plugin.getConfig().getInt("Economy.Settings.Money Heads.Drop Chance")) {
+                    ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+                    SkullMeta meta = (SkullMeta) skull.getItemMeta();
+                    meta.setOwner(player.getName());
+                    meta.setDisplayName(player.getName());
+                    skull.setItemMeta(meta);
 
-                event.getDrops().add(skull);
+                    event.getDrops().add(skull);
+                }
             }
         }
     }
@@ -84,10 +86,13 @@ public class PlayerHeads implements Listener {
     @EventHandler
     public void PlacePlayerHead(BlockPlaceEvent event) {
         if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
-            Player player = event.getPlayer();
-            if (event.getBlock().getType().equals(Material.PLAYER_HEAD)) {
-                Utils.Message(player, Errors.getErrors(Errors.NoPlacePlayerHead));
-                event.setCancelled(true);
+            if (plugin.getConfig().getBoolean("Economy.Settings.Money Heads.enabled", true)) {
+                if (plugin.Module_Economy = false) return;
+                Player player = event.getPlayer();
+                if (event.getBlock().getType().equals(Material.SKULL_ITEM)) {
+                    Utils.Message(player, Errors.getErrors(Errors.NoPlacePlayerHead));
+                    event.setCancelled(true);
+                }
             }
         }
     }

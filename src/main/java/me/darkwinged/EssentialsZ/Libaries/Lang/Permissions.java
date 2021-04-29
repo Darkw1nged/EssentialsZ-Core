@@ -160,6 +160,7 @@ public class Permissions {
     public static String Smite = MainPermission + "Smite";
     public static String RidePlayer = MainPermission + "Ride.Player";
     public static String CPS = MainPermission + "CPS.Check";
+    public static String Furnace = MainPermission + "Furnace";
 
     public static String TNTFillSurvival = MainPermission + "TNT.Fill";
     public static String TNTFillCreative = MainPermission + "TNT.Fill.Creative";

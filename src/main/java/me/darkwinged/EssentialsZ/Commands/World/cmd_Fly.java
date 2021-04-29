@@ -29,14 +29,16 @@ public class cmd_Fly implements CommandExecutor {
                     }
                     if (target.getAllowFlight()) {
                         target.setAllowFlight(false);
-                        sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                                plugin.MessagesFile.getConfig().getString("Fly Other").replaceAll("%player%", target.getName()).replaceAll("%setting%", "disabled")));
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                plugin.MessagesFile.getConfig().getString("Fly Other").replaceAll("%setting%", "disabled"),
+                                target, target, null, false));
                         Utils.Fly_List.remove(target.getUniqueId());
                         return true;
                     }
                     target.setAllowFlight(true);
-                    sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                            plugin.MessagesFile.getConfig().getString("Fly Other").replaceAll("%player%", target.getName()).replaceAll("%setting%", "enabled")));
+                    sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                            plugin.MessagesFile.getConfig().getString("Fly Other").replaceAll("%setting%", "enabled"),
+                            target, target, null, false));
                     Utils.Fly_List.add(target.getUniqueId());
                     return true;
                 }
@@ -45,14 +47,16 @@ public class cmd_Fly implements CommandExecutor {
                     if (player.hasPermission(Permissions.Fly) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (player.getAllowFlight()) {
                             player.setAllowFlight(false);
-                            sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                                    plugin.MessagesFile.getConfig().getString("Fly").replaceAll("%setting%", "disabled")));
+                            sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                    plugin.MessagesFile.getConfig().getString("Fly").replaceAll("%setting%", "disabled"),
+                                    null, null, null, false));
                             Utils.Fly_List.remove(player.getUniqueId());
                             return true;
                         }
                         player.setAllowFlight(true);
-                        sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                                plugin.MessagesFile.getConfig().getString("Fly").replaceAll("%setting%", "enabled")));
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                plugin.MessagesFile.getConfig().getString("Fly").replaceAll("%setting%", "enabled"),
+                                null, null, null, false));
                         Utils.Fly_List.add(player.getUniqueId());
                         return true;
                     } else
@@ -67,14 +71,16 @@ public class cmd_Fly implements CommandExecutor {
                     }
                     if (target.getAllowFlight()) {
                         target.setAllowFlight(false);
-                        sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                                plugin.MessagesFile.getConfig().getString("Fly Other").replaceAll("%player%", target.getName()).replaceAll("%setting%", "disabled")));
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                                plugin.MessagesFile.getConfig().getString("Fly Other").replaceAll("%setting%", "disabled"),
+                                target, target, null, false));
                         Utils.Fly_List.remove(target.getUniqueId());
                         return true;
                     }
                     target.setAllowFlight(true);
-                    sender.sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                            plugin.MessagesFile.getConfig().getString("Fly Other").replaceAll("%player%", target.getName()).replaceAll("%setting%", "enabled")));
+                    sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
+                            plugin.MessagesFile.getConfig().getString("Fly Other").replaceAll("%setting%", "enabled"),
+                            target, target, null, false));
                     Utils.Fly_List.add(target.getUniqueId());
                 } else
                     player.sendMessage(Errors.getErrors(Errors.NoPermission));

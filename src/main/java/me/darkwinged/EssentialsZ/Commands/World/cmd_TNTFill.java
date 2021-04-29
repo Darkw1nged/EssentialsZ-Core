@@ -31,7 +31,7 @@ public class cmd_TNTFill implements CommandExecutor {
                     sender.sendMessage(Errors.getErrors(Errors.Console));
                     return true;
                 }
-                Player player = (Player)sender;
+                Player player = (Player) sender;
 
                 int x = plugin.getConfig().getInt("Commands.TNT Fill.x");
                 int y = plugin.getConfig().getInt("Commands.TNT Fill.y");
@@ -96,7 +96,7 @@ public class cmd_TNTFill implements CommandExecutor {
                 for (int y = centre.getBlockY() - yRadius / 2; y < centre.getBlockY() + yRadius / 2; y++) {
                     Block target = world.getBlockAt(x, y, z);
                     if (target.getState() instanceof Dispenser) {
-                        Dispenser dispenser = (Dispenser)target.getState();
+                        Dispenser dispenser = (Dispenser) target.getState();
                         result.add(dispenser);
                     }
                 }
@@ -107,7 +107,7 @@ public class cmd_TNTFill implements CommandExecutor {
 
     public void survivalTnTFill(final Player player, final ArrayList<Dispenser> dispensers, final double tnt_in_inventory) {
         double tnt_per = tnt_in_inventory / dispensers.size();
-        final int round = (int)tnt_per;
+        final int round = (int) tnt_per;
         if (round < 1) {
             player.sendMessage(Errors.getErrors(Errors.UnableToFill));
             return;
@@ -135,7 +135,7 @@ public class cmd_TNTFill implements CommandExecutor {
                     by++;
                 }
                 player.updateInventory();
-                ItemStack newTNT = new ItemStack(Material.TNT, (int)(tnt_in_inventory - used));
+                ItemStack newTNT = new ItemStack(Material.TNT, (int) (tnt_in_inventory - used));
                 if (newTNT.getAmount() >= 1) {
                     playerInv.addItem(newTNT);
                     player.updateInventory();

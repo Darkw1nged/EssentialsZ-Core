@@ -2,7 +2,6 @@ package me.darkwinged.EssentialsZ.Commands.World;
 
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
 import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -180,7 +179,7 @@ public class cmd_CreateWorld implements CommandExecutor {
                     }
                     return true;
                 }
-                Player player = (Player)sender;
+                Player player = (Player) sender;
                 if (player.hasPermission(Permissions.CreateWorld) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length != 5) {
                         sender.sendMessage(Errors.getErrors(Errors.WorldGenUsage));
