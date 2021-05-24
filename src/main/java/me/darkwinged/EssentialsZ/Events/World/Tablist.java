@@ -3,6 +3,7 @@ package me.darkwinged.EssentialsZ.Events.World;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.darkwinged.EssentialsZ.Libaries.Lang.CustomConfig;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
 import me.darkwinged.EssentialsZ.Main;
@@ -43,10 +44,10 @@ public class Tablist implements Listener {
                             float getXPLevel = player.getLevel();
                             String xp = String.format("%.0f", getXP);
                             String xpLevel = String.format("%.0f", getXPLevel);
-                            String ping = ""+ plugin.essentialsZAPI.utils.getPlayerPing(player);
+                            String ping = ""+plugin.essentialsZAPI.utils.getPlayerPing(player);
 
 
-                            String Header = Utils.chat(plugin.getConfig().get("Chat.Settings.Tablist.TBLayout.header").toString())
+                            String raw_Header = plugin.essentialsZAPI.utils.chat(plugin.getConfig().get("Chat.Settings.Tablist.TBLayout.header").toString(), null, null, null, false)
                                     .replaceAll("%player%", player.getName())
                                     .replaceAll("%tps%", tps)
                                     .replaceAll("%online%", online)
@@ -54,7 +55,7 @@ public class Tablist implements Listener {
                                     .replaceAll("%xp%", xp)
                                     .replaceAll("xpLVL", xpLevel)
                                     .replaceAll("%ping%", ping);
-                            String Footer = Utils.chat(plugin.getConfig().get("Chat.Settings.Tablist.TBLayout.footer").toString())
+                            String raw_Footer = plugin.essentialsZAPI.utils.chat(plugin.getConfig().get("Chat.Settings.Tablist.TBLayout.footer").toString(), null, null, null, false)
                                     .replaceAll("%player%", player.getName())
                                     .replaceAll("%tps%", tps)
                                     .replaceAll("%online%", online)
@@ -63,8 +64,17 @@ public class Tablist implements Listener {
                                     .replaceAll("%xpLVL%", xpLevel)
                                     .replaceAll("%ping%", ping);
 
-                            pc.getChatComponents().write(0, WrappedChatComponent.fromText(Utils.chat(Header)))
-                                    .write(1, WrappedChatComponent.fromText(Utils.chat(Footer)));
+                            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+                                String Header = PlaceholderAPI.setPlaceholders(event.getPlayer(), raw_Header);
+                                String Footer = PlaceholderAPI.setPlaceholders(event.getPlayer(), raw_Footer);
+
+                                pc.getChatComponents().write(0, WrappedChatComponent.fromText(Header))
+                                        .write(1, WrappedChatComponent.fromText(Footer));
+                            } else {
+                                pc.getChatComponents().write(0, WrappedChatComponent.fromText(raw_Header))
+                                        .write(1, WrappedChatComponent.fromText(raw_Footer));
+                            }
+
                             try {
                                 plugin.protocolManager.sendServerPacket(player, pc);
                             } catch (Exception ex) {
@@ -72,7 +82,7 @@ public class Tablist implements Listener {
                             }
                         }
                     }
-                }, 0L, 20L);
+                }, 0L, 20L * 10);
             }
         }
     }

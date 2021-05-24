@@ -1,5 +1,6 @@
 package me.darkwinged.EssentialsZ.Libaries.Lang;
 
+@SuppressWarnings("ALL")
 public class Permissions {
 
     // Essential Permissions
@@ -149,6 +150,7 @@ public class Permissions {
     public static String EnderchestOther = MainPermission + "Enderchest.Other";
     public static String Disposal = MainPermission + "Disposal";
     public static String Craft = MainPermission + "Craft";
+    public static String Anvil = MainPermission + "Anvil";
     public static String Kill = MainPermission + "Kill";
     public static String God = MainPermission + "God";
     public static String Heal = MainPermission + "Heal";
@@ -160,7 +162,8 @@ public class Permissions {
     public static String Smite = MainPermission + "Smite";
     public static String RidePlayer = MainPermission + "Ride.Player";
     public static String CPS = MainPermission + "CPS.Check";
-    public static String Furnace = MainPermission + "Furnace";
+    public static String WorldWeather = MainPermission + "Weather.World";
+    public static String PlayerWeather = MainPermission + "Weather.Player";
 
     public static String TNTFillSurvival = MainPermission + "TNT.Fill";
     public static String TNTFillCreative = MainPermission + "TNT.Fill.Creative";

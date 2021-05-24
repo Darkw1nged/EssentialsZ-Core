@@ -4,6 +4,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 public class CustomConfig {
@@ -41,11 +42,7 @@ public class CustomConfig {
         customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
         if (isResource) {
             Reader defConfigStream = null;
-            try {
-                defConfigStream = new InputStreamReader(plugin.getResource(configName + ".yml"), "UTF8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            defConfigStream = new InputStreamReader(plugin.getResource(configName + ".yml"), StandardCharsets.UTF_8);
             if (defConfigStream != null) {
                 YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
                 customConfig.setDefaults(defConfig);

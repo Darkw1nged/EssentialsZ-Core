@@ -8,8 +8,7 @@ import java.util.Random;
 
 public class TeleportUtils {
 
-    private static Main plugin;
-    public TeleportUtils(Main plugin) { TeleportUtils.plugin = plugin; }
+    private final static Main plugin = Main.getInstance;
 
     public static Location RandomTeleport(Player player) {
         Random random = new Random();

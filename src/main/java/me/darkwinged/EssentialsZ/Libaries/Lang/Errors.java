@@ -17,7 +17,7 @@ public enum Errors {
     NoWarpNameProvided, WarpDoesNotExist, WarpAlreadyExist, NoWarpsFound,
     NoHomeNameProvided, NoHomes, HomeDoesNotExist, HomeAlreadyExist,
 
-    GamemodeUsage, WorldGenUsage, InvalidWorld, InvalidGameMode, FullFood, Length;
+    GamemodeUsage, WorldGenUsage, InvalidWorld, InvalidGameMode, FullFood, Length, WeatherType, SpecifyWorld;
 
     private static final Main plugin = Main.getInstance;
 
@@ -143,6 +143,12 @@ public enum Errors {
                 break;
             case Length:
                 errors = plugin.essentialsZAPI.utils.chat("&cError! Please specify how long for.", null, null, null, false);
+                break;
+            case WeatherType:
+                errors = plugin.essentialsZAPI.utils.chat("&cError! Please specify a weather type.", null, null, null, false);
+                break;
+            case SpecifyWorld:
+                errors = plugin.essentialsZAPI.utils.chat("&cError! Please specify a world.", null, null, null, false);
                 break;
         }
         return errors;

@@ -90,6 +90,7 @@ commands:
       - bin
       - garbage
   craft:
+  anvil:
   kill:
   god:
   heal:
@@ -98,3 +99,5 @@ commands:
   smite:
   filltnt:
   cps:
+  weather:
+  pweather:

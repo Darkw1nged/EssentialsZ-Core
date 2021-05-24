@@ -1,7 +1,6 @@
 package me.darkwinged.EssentialsZ.Libaries.Lang;
 
 import me.darkwinged.EssentialsZ.Main;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
@@ -13,7 +12,6 @@ public class Utils implements Listener {
 
     // TEMP
     public static String chat(String string) { return string; }
-    public static void Message(CommandSender sender, String string) {}
 
     public static CustomConfig getDataFile(Player player) {
         return new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");

@@ -242,6 +242,7 @@ Commands:
   Disposal: true
   World Creation: true
   Craft: true
+  Anvil: true
   Kill: true
   God: true
   Heal: true

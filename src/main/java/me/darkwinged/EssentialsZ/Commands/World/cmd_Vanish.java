@@ -29,6 +29,7 @@ public class cmd_Vanish implements CommandExecutor {
                             people.showPlayer(player);
                         }
                         Data.getConfig().set("isVanished", false);
+                        Data.saveConfig();
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                         plugin.MessagesFile.getConfig().getString("Vanish").replaceAll("%setting%", "disabled"),
                                 player, player, null, false));
@@ -41,6 +42,7 @@ public class cmd_Vanish implements CommandExecutor {
                             }
                         }
                         Data.getConfig().set("isVanished", true);
+                        Data.saveConfig();
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                         plugin.MessagesFile.getConfig().getString("Vanish").replaceAll("%setting%", "enabled"),
                                 player, player, null, false));

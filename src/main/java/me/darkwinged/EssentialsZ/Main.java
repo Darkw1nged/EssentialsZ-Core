@@ -85,8 +85,8 @@ public final class Main extends JavaPlugin {
         loadCustomFiles();
 
         // Getting ProtocolLib, Teleport Utils, MetricsLite, PlaceholderAPI, Vault, EssentialsZ APi, Bungeecord, Adding EconomyManager
-        TeleportUtils teleportUtils = new TeleportUtils(this);
-        MetricsLite metricsLite = new MetricsLite(this, 9811);
+        new TeleportUtils();
+        new MetricsLite(this, 9811);
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         // Vault hook ================================================
@@ -188,6 +188,7 @@ public final class Main extends JavaPlugin {
         getCommand("enderchest").setExecutor(new cmd_Enderchest());
         getCommand("disposal").setExecutor(new cmd_Disposal());
         getCommand("craft").setExecutor(new cmd_Craft());
+        getCommand("anvil").setExecutor(new cmd_Anvil());
         getCommand("kill").setExecutor(new cmd_Kill());
         getCommand("god").setExecutor(new cmd_God());
         getCommand("heal").setExecutor(new cmd_Heal());
@@ -196,6 +197,8 @@ public final class Main extends JavaPlugin {
         getCommand("smite").setExecutor(new cmd_Smite());
         getCommand("filltnt").setExecutor(new cmd_TNTFill());
         getCommand("cps").setExecutor(new cmd_CPS());
+        getCommand("weather").setExecutor(new cmd_Weather());
+        getCommand("pweather").setExecutor(new cmd_WeatherPlayer());
 
     }
 
@@ -247,7 +250,7 @@ public final class Main extends JavaPlugin {
         FileConfiguration config = getConfig();
         config.options().copyDefaults(true);
         saveDefaultConfig();
-        File cfile = new File(getDataFolder(), "config.yml");
+        new File(getDataFolder(), "config.yml");
     }
     public void loadCustomFiles() {
         ServerDataFile.saveDefaultConfig();
@@ -273,15 +276,13 @@ public final class Main extends JavaPlugin {
                 for (String key : AutoMessagesFile.getConfig().getConfigurationSection("Messages").getKeys(false)) {
                     String message = AutoMessagesFile.getConfig().getString("Messages." + key + ".content").replaceAll("%n", "\n");
                     long interval = (long) AutoMessagesFile.getConfig().getInt("Messages." + key + ".interval") * 60;
-                    Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-                        public void run() {
-                            if (AutoMessagesFile.getConfig().getBoolean("Messages." + key + ".center", true)) {
-                                Bukkit.broadcastMessage(essentialsZAPI.utils.chat(essentialsZAPI.utils.CenteredMessage(message),
-                                        null, null, null, false));
-                                return;
-                            }
-                            Bukkit.broadcastMessage(essentialsZAPI.utils.chat(message, null, null, null, false));
+                    Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+                        if (AutoMessagesFile.getConfig().getBoolean("Messages." + key + ".center", true)) {
+                            Bukkit.broadcastMessage(essentialsZAPI.utils.chat(essentialsZAPI.utils.CenteredMessage(message),
+                                    null, null, null, false));
+                            return;
                         }
+                        Bukkit.broadcastMessage(essentialsZAPI.utils.chat(message, null, null, null, false));
                     }, 20L * interval, 20L * interval);
                 }
             }
@@ -292,13 +293,11 @@ public final class Main extends JavaPlugin {
     public void vanishCheck() {
         if (Bukkit.getVersion().contains("1.7") || Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") ||
                 Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11") || Bukkit.getVersion().contains("1.12")) return;
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            public void run() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    CustomConfig Data = Utils.getDataFile(player);
-                    if (Data.getConfig().getBoolean("isVanished", true)) {
-                        essentialsZAPI.utils.sendActionBar(player, "&fYou are in &cVanish");
-                    }
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                CustomConfig Data = Utils.getDataFile(player);
+                if (Data.getConfig().getBoolean("isVanished", true)) {
+                    essentialsZAPI.utils.sendActionBar(player, "&fYou are in &cVanish");
                 }
             }
         }, 0L, 20L);

@@ -1,9 +1,8 @@
 package me.darkwinged.EssentialsZ.Commands.World.Gamemodes;
 
-import me.darkwinged.EssentialsZ.Main;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Errors;
 import me.darkwinged.EssentialsZ.Libaries.Lang.Permissions;
-import me.darkwinged.EssentialsZ.Libaries.Lang.Utils;
+import me.darkwinged.EssentialsZ.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -186,7 +185,7 @@ public class cmd_Gamemode implements CommandExecutor {
                             }
                         }
                     } else
-                        Utils.Message(sender, Errors.getErrors(Errors.GamemodeUsage));
+                        sender.sendMessage(Errors.getErrors(Errors.GamemodeUsage));
                 }
             }
         }
