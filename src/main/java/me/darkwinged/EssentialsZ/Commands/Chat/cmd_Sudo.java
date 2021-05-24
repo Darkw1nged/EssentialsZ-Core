@@ -20,12 +20,12 @@ public class cmd_Sudo implements CommandExecutor {
                 if (plugin.getConfig().getBoolean("cmd_Sudo", true)) {
                     if (!(sender instanceof Player)) {
                         if (!(args.length >= 2)) {
-                            Utils.Message(sender, Errors.getErrors(Errors.MessageEmpty));
+                            sender.sendMessage(Errors.getErrors(Errors.MessageEmpty));
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
-                            Utils.Message(sender, Errors.getErrors(Errors.SpecifyPlayer));
+                            sender.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));
                             return true;
                         }
                         String msg = "";
@@ -38,12 +38,12 @@ public class cmd_Sudo implements CommandExecutor {
                     Player player = (Player)sender;
                     if (player.hasPermission(Permissions.Sudo) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (!(args.length >= 2)) {
-                            Utils.Message(player, Errors.getErrors(Errors.MessageEmpty));
+                            player.sendMessage(Errors.getErrors(Errors.MessageEmpty));
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
-                            Utils.Message(sender, Errors.getErrors(Errors.SpecifyPlayer));
+                            player.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));
                             return true;
                         }
                         String msg = "";
@@ -51,9 +51,8 @@ public class cmd_Sudo implements CommandExecutor {
                             msg = msg + " " + s;
                         }
                         target.chat(msg.replaceAll(" "+args[0]+" ", ""));
-                    } else {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                    }
+                    } else
+                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }
             }
         }

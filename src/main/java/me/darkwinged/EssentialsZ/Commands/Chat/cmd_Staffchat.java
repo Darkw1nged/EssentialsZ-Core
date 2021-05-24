@@ -45,7 +45,7 @@ public class cmd_Staffchat implements CommandExecutor {
                     Player player = (Player) sender;
                     if (player.hasPermission(Permissions.StaffChat) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (!(args.length >= 1)) {
-                            Utils.Message(sender, Errors.getErrors(Errors.MessageEmpty));
+                            player.sendMessage(Errors.getErrors(Errors.MessageEmpty));
                             return true;
                         }
 

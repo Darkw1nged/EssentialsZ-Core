@@ -11,7 +11,7 @@ public class Utils implements Listener {
     private static final Main plugin = Main.getInstance;
 
     // TEMP
-    public static String chat(String string) { return string; }
+    public static String chat(String string) { return plugin.essentialsZAPI.utils.chat(string, null, null, null, false); }
 
     public static CustomConfig getDataFile(Player player) {
         return new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");

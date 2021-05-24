@@ -45,9 +45,8 @@ public class cmd_Mutechat implements CommandExecutor {
                                     .replaceAll("%player%", sender.getName()).replaceAll("%setting%", "unmuted"));
                             Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")) + Message);
                         }
-                    } else {
-                        Utils.Message(sender, Errors.getErrors(Errors.NoPermission));
-                    }
+                    } else
+                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
                 }
             }
         }
