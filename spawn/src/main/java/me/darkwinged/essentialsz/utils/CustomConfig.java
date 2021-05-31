@@ -1,4 +1,4 @@
-package me.darkwinged.EssentialsZ.Utils;
+package me.darkwinged.essentialsz.utils;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;

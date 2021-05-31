@@ -1,10 +1,10 @@
-package me.darkwinged.EssentialsZ;
+package me.darkwinged.essentialsz;
 
-import me.darkwinged.EssentialsZ.CustomElements.CustomInventory;
-import me.darkwinged.EssentialsZ.CustomElements.CustomItems;
-import me.darkwinged.EssentialsZ.Libaries.CustomConfig;
-import me.darkwinged.EssentialsZ.Libaries.PlaceHolders;
-import me.darkwinged.EssentialsZ.Libaries.TicksPerSecond;
+import me.darkwinged.essentialsz.customelements.CustomInventory;
+import me.darkwinged.essentialsz.customelements.CustomItems;
+import me.darkwinged.essentialsz.libraries.CustomConfig;
+import me.darkwinged.essentialsz.libraries.PlaceHolders;
+import me.darkwinged.essentialsz.libraries.TicksPerSecond;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

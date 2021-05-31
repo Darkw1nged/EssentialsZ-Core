@@ -1,17 +1,14 @@
-package me.darkwinged.EssentialsZ.Commands;
+package me.darkwinged.essentialsz.commands;
 
-import me.darkwinged.EssentialsZ.EssentialsZSpawn;
-import me.darkwinged.EssentialsZ.Utils.CustomConfig;
-import me.darkwinged.EssentialsZ.Utils.Utils;
-import org.bukkit.Bukkit;
+import me.darkwinged.essentialsz.EssentialsZSpawn;
+import me.darkwinged.essentialsz.utils.Utils;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class cmd_SetSpawn implements CommandExecutor {
+public class SetSpawnCommand implements CommandExecutor {
 
     private final EssentialsZSpawn plugin = EssentialsZSpawn.getInstance;
 

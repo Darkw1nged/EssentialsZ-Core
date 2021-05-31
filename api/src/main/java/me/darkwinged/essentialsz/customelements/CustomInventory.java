@@ -1,6 +1,6 @@
-package me.darkwinged.EssentialsZ.CustomElements;
+package me.darkwinged.essentialsz.customelements;
 
-import me.darkwinged.EssentialsZ.EssentialsZAPI;
+import me.darkwinged.essentialsz.EssentialsZAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

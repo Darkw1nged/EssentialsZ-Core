@@ -2,8 +2,6 @@ package me.darkwinged.essentialsz;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import me.darkwinged.EssentialsZ.EssentialsZAPI;
-import me.darkwinged.EssentialsZ.EssentialsZSpawn;
 import me.darkwinged.essentialsz.commands.chat.*;
 import me.darkwinged.essentialsz.commands.economy.*;
 import me.darkwinged.essentialsz.commands.teleport.staff.*;

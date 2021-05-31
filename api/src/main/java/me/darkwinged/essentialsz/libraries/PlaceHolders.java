@@ -1,7 +1,7 @@
-package me.darkwinged.EssentialsZ.Libaries;
+package me.darkwinged.essentialsz.libraries;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.darkwinged.EssentialsZ.EssentialsZAPI;
+import me.darkwinged.essentialsz.EssentialsZAPI;
 import org.bukkit.entity.Player;
 
 public class PlaceHolders extends PlaceholderExpansion {

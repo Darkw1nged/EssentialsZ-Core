@@ -1,4 +1,4 @@
-package me.darkwinged.EssentialsZ.Libaries.Center;
+package me.darkwinged.essentialsz.libraries.center;
 
 public enum DefaultFontInfo {
 

@@ -1,8 +1,5 @@
-package me.darkwinged.EssentialsZ.Libaries;
+package me.darkwinged.essentialsz.libraries;
 
-import me.darkwinged.EssentialsZ.EssentialsZAPI;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 

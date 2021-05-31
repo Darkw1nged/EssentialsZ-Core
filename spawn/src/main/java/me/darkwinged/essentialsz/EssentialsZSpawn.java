@@ -1,19 +1,17 @@
-package me.darkwinged.EssentialsZ;
+package me.darkwinged.essentialsz;
 
-import me.darkwinged.EssentialsZ.Commands.cmd_SetSpawn;
-import me.darkwinged.EssentialsZ.Commands.cmd_Spawn;
-import me.darkwinged.EssentialsZ.Utils.CustomConfig;
-import me.darkwinged.EssentialsZ.Utils.SpawnAPI;
-import me.darkwinged.EssentialsZ.Events.SpawnProtectionEvents;
-import me.darkwinged.EssentialsZ.Utils.MetricsLite;
-import me.darkwinged.EssentialsZ.Utils.Utils;
+import me.darkwinged.essentialsz.commands.SetSpawnCommand;
+import me.darkwinged.essentialsz.commands.SpawnCommand;
+import me.darkwinged.essentialsz.utils.CustomConfig;
+import me.darkwinged.essentialsz.utils.SpawnAPI;
+import me.darkwinged.essentialsz.events.SpawnProtectionEvents;
+import me.darkwinged.essentialsz.utils.MetricsLite;
+import me.darkwinged.essentialsz.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.*;
 
 public final class EssentialsZSpawn extends JavaPlugin {
@@ -44,8 +42,8 @@ public final class EssentialsZSpawn extends JavaPlugin {
     }
 
     public void registerCommands() {
-        getCommand("setspawn").setExecutor(new cmd_SetSpawn());
-        getCommand("spawn").setExecutor(new cmd_Spawn());
+        getCommand("setspawn").setExecutor(new SetSpawnCommand());
+        getCommand("spawn").setExecutor(new SpawnCommand());
     }
 
     public void registerEvents() {

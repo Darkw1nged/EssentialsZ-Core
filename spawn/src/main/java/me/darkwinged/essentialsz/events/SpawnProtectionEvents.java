@@ -1,7 +1,7 @@
-package me.darkwinged.EssentialsZ.Events;
+package me.darkwinged.essentialsz.events;
 
-import me.darkwinged.EssentialsZ.EssentialsZSpawn;
-import me.darkwinged.EssentialsZ.Utils.Utils;
+import me.darkwinged.essentialsz.EssentialsZSpawn;
+import me.darkwinged.essentialsz.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

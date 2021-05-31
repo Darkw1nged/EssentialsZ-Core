@@ -1,6 +1,6 @@
-package me.darkwinged.EssentialsZ.Utils;
+package me.darkwinged.essentialsz.utils;
 
-import me.darkwinged.EssentialsZ.EssentialsZSpawn;
+import me.darkwinged.essentialsz.EssentialsZSpawn;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

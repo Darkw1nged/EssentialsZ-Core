@@ -1,4 +1,4 @@
-package me.darkwinged.EssentialsZ.Libaries;
+package me.darkwinged.essentialsz.libraries;
 
 public class TicksPerSecond implements Runnable {
 

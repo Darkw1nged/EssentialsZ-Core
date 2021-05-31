@@ -1,6 +1,6 @@
-package me.darkwinged.EssentialsZ.CustomElements;
+package me.darkwinged.essentialsz.customelements;
 
-import me.darkwinged.EssentialsZ.EssentialsZAPI;
+import me.darkwinged.essentialsz.EssentialsZAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

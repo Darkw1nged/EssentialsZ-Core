@@ -1,8 +1,8 @@
-package me.darkwinged.EssentialsZ;
+package me.darkwinged.essentialsz;
 
-import me.darkwinged.EssentialsZ.Libaries.Center.DefaultFontInfo;
-import me.darkwinged.EssentialsZ.Libaries.Ping;
-import me.darkwinged.EssentialsZ.Libaries.TicksPerSecond;
+import me.darkwinged.essentialsz.libraries.center.DefaultFontInfo;
+import me.darkwinged.essentialsz.libraries.Ping;
+import me.darkwinged.essentialsz.libraries.TicksPerSecond;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
