@@ -1,0 +1,7 @@
+name: EssentialsZAPI
+version: ${project.version}
+main: me.darkwinged.EssentialsZ.EssentialsZAPI
+api-version: 1.16
+authors: [ darkwinged ]
+load: STARTUP
+loadbefore: [EssentialsZ]

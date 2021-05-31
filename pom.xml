@@ -4,12 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.darkwinged.EssentialsZ</groupId>
-    <artifactId>EssentialsZ</artifactId>
+    <groupId>me.darkwinged</groupId>
+    <artifactId>essentialsz</artifactId>
     <version>1.5</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>EssentialsZ</name>
+
+    <modules>
+        <module>core</module>
+        <module>api</module>
+        <module>spawn</module>
+    </modules>
 
     <properties>
         <java.version>1.8</java.version>
@@ -39,119 +45,11 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <artifactSet>
-                                <excludes>
-                                    <exclude>org.spigotmc</exclude>
-                                    <exclude>com.comphenix.protocol:ProtocolLib</exclude>
-                                    <exclude>com.github.MilkBowl</exclude>
-                                    <exclude>me.clip</exclude>
-                                    <exclude>org.apache.maven</exclude>
-                                    <exclude>org.hamcrest</exclude>
-                                    <exclude>org.hamcrest:hamcrest-core</exclude>
-                                    <exclude>net.md-5:bungeecord-chat</exclude>
-                                    <exclude>commons-lang:commons-lang</exclude>
-                                    <exclude>com.google.code.gson:gson:jar:2.8.0</exclude>
-                                    <exclude>com.google.guava</exclude>
-                                    <exclude>net.bytebuddy:byte-buddy</exclude>
-                                    <exclude>org.yaml:snakeyaml</exclude>
-                                    <exclude>org.bukkit:bukkit</exclude>
-                                    <exclude>com.googlecode.json-simple:json-simple:jar:1.1.1</exclude>
-                                    <exclude>junit</exclude>
-                                    <exclude>com.googlecode.json-simple</exclude>
-                                </excludes>
-                            </artifactSet>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
-
-    <repositories>
-        <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>bungeecord-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </repository>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>dmulloy2-repo</id>
-            <url>https://repo.dmulloy2.net/nexus/repository/public/</url>
-        </repository>
-        <repository>
-            <id>placeholderapi</id>
-            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.md-5</groupId>
-            <artifactId>bungeecord-api</artifactId>
-            <version>1.16-R0.5-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.md-5</groupId>
-            <artifactId>bungeecord-api</artifactId>
-            <version>1.16-R0.5-SNAPSHOT</version>
-            <type>javadoc</type>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>LATEST</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.MilkBowl</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>LATEST</version>
-        </dependency>
-        <dependency>
-            <groupId>me.clip</groupId>
-            <artifactId>placeholderapi</artifactId>
-            <version>LATEST</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.darkwinged</groupId>
-            <artifactId>darkwingedSpawn</artifactId>
-            <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>D:/EssentialsZ Project/EssentialsZ Spawn/target/EssentialsZSpawn-1.1.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.darkwinged</groupId>
-            <artifactId>darkwingedAPI</artifactId>
-            <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>D:/EssentialsZ Project/EssentialsZ API/target/EssentialsZAPI-1.1.jar</systemPath>
-        </dependency>
-    </dependencies>
 </project>
