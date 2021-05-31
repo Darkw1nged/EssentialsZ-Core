@@ -1,0 +1,7 @@
+name: EssentialsZSpawn
+version: 1.1
+main: me.darkwinged.EssentialsZ.EssentialsZSpawn
+authors: [ darkwinged ]
+commands:
+  setspawn:
+  spawn:

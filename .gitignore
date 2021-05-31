@@ -1,9 +1,9 @@
-/.idea/
+**/.idea/
 *.iml
 *.iws
 *.ipr
 
-/target/
-/build/
-/out/
+**/target/
+**/build/
+**/out/
 dependency-reduced-pom.xml

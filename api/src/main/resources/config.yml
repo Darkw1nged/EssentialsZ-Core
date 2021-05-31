@@ -1,0 +1,39 @@
+# The amount of money the player will get.
+Investor Gain Amount: 150.0
+# The amount of time before the money gets added
+Investor Delay: 60
+
+Bounty_Hunter Drop Chance: 10.0
+
+# Enchantment : THOR Settings
+Thor:
+  Level 1:
+    Chance: 5.0
+  Level 2:
+    Chance: 10.0
+
+# Enchantment : BLINDNESS Settings
+Blindness:
+  Level 1:
+    Chance: 5.0
+    Duration: 3
+  Level 2:
+    Chance: 10.0
+    Duration: 5
+
+# Enchantment : TREASURE Settings
+Treasure:
+  Allowed Blocks:
+    - STONE
+    - COAL_ORE
+    - IRON_ORE
+    - GOLD_ORE
+    - DIAMOND_ORE
+    - EMERALD_ORE
+  Level 1:
+    Chance: 5.0
+  Level 2:
+    Chance: 10.0
+  Level 3:
+    Chance: 12.0
+
