@@ -140,18 +140,14 @@
         </dependency>
 
         <dependency>
-            <groupId>com.darkwinged</groupId>
-            <artifactId>darkwingedSpawn</artifactId>
+            <groupId>me.darkwinged.EssentialsZSpawn</groupId>
+            <artifactId>EssentialsZSpawn</artifactId>
             <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>D:/EssentialsZ Project/EssentialsZ Spawn/target/EssentialsZSpawn-1.1.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>com.darkwinged</groupId>
-            <artifactId>darkwingedAPI</artifactId>
+            <groupId>me.darkwinged.EssentialsZAPI</groupId>
+            <artifactId>EssentialsZAPI</artifactId>
             <version>1.1</version>
-            <scope>system</scope>
-            <systemPath>D:/EssentialsZ Project/EssentialsZ API/target/EssentialsZAPI-1.1.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
