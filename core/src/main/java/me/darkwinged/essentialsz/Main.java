@@ -4,6 +4,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import me.darkwinged.essentialsz.commands.CommandRegistry;
 import me.darkwinged.essentialsz.commands.chat.*;
+import me.darkwinged.essentialsz.commands.decorator.factory.PermissionDecoratorFactory;
 import me.darkwinged.essentialsz.commands.economy.*;
 import me.darkwinged.essentialsz.commands.teleport.staff.*;
 import me.darkwinged.essentialsz.commands.teleport.*;
@@ -51,6 +52,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicePriority;
+import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -128,6 +131,12 @@ public final class Main extends JavaPlugin {
         // Console Start Message
         getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&aEssentialsZ Core plugin has been enabled!",
                 null, null, null, false));
+
+        ServicesManager servicesManager = getServer().getServicesManager();
+        servicesManager.register(PermissionDecoratorFactory.class, new PermissionDecoratorFactory(), this, ServicePriority.Normal);
+
+        CommandRegistry registry = servicesManager.load(CommandRegistry.class);
+        // command stuff here
     }
 
     public void onDisable() {
