@@ -1,6 +1,6 @@
 name: EssentialsZSpawn
 version: 1.1
-main: me.darkwinged.EssentialsZ.EssentialsZSpawn
+main: me.darkwinged.essentialsz.EssentialsZSpawn
 authors: [ darkwinged ]
 commands:
   setspawn:
