@@ -1,12 +1,13 @@
 name: EssentialsZ
 version: ${project.version}
-main: me.darkwinged.EssentialsZ.Main
+main: me.darkwinged.essentialsz.Main
 authors: [darkwinged, Yovez]
 softdepend: [PlaceholderAPI, Vault, ProtocolLib, EssentialsZSpawn]
 depend: [EssentialsZAPI]
 load: STARTUP
 loadbefore: [Vault]
 commands:
+  test:
   economy:
     aliases:
       - econ
