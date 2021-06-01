@@ -7,7 +7,6 @@ depend: [EssentialsZAPI]
 load: STARTUP
 loadbefore: [Vault]
 commands:
-  test:
   economy:
     aliases:
       - econ
