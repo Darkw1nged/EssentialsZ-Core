@@ -1,7 +1,8 @@
 package me.darkwinged.essentialsz.commands.economy;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -20,12 +21,12 @@ public class EconomyCommand implements CommandExecutor {
                 Player player = (Player) sender;
                 if (player.hasPermission(Permissions.Economy) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length < 2) {
-                        player.sendMessage(Errors.getErrors(Errors.UsageEconomy));
+                        player.sendMessage(ErrorManager.getErrors(Errors.UsageEconomy));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[1]);
                     if (target == null) {
-                        player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                     }
                     if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("give")) {
                         if (!plugin.economyManager.hasAccount(target)) return true;
@@ -33,7 +34,7 @@ public class EconomyCommand implements CommandExecutor {
                         try {
                             amount = Double.parseDouble(args[2]);
                         } catch (Exception e) {
-                            player.sendMessage(Errors.getErrors(Errors.InvalidAmount));
+                            player.sendMessage(ErrorManager.getErrors(Errors.InvalidAmount));
                             return true;
                         }
                         plugin.economyManager.AddAccount(target, amount);
@@ -47,7 +48,7 @@ public class EconomyCommand implements CommandExecutor {
                         try {
                             amount = Double.parseDouble(args[2]);
                         } catch (Exception e) {
-                            player.sendMessage(Errors.getErrors(Errors.InvalidAmount));
+                            player.sendMessage(ErrorManager.getErrors(Errors.InvalidAmount));
                             return true;
                         }
                         plugin.economyManager.RemoveAccount(player, amount);
@@ -61,7 +62,7 @@ public class EconomyCommand implements CommandExecutor {
                         try {
                             amount = Double.parseDouble(args[2]);
                         } catch (Exception e) {
-                            player.sendMessage(Errors.getErrors(Errors.InvalidAmount));
+                            player.sendMessage(ErrorManager.getErrors(Errors.InvalidAmount));
                             return true;
                         }
                         plugin.economyManager.setAccount(target, amount);
@@ -76,7 +77,7 @@ public class EconomyCommand implements CommandExecutor {
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
                                 + plugin.MessagesFile.getConfig().getString("Economy Reset Message"), target, target, null, false));
                     } else
-                        player.sendMessage(Errors.getErrors(Errors.UsageEconomy));
+                        player.sendMessage(ErrorManager.getErrors(Errors.UsageEconomy));
 
                 }
             }

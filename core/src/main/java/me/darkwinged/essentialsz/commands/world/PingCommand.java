@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands.world;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,7 +19,7 @@ public class PingCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Commands.Ping", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length < 1) {
-                        sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[0]);
@@ -37,10 +38,10 @@ public class PingCommand implements CommandExecutor {
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("Ping Player message"), target, target, target, false));
                     } else
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
 
                 } else
-                    player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                    player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
             }
         }
         return false;

@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands.teleport.staff;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -28,15 +29,15 @@ public class TeleportCommand implements CommandExecutor {
                             Player target1 = Bukkit.getPlayer(args[0]);
                             Player target2 = Bukkit.getPlayer(args[1]);
                             if (target1 == null) {
-                                sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                                sender.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target2 == null) {
-                                sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                                sender.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target1 == target2) {
-                                sender.sendMessage(Errors.getErrors(Errors.SenderInstaceOfPlayer));
+                                sender.sendMessage(ErrorManager.getErrors(Errors.SenderInstaceOfPlayer));
                                 return true;
                             }
                             sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
@@ -51,11 +52,11 @@ public class TeleportCommand implements CommandExecutor {
                         if (args.length == 1) {
                             Player target = Bukkit.getPlayer(args[0]);
                             if (target == null) {
-                                player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                                player.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (player == target) {
-                                player.sendMessage(Errors.getErrors(Errors.SenderInstaceOfPlayer));
+                                player.sendMessage(ErrorManager.getErrors(Errors.SenderInstaceOfPlayer));
                                 return true;
                             }
                             player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
@@ -69,22 +70,22 @@ public class TeleportCommand implements CommandExecutor {
                                     player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("TP World message")
                                             .replaceAll("%world%", world.getName()), null, null, null, false));
                                 } else {
-                                    player.sendMessage(Errors.getErrors(Errors.InvalidWorld));
+                                    player.sendMessage(ErrorManager.getErrors(Errors.InvalidWorld));
                                 }
                                 return true;
                             }
                             Player target1 = Bukkit.getPlayer(args[0]);
                             Player target2 = Bukkit.getPlayer(args[1]);
                             if (target1 == null) {
-                                player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                                player.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target2 == null) {
-                                player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                                player.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                                 return true;
                             }
                             if (target1 == target2) {
-                                player.sendMessage(Errors.getErrors(Errors.SenderInstaceOfPlayer));
+                                player.sendMessage(ErrorManager.getErrors(Errors.SenderInstaceOfPlayer));
                                 return true;
                             }
                             player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("TP Other message")
@@ -95,11 +96,11 @@ public class TeleportCommand implements CommandExecutor {
                                 if (Bukkit.getWorld(args[1]) != null) {
                                     Player target = Bukkit.getPlayer(args[2]);
                                     if (target == null) {
-                                        player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                                        player.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                                         return true;
                                     }
                                     if (player == target) {
-                                        player.sendMessage(Errors.getErrors(Errors.SenderInstaceOfPlayer));
+                                        player.sendMessage(ErrorManager.getErrors(Errors.SenderInstaceOfPlayer));
                                         return true;
                                     }
                                     World world = Bukkit.getWorld(args[1]);
@@ -107,7 +108,7 @@ public class TeleportCommand implements CommandExecutor {
                                     player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("TP World Other message")
                                                         .replaceAll("%world%", world.getName()), target, target, null, false));
                                 } else {
-                                    player.sendMessage(Errors.getErrors(Errors.InvalidWorld));
+                                    player.sendMessage(ErrorManager.getErrors(Errors.InvalidWorld));
                                 }
                                 return true;
                             }
@@ -128,9 +129,9 @@ public class TeleportCommand implements CommandExecutor {
                             }
                         }
                     } else
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 } else {
-                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.DisabledCommand));
                 }
             }
         }

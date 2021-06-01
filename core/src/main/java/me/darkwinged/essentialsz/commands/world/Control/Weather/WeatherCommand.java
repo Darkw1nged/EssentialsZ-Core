@@ -1,8 +1,9 @@
-package me.darkwinged.essentialsz.commands.world;
+package me.darkwinged.essentialsz.commands.world.Control.Weather;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -19,13 +20,13 @@ public class WeatherCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Commands.Weather", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length < 2) {
-                        sender.sendMessage(Errors.getErrors(Errors.SpecifyWorld));
-                        sender.sendMessage(Errors.getErrors(Errors.WeatherType));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.SpecifyWorld));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.WeatherType));
                         return true;
                     }
                     World world = Bukkit.getWorld(args[0]);
                     if (world == null) {
-                        sender.sendMessage(Errors.getErrors(Errors.InvalidWorld));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.InvalidWorld));
                         return true;
                     }
                     if (args[1].equalsIgnoreCase("clear") || args[1].equalsIgnoreCase("sun") || args[1].equalsIgnoreCase("sunny")) {
@@ -57,7 +58,7 @@ public class WeatherCommand implements CommandExecutor {
                     if (args.length == 2) {
                         World world = Bukkit.getWorld(args[0]);
                         if (world == null) {
-                            player.sendMessage(Errors.getErrors(Errors.InvalidWorld));
+                            player.sendMessage(ErrorManager.getErrors(Errors.InvalidWorld));
                             return true;
                         }
                         if (args[1].equalsIgnoreCase("clear") || args[1].equalsIgnoreCase("sun") || args[1].equalsIgnoreCase("sunny")) {
@@ -109,7 +110,7 @@ public class WeatherCommand implements CommandExecutor {
                         }
                     }
                 } else
-                    player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                    player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
 
             }
         }

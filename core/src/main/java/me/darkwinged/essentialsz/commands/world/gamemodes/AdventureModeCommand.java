@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands.world.gamemodes;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -19,12 +20,12 @@ public class AdventureModeCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Commands.Gamemode", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length != 1) {
-                        sender.sendMessage(Errors.getErrors(Errors.GamemodeUsage));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.GamemodeUsage));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == null) {
-                        sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                         return true;
                     }
                     String Message = plugin.MessagesFile.getConfig().getString("Gamemode Other")
@@ -42,13 +43,13 @@ public class AdventureModeCommand implements CommandExecutor {
                                 null, null, null, false));
                         player.setGameMode(GameMode.ADVENTURE);
                     } else {
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                     }
                 } else {
                     Player target = Bukkit.getPlayer(args[0]);
                     if (player.hasPermission(Permissions.AdventureModeOther) || player.hasPermission(Permissions.GamemodeGlobal) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (target == null) {
-                            player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                            player.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         String Message = plugin.MessagesFile.getConfig().getString("Gamemode Other")

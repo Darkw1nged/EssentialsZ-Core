@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands.economy;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,23 +20,23 @@ public class PayCommand implements CommandExecutor {
                 if (plugin.getConfig().getBoolean("Economy.Settings.Commands.Pay", true)) {
                     if (plugin.Module_Economy = false) return true;
                     if (!(sender instanceof Player)) {
-                        sender.sendMessage(Errors.getErrors(Errors.Console));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player)sender;
                     if (player.hasPermission(Permissions.Pay) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (args.length < 2) {
-                            player.sendMessage(Errors.getErrors(Errors.UsagePay));
+                            player.sendMessage(ErrorManager.getErrors(Errors.UsagePay));
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[0]);
                         double amount = Double.parseDouble(args[1]);
                         if (target == null) {
-                            player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                            player.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         if (target == player) {
-                            player.sendMessage(Errors.getErrors(Errors.SenderInstaceOfPlayer));
+                            player.sendMessage(ErrorManager.getErrors(Errors.SenderInstaceOfPlayer));
                             return true;
                         }
                         // Player Account
@@ -49,7 +50,7 @@ public class PayCommand implements CommandExecutor {
                         try {
                             amount = Double.parseDouble(args[1]);
                         } catch(Exception e) {
-                            player.sendMessage(Errors.getErrors(Errors.InvalidAmount));
+                            player.sendMessage(ErrorManager.getErrors(Errors.InvalidAmount));
                             return true;
                         }
                         // Removing the amount from the senders balance
@@ -59,7 +60,7 @@ public class PayCommand implements CommandExecutor {
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Payed")
                                 .replaceAll("%amount%", ""+amount), target, target, null, false));
                     } else
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 }
             }
         }

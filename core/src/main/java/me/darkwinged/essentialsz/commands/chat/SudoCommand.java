@@ -1,7 +1,8 @@
 package me.darkwinged.essentialsz.commands.chat;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -18,43 +19,35 @@ public class SudoCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Chat", true)) {
                 if (plugin.getConfig().getBoolean("cmd_Sudo", true)) {
                     if (!(sender instanceof Player)) {
-                        if (!(args.length >= 2)) {
-                            sender.sendMessage(Errors.getErrors(Errors.MessageEmpty));
-                            return true;
-                        }
-                        Player target = Bukkit.getPlayer(args[0]);
-                        if (target == null) {
-                            sender.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));
-                            return true;
-                        }
-                        String msg = "";
-                        for (String s : args) {
-                            msg = msg + " " + s;
-                        }
-                        target.chat(msg.replaceAll(" "+args[0]+" ", ""));
+                        if (ContainsMessage(sender, args)) return true;
                         return true;
                     }
                     Player player = (Player)sender;
                     if (player.hasPermission(Permissions.Sudo) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                        if (!(args.length >= 2)) {
-                            player.sendMessage(Errors.getErrors(Errors.MessageEmpty));
-                            return true;
-                        }
-                        Player target = Bukkit.getPlayer(args[0]);
-                        if (target == null) {
-                            player.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));
-                            return true;
-                        }
-                        String msg = "";
-                        for (String s : args) {
-                            msg = msg + " " + s;
-                        }
-                        target.chat(msg.replaceAll(" "+args[0]+" ", ""));
+                        if (ContainsMessage(player, args)) return true;
                     } else
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 }
             }
         }
+        return false;
+    }
+
+    private boolean ContainsMessage(CommandSender sender, String[] args) {
+        if (!(args.length >= 2)) {
+            sender.sendMessage(ErrorManager.getErrors(Errors.MessageEmpty));
+            return true;
+        }
+        Player target = Bukkit.getPlayer(args[0]);
+        if (target == null) {
+            sender.sendMessage(ErrorManager.getErrors(Errors.SpecifyPlayer));
+            return true;
+        }
+        String msg = "";
+        for (String s : args) {
+            msg = msg + " " + s;
+        }
+        target.chat(msg.replaceAll(" "+args[0]+" ", ""));
         return false;
     }
 

@@ -1,9 +1,10 @@
 package me.darkwinged.essentialsz.commands.teleport;
 
-import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -26,7 +27,7 @@ public class WarpCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Teleportation.enabled", true)) {
                 if (plugin.getConfig().getBoolean("Teleportation.Settings.Warps.enabled", true)) {
                     if (!(sender instanceof Player)) {
-                        sender.sendMessage(Errors.getErrors(Errors.Console));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player) sender;
@@ -35,7 +36,7 @@ public class WarpCommand implements CommandExecutor {
                         if (player.hasPermission(Permissions.Warp + args[0]) || player.hasPermission(Permissions.WarpsOverwrite) || player.hasPermission(Permissions.GlobalOverwrite)) {
                             CustomConfig WarpFile = new CustomConfig(plugin, WarpName, "Warps");
                             if (!WarpFile.getCustomConfigFile().exists()) {
-                                sender.sendMessage(Errors.getErrors(Errors.WarpDoesNotExist));
+                                sender.sendMessage(ErrorManager.getErrors(Errors.WarpDoesNotExist));
                                 return true;
                             }
                             if (player.hasPermission(Permissions.TeleportBypass) || player.hasPermission(Permissions.GlobalOverwrite)) {
@@ -86,11 +87,11 @@ public class WarpCommand implements CommandExecutor {
                             }.runTaskTimer(plugin, 0L, 20L);
 
                         } else
-                            player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                            player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                     } else {
                         if (args.length != 2) {
-                            player.sendMessage(Errors.getErrors(Errors.NoWarpNameProvided));
-                            player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                            player.sendMessage(ErrorManager.getErrors(Errors.NoWarpNameProvided));
+                            player.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[1]);
@@ -99,7 +100,7 @@ public class WarpCommand implements CommandExecutor {
 
                             CustomConfig WarpFile = new CustomConfig(plugin, WarpName, "Warps");
                             if (!WarpFile.getCustomConfigFile().exists()) {
-                                sender.sendMessage(Errors.getErrors(Errors.WarpDoesNotExist));
+                                sender.sendMessage(ErrorManager.getErrors(Errors.WarpDoesNotExist));
                                 return true;
                             }
 
@@ -116,10 +117,10 @@ public class WarpCommand implements CommandExecutor {
                                             plugin.MessagesFile.getConfig().getString("Warp Player Message").replaceAll("%warp%", WarpName),
                                     player, target, null, false));
                         } else
-                            player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                            player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                     }
                 } else {
-                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.DisabledCommand));
                 }
             }
 

@@ -6,6 +6,14 @@ import me.darkwinged.essentialsz.commands.chat.*;
 import me.darkwinged.essentialsz.commands.economy.*;
 import me.darkwinged.essentialsz.commands.teleport.staff.*;
 import me.darkwinged.essentialsz.commands.teleport.*;
+import me.darkwinged.essentialsz.commands.world.Control.Time.DayCommand;
+import me.darkwinged.essentialsz.commands.world.Control.Time.NightCommand;
+import me.darkwinged.essentialsz.commands.world.Control.Time.TimeCommand;
+import me.darkwinged.essentialsz.commands.world.Control.Time.TimePlayerCommand;
+import me.darkwinged.essentialsz.commands.world.Control.Weather.StormCommand;
+import me.darkwinged.essentialsz.commands.world.Control.Weather.SunCommand;
+import me.darkwinged.essentialsz.commands.world.Control.Weather.WeatherCommand;
+import me.darkwinged.essentialsz.commands.world.Control.Weather.WeatherPlayerCommand;
 import me.darkwinged.essentialsz.commands.world.gamemodes.*;
 import me.darkwinged.essentialsz.commands.world.*;
 import me.darkwinged.essentialsz.commands.ReloadCommand;
@@ -63,16 +71,15 @@ public final class Main extends JavaPlugin {
     private static Chat chat = null;
 
     // Feature Files
-    public CustomConfig MoneyPouchesFile = new CustomConfig(this, "Features/Money Pouches", true);
-    public CustomConfig ExperiencePouchesFile = new CustomConfig(this, "Features/Experience Pouches", true);
-    public CustomConfig BlockedCommandsFile = new CustomConfig(this, "Features/Blocked Commands", true);
-    public CustomConfig ChatFilterFile = new CustomConfig(this, "Features/Chat Filter", true);
-    public CustomConfig AutoMessagesFile = new CustomConfig(this, "Features/Auto Messages", true);
-    public CustomConfig CouponsFile = new CustomConfig(this, "Features/Coupons", true);
-
-    public CustomConfig ServerDataFile = new CustomConfig(this, "Data/Server Data", true);
-    public CustomConfig MessagesFile = new CustomConfig(this, "Messages", true);
-    public CustomConfig WorthFile = new CustomConfig(this, "Worth", true);
+    public CustomConfig MoneyPouchesFile =       new CustomConfig(this, "Features/Money Pouches", true);
+    public CustomConfig ExperiencePouchesFile =  new CustomConfig(this, "Features/Experience Pouches", true);
+    public CustomConfig BlockedCommandsFile =    new CustomConfig(this, "Features/Blocked Commands", true);
+    public CustomConfig ChatFilterFile =         new CustomConfig(this, "Features/Chat Filter", true);
+    public CustomConfig AutoMessagesFile =       new CustomConfig(this, "Features/Auto Messages", true);
+    public CustomConfig CouponsFile =            new CustomConfig(this, "Features/Coupons", true);
+    public CustomConfig ServerDataFile =         new CustomConfig(this, "Data/Server Data", true);
+    public CustomConfig MessagesFile =           new CustomConfig(this, "Messages", true);
+    public CustomConfig WorthFile =              new CustomConfig(this, "Worth", true);
 
     public void onEnable() {
         if (Bukkit.getPluginManager().getPlugin("EssentialsZAPI") == null) {
@@ -189,17 +196,21 @@ public final class Main extends JavaPlugin {
         getCommand("enderchest").setExecutor(new EnderchestCommand());
         getCommand("disposal").setExecutor(new DisposalCommand());
         getCommand("craft").setExecutor(new CraftCommand());
-        getCommand("anvil").setExecutor(new AnvilCommand());
         getCommand("kill").setExecutor(new KillCommand());
         getCommand("god").setExecutor(new GodCommand());
         getCommand("heal").setExecutor(new HealCommand());
         getCommand("fly").setExecutor(new FlyCommand());
         getCommand("feed").setExecutor(new FeedCommand());
         getCommand("smite").setExecutor(new SmiteCommand());
-        getCommand("filltnt").setExecutor(new TNTFillCommand());
         getCommand("cps").setExecutor(new CPSCommand());
         getCommand("weather").setExecutor(new WeatherCommand());
         getCommand("pweather").setExecutor(new WeatherPlayerCommand());
+        getCommand("sun").setExecutor(new SunCommand());
+        getCommand("storm").setExecutor(new StormCommand());
+        getCommand("time").setExecutor(new TimeCommand());
+        getCommand("ptime").setExecutor(new TimePlayerCommand());
+        getCommand("day").setExecutor(new DayCommand());
+        getCommand("night").setExecutor(new NightCommand());
 
     }
 

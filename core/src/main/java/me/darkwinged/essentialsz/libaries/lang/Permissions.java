@@ -92,11 +92,12 @@ public class Permissions {
     public static String VIPJoin = MainPermission + "VIP";
 
     // Teleportation Permissions
-    public static String TP = MainPermission + "teleport";
-    public static String TPhere = MainPermission + "teleport.here";
-    public static String TPhereAll = MainPermission + "teleport.here.all";
-    public static String TPhereEntities = MainPermission + "teleport.here.entities";
-    public static String TPA = MainPermission + "teleport.ask";
+    public static String TP = MainPermission + "Teleport";
+    public static String TPhere = MainPermission + "Teleport.Here";
+    public static String TPhereAll = MainPermission + "Teleport.here.All";
+    public static String TPhereEntities = MainPermission + "Teleport.Here.Entities";
+    public static String TPOffline = MainPermission + "Teleport.Offline";
+    public static String TPA = MainPermission + "Teleport.Ask";
     public static String RandomTeleport = MainPermission + "RTP";
     public static String TopTeleport = MainPermission + "Top";
     public static String UpSign = MainPermission + "Top.Sign.Create";
@@ -150,7 +151,6 @@ public class Permissions {
     public static String EnderchestOther = MainPermission + "Enderchest.Other";
     public static String Disposal = MainPermission + "Disposal";
     public static String Craft = MainPermission + "Craft";
-    public static String Anvil = MainPermission + "Anvil";
     public static String Kill = MainPermission + "Kill";
     public static String God = MainPermission + "God";
     public static String Heal = MainPermission + "Heal";
@@ -162,9 +162,17 @@ public class Permissions {
     public static String Smite = MainPermission + "Smite";
     public static String RidePlayer = MainPermission + "Ride.Player";
     public static String CPS = MainPermission + "CPS.Check";
-    public static String WorldWeather = MainPermission + "Weather.World";
-    public static String PlayerWeather = MainPermission + "Weather.Player";
+    public static String Condense = MainPermission + "Condense";
+    public static String Clearlag = MainPermission + "Clearlag";
+    public static String Suicide = MainPermission + "Suicide";
 
-    public static String TNTFillSurvival = MainPermission + "TNT.Fill";
-    public static String TNTFillCreative = MainPermission + "TNT.Fill.Creative";
+    public static String WorldWeather = MainPermission + "Weather.World";
+    public static String Sun = MainPermission + "Weather.Sun";
+    public static String Storm = MainPermission + "Weather.Storm";
+    public static String PlayerWeather = MainPermission + "Weather.Player";
+    public static String WorldTime = MainPermission + "Time.World";
+    public static String Day = MainPermission + "Time.Day";
+    public static String Night = MainPermission + "Time.Night";
+    public static String PlayerTime = MainPermission + "Time.Player";
+
 }

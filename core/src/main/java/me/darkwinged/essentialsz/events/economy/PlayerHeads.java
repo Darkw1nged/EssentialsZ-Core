@@ -1,7 +1,8 @@
 package me.darkwinged.essentialsz.events.economy;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -47,7 +48,7 @@ public class PlayerHeads implements Listener {
                         try {
                             amount = round((plugin.economyManager.getAccount(target) / 100) * plugin.getConfig().getInt("Economy.Settings.Money Heads.Sell Amount"));
                         } catch (Exception e) {
-                            player.sendMessage(Errors.getErrors(Errors.InvalidAmount));
+                            player.sendMessage(ErrorManager.getErrors(Errors.InvalidAmount));
                             return;
                         }
                         // Removing the amount from the senders balance
@@ -89,7 +90,7 @@ public class PlayerHeads implements Listener {
                 if (plugin.Module_Economy = false) return;
                 Player player = event.getPlayer();
                 if (event.getBlock().getType().equals(Material.SKULL_ITEM)) {
-                    player.sendMessage(Errors.getErrors(Errors.NoPlacePlayerHead));
+                    player.sendMessage(ErrorManager.getErrors(Errors.NoPlacePlayerHead));
                     event.setCancelled(true);
                 }
             }

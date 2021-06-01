@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands.world;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,7 +18,7 @@ public class HatCommand implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("hat")) {
             if (plugin.getConfig().getBoolean("Commands.Hat", true)) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(Errors.getErrors(Errors.Console));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player) sender;
@@ -29,10 +30,10 @@ public class HatCommand implements CommandExecutor {
                     player.getInventory().setHelmet(inHand);
                     player.getInventory().setItemInHand(null);
                 } else {
-                   player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                   player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 }
             } else {
-                sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
+                sender.sendMessage(ErrorManager.getErrors(Errors.DisabledCommand));
             }
         }
         return true;

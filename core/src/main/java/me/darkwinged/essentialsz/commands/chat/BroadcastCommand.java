@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands.chat;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,38 +19,34 @@ public class BroadcastCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
                 if (plugin.getConfig().getBoolean("Chat.Settings.Commands.Broadcast", true)) {
                     if (!(sender instanceof Player)) {
-                        if (args.length < 1) {
-                            sender.sendMessage(Errors.getErrors(Errors.MessageEmpty));
-                            return true;
-                        }
-                        String msg = plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Prefix"),
-                                null, null, null, false);
-                        for (String s : args) {
-                            msg = msg + " " + s;
-                        }
-                        Bukkit.broadcastMessage(msg);
+                        if (ContainsMessage(sender, args)) return true;
                         return true;
                     }
                     Player player = (Player) sender;
                     if (player.hasPermission(Permissions.Broadcast) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                        if (args.length < 1) {
-                            sender.sendMessage(Errors.getErrors(Errors.MessageEmpty));
-                            return true;
-                        }
-                        String msg = plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Prefix"),
-                                null, null, null, false);
-                        for (String s : args) {
-                            msg = msg + " " + s;
-                        }
-                        Bukkit.broadcastMessage(msg);
+                        if (ContainsMessage(sender, args)) return true;
                     } else
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
 
                 }
             }
 
         }
         return true;
+    }
+
+    private boolean ContainsMessage(CommandSender sender, String[] args) {
+        if (args.length < 1) {
+            sender.sendMessage(ErrorManager.getErrors(Errors.MessageEmpty));
+            return true;
+        }
+        String msg = plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Broadcast Prefix"),
+                null, null, null, false);
+        for (String s : args) {
+            msg = msg + " " + s;
+        }
+        Bukkit.broadcastMessage(msg);
+        return false;
     }
 
 }

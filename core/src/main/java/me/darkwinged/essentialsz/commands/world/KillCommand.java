@@ -1,7 +1,8 @@
 package me.darkwinged.essentialsz.commands.world;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
 import org.bukkit.Bukkit;
@@ -21,7 +22,7 @@ public class KillCommand implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("kill")) {
             if (plugin.getConfig().getBoolean("Commands.Kill", true)) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(Utils.chat(Errors.getErrors(Errors.Console)));
+                    sender.sendMessage(Utils.chat(ErrorManager.getErrors(Errors.Console)));
                     return true;
                 }
                 Player player = (Player)sender;
@@ -60,7 +61,8 @@ public class KillCommand implements CommandExecutor {
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("Killed Message"), target, target, null, false));
                     }
-                }
+                } else
+                    player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
             }
         }
         return false;

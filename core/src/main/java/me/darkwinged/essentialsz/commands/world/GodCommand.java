@@ -1,7 +1,8 @@
 package me.darkwinged.essentialsz.commands.world;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
 import org.bukkit.command.Command;
@@ -21,7 +22,7 @@ public class GodCommand implements CommandExecutor, Listener {
         if (cmd.getName().equalsIgnoreCase("god")) {
             if (plugin.getConfig().getBoolean("Commands.God", true)) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(Utils.chat(Errors.getErrors(Errors.Console)));
+                    sender.sendMessage(Utils.chat(ErrorManager.getErrors(Errors.Console)));
                     return true;
                 }
                 Player player = (Player)sender;
@@ -37,7 +38,8 @@ public class GodCommand implements CommandExecutor, Listener {
                                 plugin.MessagesFile.getConfig().getString("God Mode")
                                         .replaceAll("%setting%", "enabled"), null, null, null, false));
                     }
-                }
+                } else
+                    player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
             }
         }
         return false;

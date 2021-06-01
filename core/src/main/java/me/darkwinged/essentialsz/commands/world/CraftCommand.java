@@ -1,7 +1,8 @@
 package me.darkwinged.essentialsz.commands.world;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -19,7 +20,7 @@ public class CraftCommand implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("craft")) {
             if (plugin.getConfig().getBoolean("Commands.Craft", true)) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(Errors.getErrors(Errors.Console));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player)sender;
@@ -27,7 +28,7 @@ public class CraftCommand implements CommandExecutor {
                     Inventory inv = Bukkit.createInventory(null, InventoryType.WORKBENCH);
                     player.openInventory(inv);
                 } else
-                    player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                    player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
             }
         }
         return false;

@@ -1,9 +1,10 @@
 package me.darkwinged.essentialsz.commands.teleport;
 
-import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -21,7 +22,7 @@ public class HomesCommand implements CommandExecutor {
                 if (plugin.getConfig().getBoolean("Teleportation.Settings.Homes.enabled", true)) {
                     if (!(sender instanceof Player)) {
                         if (args.length != 1) {
-                            sender.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));
+                            sender.sendMessage(ErrorManager.getErrors(Errors.SpecifyPlayer));
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[0]);
@@ -30,7 +31,7 @@ public class HomesCommand implements CommandExecutor {
                         if (!Data.getCustomConfigFile().exists()) return true;
 
                         if (Data.getConfig().getConfigurationSection("Homes").getKeys(false).isEmpty()) {
-                            sender.sendMessage(Errors.getErrors(Errors.NoHomes));
+                            sender.sendMessage(ErrorManager.getErrors(Errors.NoHomes));
                         } else {
                             sender.sendMessage(plugin.essentialsZAPI.utils.chat("&6&lHomes: &f&l" + Data.getConfig().getConfigurationSection("Homes").getKeys(false), null, null, null, false)
                                     .replace("[", "").replace("]", ""));
@@ -43,7 +44,7 @@ public class HomesCommand implements CommandExecutor {
                         if (!Data.getCustomConfigFile().exists()) return true;
 
                         if (Data.getConfig().getConfigurationSection("Homes").getKeys(false).isEmpty()) {
-                            sender.sendMessage(Errors.getErrors(Errors.NoHomes));
+                            sender.sendMessage(ErrorManager.getErrors(Errors.NoHomes));
                         } else {
                             sender.sendMessage(plugin.essentialsZAPI.utils.chat("&6&lHomes: &f&l" + Data.getConfig().getConfigurationSection("Homes").getKeys(false), null, null, null, false)
                                     .replace("[", "").replace("]", ""));
@@ -56,7 +57,7 @@ public class HomesCommand implements CommandExecutor {
                             if (!Data.getCustomConfigFile().exists()) return true;
 
                             if (Data.getConfig().getConfigurationSection("Homes").getKeys(false).isEmpty()) {
-                                sender.sendMessage(Errors.getErrors(Errors.NoHomes));
+                                sender.sendMessage(ErrorManager.getErrors(Errors.NoHomes));
                             } else {
                                 sender.sendMessage(plugin.essentialsZAPI.utils.chat("&6&lHomes: &f&l" + Data.getConfig().getConfigurationSection("Homes").getKeys(false), null, null, null, false)
                                         .replace("[", "").replace("]", ""));
@@ -65,10 +66,10 @@ public class HomesCommand implements CommandExecutor {
                             player.sendMessage(ChatColor.RED + "Error! Usage: /homes OR /homes <player>");
                         }
                     } else {
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                     }
                 } else {
-                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.DisabledCommand));
                 }
             }
         }

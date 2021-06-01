@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands.world;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
@@ -20,7 +21,7 @@ public class CreateWorldCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Commands.World Creation", true)) {
                 if (!(sender instanceof Player)) {
                     if (args.length != 5) {
-                        sender.sendMessage(Errors.getErrors(Errors.WorldGenUsage));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.WorldGenUsage));
                         return true;
                     }
                     if (args[0].equalsIgnoreCase("create")) {
@@ -182,7 +183,7 @@ public class CreateWorldCommand implements CommandExecutor {
                 Player player = (Player) sender;
                 if (player.hasPermission(Permissions.CreateWorld) || player.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length != 5) {
-                        sender.sendMessage(Errors.getErrors(Errors.WorldGenUsage));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.WorldGenUsage));
                         return true;
                     }
                     if (args[0].equalsIgnoreCase("create")) {
@@ -340,7 +341,7 @@ public class CreateWorldCommand implements CommandExecutor {
                         world.createWorld();
                     }
                 } else {
-                    sender.sendMessage(Errors.getErrors(Errors.NoPermission));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 }
             }
         }

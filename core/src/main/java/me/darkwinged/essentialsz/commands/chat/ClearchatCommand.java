@@ -1,7 +1,8 @@
 package me.darkwinged.essentialsz.commands.chat;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
 import org.bukkit.Bukkit;
@@ -30,7 +31,7 @@ public class ClearchatCommand implements CommandExecutor {
                             Bukkit.broadcastMessage(" ");
                         Bukkit.broadcastMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("ClearChat Message").replaceAll("%player%", player.getName())));
                     } else
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 }
             }
         }

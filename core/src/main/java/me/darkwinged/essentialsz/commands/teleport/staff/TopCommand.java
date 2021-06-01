@@ -1,9 +1,10 @@
 package me.darkwinged.essentialsz.commands.teleport.staff;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
-import me.darkwinged.essentialsz.libaries.TeleportUtils;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.TeleportUtils;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,7 +20,7 @@ public class TopCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Teleportation.enabled", true)) {
                 if (plugin.getConfig().getBoolean("Teleportation.Settings.Commands.top", true)) {
                     if (!(sender instanceof Player)) {
-                        sender.sendMessage(Errors.getErrors(Errors.Console));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player)sender;
@@ -27,9 +28,9 @@ public class TopCommand implements CommandExecutor {
                         Location TopLocation = TeleportUtils.findSafeLocationTop(player);
                         player.teleport(TopLocation);
                     } else
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 } else {
-                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.DisabledCommand));
                 }
             }
         }

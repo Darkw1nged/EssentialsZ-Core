@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,7 +18,7 @@ public class ReloadCommand implements CommandExecutor {
                 enable();
                 sender.sendMessage(plugin.essentialsZAPI.utils.chat("&eConfiguration files have has been reloaded.", null, null, null, false));
             } else {
-                sender.sendMessage(Errors.getErrors(Errors.NoPermission));
+                sender.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
             }
         }
         return false;

@@ -1,9 +1,10 @@
 package me.darkwinged.essentialsz.commands.teleport;
 
-import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,14 +19,14 @@ public class SetHomeCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Teleportation.enabled", true)) {
                 if (plugin.getConfig().getBoolean("Teleportation.Settings.Homes.enabled", true)) {
                     if (!(sender instanceof Player)) {
-                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.Console),
+                        sender.sendMessage(plugin.essentialsZAPI.utils.chat(ErrorManager.getErrors(Errors.Console),
                                 null, null, null, false));
                         return true;
                     }
                     Player player = (Player)sender;
                     if (player.hasPermission(Permissions.SetHomes) || player.hasPermission(Permissions.HomesOverwrite) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (args.length < 1) {
-                            sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.NoHomeNameProvided),
+                            sender.sendMessage(plugin.essentialsZAPI.utils.chat(ErrorManager.getErrors(Errors.NoHomeNameProvided),
                                     null, null, null, false));
                             return true;
                         }
@@ -34,7 +35,7 @@ public class SetHomeCommand implements CommandExecutor {
                         CustomConfig Data = new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");
                         if (!Data.getCustomConfigFile().exists()) return true;
                         if (Data.getConfig().contains("Homes." + HomeName)) {
-                            sender.sendMessage(plugin.essentialsZAPI.utils.chat(Errors.getErrors(Errors.HomeAlreadyExist),
+                            sender.sendMessage(plugin.essentialsZAPI.utils.chat(ErrorManager.getErrors(Errors.HomeAlreadyExist),
                                     null, null, null, false));
                             return true;
                         }
@@ -59,9 +60,9 @@ public class SetHomeCommand implements CommandExecutor {
                                         .replaceAll("%home%", HomeName).replaceAll("%setting%", "created"),
                                 player, null, null, false));
                     } else
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 } else {
-                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.DisabledCommand));
                 }
             }
         }

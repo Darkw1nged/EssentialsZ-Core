@@ -1,7 +1,8 @@
 package me.darkwinged.essentialsz.commands.world;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,7 +20,7 @@ public class SmiteCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Commands.Smite", true)) {
                 if (sender.hasPermission(Permissions.Smite) || sender.hasPermission(Permissions.GlobalOverwrite)) {
                     if (args.length < 1) {
-                        sender.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.SpecifyPlayer));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[0]);
@@ -30,7 +31,7 @@ public class SmiteCommand implements CommandExecutor {
                             plugin.MessagesFile.getConfig().getString("Smite"), target, target, null, false));
 
                 } else
-                    sender.sendMessage(Errors.getErrors(Errors.NoPermission));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
             }
         }
         return false;

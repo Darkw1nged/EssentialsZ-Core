@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands.world;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -22,7 +23,7 @@ public class RepairCommand implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("repair")) {
             if (plugin.getConfig().getBoolean("Commands.Repair")) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(Errors.getErrors(Errors.Console));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player)sender;
@@ -49,7 +50,7 @@ public class RepairCommand implements CommandExecutor {
                                 }
                                 player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair Inventory"), null, null, null, false));
                             } else {
-                                sender.sendMessage(Errors.getErrors(Errors.NoPermission));
+                                sender.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                             }
                             break;
                         case "chest":
@@ -81,7 +82,7 @@ public class RepairCommand implements CommandExecutor {
                                     player.sendMessage(plugin.essentialsZAPI.utils.chat("&cError! Chest was not found.", null, null, null, false));
                                 }
                             } else {
-                                sender.sendMessage(Errors.getErrors(Errors.NoPermission));
+                                sender.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                             }
                             break;
                     }
@@ -91,7 +92,7 @@ public class RepairCommand implements CommandExecutor {
                     player.getItemInHand().setDurability((short) 0);
                     player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair"), null, null, null, false));
                 } else {
-                    sender.sendMessage(Errors.getErrors(Errors.NoPermission));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 }
             }
         }

@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands.teleport.staff;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,13 +22,13 @@ public class TeleportHereCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Teleportation.enabled", true)) {
                 if (plugin.getConfig().getBoolean("Teleportation.Settings.Commands.teleport", true)) {
                     if (!(sender instanceof Player)) {
-                        sender.sendMessage(Errors.getErrors(Errors.Console));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player) sender;
                     if (player.hasPermission(Permissions.TPhere) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (args.length != 1) {
-                            player.sendMessage(Errors.getErrors(Errors.TPhereUsage));
+                            player.sendMessage(ErrorManager.getErrors(Errors.TPhereUsage));
                             return true;
                         }
                         if (args[0].equalsIgnoreCase("@a")) {
@@ -54,21 +55,21 @@ public class TeleportHereCommand implements CommandExecutor {
                         }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
-                            player.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                            player.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         if (target == sender) {
-                            player.sendMessage(Errors.getErrors(Errors.SenderInstaceOfPlayer));
+                            player.sendMessage(ErrorManager.getErrors(Errors.SenderInstaceOfPlayer));
                             return true;
                         }
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("TPhere message"), player, target, null, false));
                         target.teleport(player);
                     } else {
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                     }
                 } else {
-                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.DisabledCommand));
                 }
             }
         }

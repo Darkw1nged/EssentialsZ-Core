@@ -1,9 +1,10 @@
 package me.darkwinged.essentialsz.commands.teleport;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
-import me.darkwinged.essentialsz.libaries.TeleportUtils;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.TeleportUtils;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,13 +27,13 @@ public class RandomTeleportCommand implements CommandExecutor {
             if (plugin.getConfig().getBoolean("Teleportation.enabled", true)) {
                 if (plugin.getConfig().getBoolean("Teleportation.Settings.Random Teleport.enabled", true)) {
                     if (!(sender instanceof Player)) {
-                        sender.sendMessage(Errors.getErrors(Errors.Console));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player)sender;
                     if (player.hasPermission(Permissions.RandomTeleport) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (RandomTeleportDelay.containsKey(player.getUniqueId()) || Cooldown.containsKey(player.getUniqueId())) {
-                            player.sendMessage(Errors.getErrors(Errors.Cooldown));
+                            player.sendMessage(ErrorManager.getErrors(Errors.Cooldown));
                             return true;
                         }
                         if (player.hasPermission(Permissions.TeleportBypass) || player.hasPermission(Permissions.GlobalOverwrite)) {
@@ -75,9 +76,9 @@ public class RandomTeleportCommand implements CommandExecutor {
                             }.runTaskTimer(plugin, 0L, 20L);
                         }
                     } else
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 } else {
-                    sender.sendMessage(Errors.getErrors(Errors.DisabledCommand));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.DisabledCommand));
                 }
             }
         }

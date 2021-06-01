@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands.economy;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,13 +24,13 @@ public class WithdrawCommand implements CommandExecutor {
                 if (plugin.getConfig().getBoolean("Economy.Settings.Bank Notes", true)) {
                     if (plugin.Module_Economy = false) return true;
                     if (!(sender instanceof Player)) {
-                        sender.sendMessage(Errors.getErrors(Errors.Console));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.Console));
                         return true;
                     }
                     Player player = (Player) sender;
                     if (player.hasPermission(Permissions.Withdraw) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (args.length != 1) {
-                            sender.sendMessage(Errors.getErrors(Errors.InvalidAmount));
+                            sender.sendMessage(ErrorManager.getErrors(Errors.InvalidAmount));
                             return true;
                         }
                         double amount = Double.parseDouble(args[0]);
@@ -38,14 +39,14 @@ public class WithdrawCommand implements CommandExecutor {
                             return true;
                         }
                         if (plugin.economyManager.hasEnoughMoney(player, amount)) {
-                            sender.sendMessage(Errors.getErrors(Errors.NotEnoughMoney));
+                            sender.sendMessage(ErrorManager.getErrors(Errors.NotEnoughMoney));
                             return true;
                         }
                         // Getting the amount
                         try {
                             amount = Double.parseDouble(args[0]);
                         } catch (Exception e) {
-                            sender.sendMessage(Errors.getErrors(Errors.InvalidAmount));
+                            sender.sendMessage(ErrorManager.getErrors(Errors.InvalidAmount));
                             return true;
                         }
                         // Removing the amount from the senders balance
@@ -70,7 +71,7 @@ public class WithdrawCommand implements CommandExecutor {
                         player.getInventory().addItem(item);
 
                     } else {
-                        sender.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                     }
                 }
             }

@@ -75,9 +75,6 @@ commands:
   vanish:
     aliases:
       - v
-  reward:
-    aliases:
-      - daily
   repair:
   world:
   delworld:
@@ -90,14 +87,18 @@ commands:
       - bin
       - garbage
   craft:
-  anvil:
   kill:
   god:
   heal:
   fly:
   feed:
   smite:
-  filltnt:
   cps:
   weather:
   pweather:
+  sun:
+  storm:
+  time:
+  ptime:
+  day:
+  night:

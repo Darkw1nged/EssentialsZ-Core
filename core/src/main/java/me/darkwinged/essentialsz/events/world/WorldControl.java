@@ -1,11 +1,12 @@
 package me.darkwinged.essentialsz.events.world;
 
+import me.darkwinged.essentialsz.Main;
 import me.darkwinged.essentialsz.commands.world.CPSCommand;
 import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
-import me.darkwinged.essentialsz.Main;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -151,7 +152,7 @@ public class WorldControl implements Listener {
                 }.runTaskTimer(plugin, 0L, 20L);
                 return;
             }
-            player.sendMessage(Errors.getErrors(Errors.Cooldown));
+            player.sendMessage(ErrorManager.getErrors(Errors.Cooldown));
             event.setCancelled(true);
         }
     }
@@ -220,7 +221,7 @@ public class WorldControl implements Listener {
                 return;
             if (item.getType().equals(Material.GOLDEN_APPLE)) {
                 if (cooldownTime_Normal.containsKey(player.getUniqueId())) {
-                    player.sendMessage(Errors.getErrors(Errors.CooldownItem));
+                    player.sendMessage(ErrorManager.getErrors(Errors.CooldownItem));
                     event.setCancelled(true);
                     player.updateInventory();
                     return;
@@ -247,7 +248,7 @@ public class WorldControl implements Listener {
                 return;
             if (item.getType().equals(Material.APPLE)) {
                 if (cooldownTime_Normal.containsKey(player.getUniqueId())) {
-                    player.sendMessage(Errors.getErrors(Errors.CooldownItem));
+                    player.sendMessage(ErrorManager.getErrors(Errors.CooldownItem));
                     event.setCancelled(true);
                     player.updateInventory();
                     return;
@@ -281,7 +282,7 @@ public class WorldControl implements Listener {
                     if (player.hasPermission(Permissions.bypass) || player.hasPermission(Permissions.GlobalOverwrite))
                         return;
                     if (cooldownTime.containsKey(player.getUniqueId())) {
-                        player.sendMessage(Errors.getErrors(Errors.CooldownItem));
+                        player.sendMessage(ErrorManager.getErrors(Errors.CooldownItem));
                         event.setCancelled(true);
                         player.updateInventory();
                         return;

@@ -1,7 +1,8 @@
 package me.darkwinged.essentialsz.events.economy;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -37,7 +38,7 @@ public class BankNotes implements Listener {
                         try {
                             amount = Double.parseDouble(newLore);
                         } catch (Exception e) {
-                            player.sendMessage(Errors.getErrors(Errors.InvalidAmount));
+                            player.sendMessage(ErrorManager.getErrors(Errors.InvalidAmount));
                             return;
                         }
                         // Adding the amount to the players balance

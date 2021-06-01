@@ -1,8 +1,9 @@
 package me.darkwinged.essentialsz.commands.world;
 
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -25,11 +26,11 @@ public class HealCommand implements CommandExecutor {
                     if (args.length == 1) {
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
-                            sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                            sender.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         if (target.getGameMode().equals(creative) || target.getGameMode().equals(spectator)) {
-                            sender.sendMessage(Errors.getErrors(Errors.InvalidGameMode));
+                            sender.sendMessage(ErrorManager.getErrors(Errors.InvalidGameMode));
                             return true;
                         }
                         target.setHealth(20.0);
@@ -38,7 +39,7 @@ public class HealCommand implements CommandExecutor {
                         sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("Healed Other"), target, target, null, false));
                     } else {
-                        sender.sendMessage(Errors.getErrors(Errors.SpecifyPlayer));
+                        sender.sendMessage(ErrorManager.getErrors(Errors.SpecifyPlayer));
                     }
                     return true;
                 }
@@ -47,11 +48,11 @@ public class HealCommand implements CommandExecutor {
                     if (player.hasPermission(Permissions.HealOther) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
-                            sender.sendMessage(Errors.getErrors(Errors.NoPlayerFound));
+                            sender.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
                             return true;
                         }
                         if (target.getGameMode().equals(creative) || target.getGameMode().equals(spectator)) {
-                            sender.sendMessage(Errors.getErrors(Errors.InvalidGameMode));
+                            sender.sendMessage(ErrorManager.getErrors(Errors.InvalidGameMode));
                             return true;
                         }
                         target.setHealth(20.0);
@@ -60,12 +61,12 @@ public class HealCommand implements CommandExecutor {
                         sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("Healed Other"), target, target, null, false));
                     } else {
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                     }
                 } else {
                     if (player.hasPermission(Permissions.Heal) || player.hasPermission(Permissions.GlobalOverwrite)) {
                         if (player.getGameMode().equals(creative) || player.getGameMode().equals(spectator)) {
-                            sender.sendMessage(Errors.getErrors(Errors.InvalidGameMode));
+                            sender.sendMessage(ErrorManager.getErrors(Errors.InvalidGameMode));
                             return true;
                         }
                         player.setHealth(20.0);
@@ -74,7 +75,7 @@ public class HealCommand implements CommandExecutor {
                         sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                                 plugin.MessagesFile.getConfig().getString("Healed"), null, null, null, false));
                     } else 
-                        player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                        player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 }
             }
         }

@@ -1,9 +1,10 @@
 package me.darkwinged.essentialsz.commands.world;
 
-import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
-import me.darkwinged.essentialsz.libaries.lang.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
+import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
+import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,7 +19,7 @@ public class VanishCommand implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("vanish")) {
             if (plugin.getConfig().getBoolean("Commands.Vanish", true)) {
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(Errors.getErrors(Errors.Console));
+                    sender.sendMessage(ErrorManager.getErrors(Errors.Console));
                     return true;
                 }
                 Player player = (Player) sender;
@@ -48,7 +49,7 @@ public class VanishCommand implements CommandExecutor {
                                 player, player, null, false));
                     }
                 } else
-                    player.sendMessage(Errors.getErrors(Errors.NoPermission));
+                    player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
             }
         }
         return false;
