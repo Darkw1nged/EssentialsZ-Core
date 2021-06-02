@@ -10,6 +10,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class BalanceCommand implements CommandExecutor {
 
 	private final Main plugin = Main.getInstance;
@@ -29,8 +32,11 @@ public class BalanceCommand implements CommandExecutor {
 							sender.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
 							return true;
 						}
+						NumberFormat nf = NumberFormat.getInstance(new Locale("en", "US"));
+						String amount_formatted = nf.format(plugin.economyManager.getAccount(target));
+
 						sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Other") +
-								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(target),
+								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + amount_formatted,
 								target, target, null, false));
 						return true;
 					}
@@ -42,15 +48,21 @@ public class BalanceCommand implements CommandExecutor {
 								player.sendMessage(ErrorManager.getErrors(Errors.NoPlayerFound));
 								return true;
 							}
+							NumberFormat nf = NumberFormat.getInstance(new Locale("en", "US"));
+							String amount_formatted = nf.format(plugin.economyManager.getAccount(target));
+
 							sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Other") +
-									plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(target),
+									plugin.getConfig().getString("Economy.Settings.Currency Symbol") + amount_formatted,
 									target, target, null, false));
 							return true;
 						}
 					}
 					if (player.hasPermission(Permissions.Balance) || player.hasPermission(Permissions.GlobalOverwrite)) {
+						NumberFormat nf = NumberFormat.getInstance(new Locale("en", "US"));
+						String amount_formatted = nf.format(plugin.economyManager.getAccount(player));
+
 						sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Economy.Settings.Balance.Prefix") +
-								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + plugin.economyManager.getAccount(player),
+								plugin.getConfig().getString("Economy.Settings.Currency Symbol") + amount_formatted,
 								null, null, null, false));
 					}
 				}

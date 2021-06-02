@@ -7,7 +7,6 @@ public class Permissions {
     public static String MainPermission = "EssentialsZ.";
     public static String GlobalOverwrite = MainPermission + "*";
     public static String bypass = MainPermission + "Bypass";
-    public static String Reload = MainPermission + "Reload";
     public static String TeleportBypass = MainPermission + "TeleportDelay.Bypass";
     public static String SafeLogin = MainPermission + "SafeLogin";
 

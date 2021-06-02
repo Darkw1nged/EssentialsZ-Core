@@ -1,17 +1,19 @@
 package me.darkwinged.essentialsz.events;
 
+import me.darkwinged.essentialsz.Main;
 import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
-import me.darkwinged.essentialsz.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class PlayerData implements Listener {
 
@@ -59,12 +61,13 @@ public class PlayerData implements Listener {
             Data.getConfig().set("Prefix", plugin.getChat().getPlayerPrefix(player));
             Data.getConfig().set("Suffix", plugin.getChat().getPlayerSuffix(player));
         }
+        NumberFormat nf = NumberFormat.getInstance(new Locale("en", "US"));
+        String amount_formatted = nf.format(plugin.economyManager.getAccount(player));
+        Data.getConfig().set("money", amount_formatted);
 
         // Time Stamps
         Data.getConfig().set("timestamps.lastLogin", time_format.format(login));
         Data.getConfig().set("timestamps.lastLogout", "N/A");
-
-        Data.getConfig().set("money", plugin.economyManager.getAccount(player));
         Data.getConfig().set("ipAddress", player.getAddress().getHostString());
         Data.getConfig().set("isVanished", false);
         Data.getConfig().set("isJailed", false);
@@ -84,7 +87,7 @@ public class PlayerData implements Listener {
         Data.getConfig().createSection("Homes");
         Data.saveConfig();
 
-        plugin.economyManager.BankAccounts.put(player.getUniqueId(), Data.getConfig().getDouble("money"));
+        plugin.economyManager.BankAccounts.put(player.getUniqueId(), Double.valueOf(Data.getConfig().getString("money").replaceAll(",", "")));
     }
 
     @EventHandler
@@ -92,8 +95,10 @@ public class PlayerData implements Listener {
         Player player = event.getPlayer();
         CustomConfig Data = new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");
         if (!Data.getConfig().contains("lastKnownName")) return;
+        NumberFormat nf = NumberFormat.getInstance(new Locale("en", "US"));
+        String amount_formatted = nf.format(plugin.economyManager.getAccount(player));
 
-        Data.getConfig().set("money", plugin.economyManager.getAccount(player));
+        Data.getConfig().set("money", amount_formatted);
         if (plugin.getChat() != null) {
             Data.getConfig().set("Prefix", plugin.getChat().getPlayerPrefix(player));
             Data.getConfig().set("Suffix", plugin.getChat().getPlayerSuffix(player));

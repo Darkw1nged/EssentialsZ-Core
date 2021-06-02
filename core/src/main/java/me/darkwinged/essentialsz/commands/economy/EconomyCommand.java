@@ -10,6 +10,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class EconomyCommand implements CommandExecutor {
 
     private final Main plugin = Main.getInstance;
@@ -38,9 +41,12 @@ public class EconomyCommand implements CommandExecutor {
                             return true;
                         }
                         plugin.economyManager.AddAccount(target, amount);
+                        NumberFormat nf = NumberFormat.getInstance(new Locale("en", "US"));
+                        String amount_formatted = nf.format(amount);
+
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
                                 + plugin.MessagesFile.getConfig().getString("Economy Add Message")
-                                .replaceAll("%amount%", amount+""), target, target, null, false));
+                                .replaceAll("%amount%", amount_formatted+""), target, target, null, false));
                         return true;
                     } else if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("take")) {
                         if (!plugin.economyManager.hasAccount(target)) return true;
@@ -52,9 +58,12 @@ public class EconomyCommand implements CommandExecutor {
                             return true;
                         }
                         plugin.economyManager.RemoveAccount(player, amount);
+                        NumberFormat nf = NumberFormat.getInstance(new Locale("en", "US"));
+                        String amount_formatted = nf.format(amount);
+
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
                                 + plugin.MessagesFile.getConfig().getString("Economy Remove Message")
-                                .replaceAll("%amount%", amount+""), target, target, null, false));
+                                .replaceAll("%amount%", amount_formatted+""), target, target, null, false));
                         return true;
                     } else if (args[0].equalsIgnoreCase("set")) {
                         if (!plugin.economyManager.hasAccount(target)) return true;
@@ -66,9 +75,12 @@ public class EconomyCommand implements CommandExecutor {
                             return true;
                         }
                         plugin.economyManager.setAccount(target, amount);
+                        NumberFormat nf = NumberFormat.getInstance(new Locale("en", "US"));
+                        String amount_formatted = nf.format(amount);
+
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix")
                                 + plugin.MessagesFile.getConfig().getString("Economy Set Message")
-                                .replaceAll("%amount%", amount+""), target, target, null, false));
+                                .replaceAll("%amount%", amount_formatted+""), target, target, null, false));
                         return true;
                     } else if (args[0].equalsIgnoreCase("reset")) {
                         if (!plugin.economyManager.hasAccount(target)) return true;

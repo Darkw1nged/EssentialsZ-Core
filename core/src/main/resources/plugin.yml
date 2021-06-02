@@ -7,6 +7,23 @@ depend: [EssentialsZAPI]
 load: STARTUP
 loadbefore: [Vault]
 commands:
+  reload:
+    description: Reloads all configuation files.
+
+  day:
+    description: Turns the time in a specific world to day.
+  night:
+    description: Turns the time in a specific world to night.
+
+  condense:
+    description: Takes all valuables and turns them into blocks.
+
+
+
+
+
+
+
   economy:
     aliases:
       - econ
@@ -100,5 +117,3 @@ commands:
   storm:
   time:
   ptime:
-  day:
-  night:

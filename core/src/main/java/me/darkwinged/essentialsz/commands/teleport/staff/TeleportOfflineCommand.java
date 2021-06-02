@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-public class cmd_TeleportOffline implements CommandExecutor {
+public class TeleportOfflineCommand implements CommandExecutor {
 
     private final Main plugin = Main.getInstance;
 

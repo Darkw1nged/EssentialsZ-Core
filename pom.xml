@@ -15,6 +15,7 @@
         <module>core</module>
         <module>api</module>
         <module>spawn</module>
+        <module>friends</module>
     </modules>
 
     <properties>

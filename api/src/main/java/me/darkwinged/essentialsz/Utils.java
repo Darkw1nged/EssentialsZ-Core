@@ -1,8 +1,8 @@
 package me.darkwinged.essentialsz;
 
-import me.darkwinged.essentialsz.libraries.center.DefaultFontInfo;
-import me.darkwinged.essentialsz.libraries.Ping;
-import me.darkwinged.essentialsz.libraries.TicksPerSecond;
+import me.darkwinged.essentialsz.libaries.center.DefaultFontInfo;
+import me.darkwinged.essentialsz.libaries.Ping;
+import me.darkwinged.essentialsz.libaries.TicksPerSecond;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -47,6 +47,29 @@ public class Utils {
         }
 
         return ChatColor.translateAlternateColorCodes('&', newMessage);
+    }
+
+    public String chat(String message, OfflinePlayer player, OfflinePlayer target) {
+        String newMessage = message;
+
+        if (newMessage.contains("%n")) {
+            newMessage = newMessage.replaceAll("%n", "\n");
+        }
+        if (newMessage.contains("%tps%")) {
+            newMessage = newMessage.replaceAll("%tps%", "" + TicksPerSecond.getTPS());
+        }
+        if (player != null && newMessage.contains("%player%")) {
+            newMessage = newMessage.replaceAll("%player%", player.getName());
+        }
+        if (target != null && newMessage.contains("%target%")) {
+            newMessage = newMessage.replaceAll("%target%", target.getName());
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', newMessage);
+    }
+
+    public String chat(String message) {
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 
     public List<String> getConvertedLore(FileConfiguration config, String path) {

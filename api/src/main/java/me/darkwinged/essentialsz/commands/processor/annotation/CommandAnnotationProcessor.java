@@ -42,12 +42,8 @@ public final class CommandAnnotationProcessor implements CommandProcessor
                     annotation.annotationType()
                               .getAnnotation(DecoratorAnnotation.class);
 
-            System.out.println(decoratorAnnotation);
-
             Class<? extends CommandDecoratorFactory<?, ?>> factoryClass =
                     decoratorAnnotation.value();
-
-            System.out.println(factoryClass);
 
             CommandDecoratorFactory<?, ?> factory = servicesInjector
                     .getRequiredService(factoryClass);

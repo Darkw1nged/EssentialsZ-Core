@@ -5,7 +5,7 @@ import me.darkwinged.essentialsz.Main;
 public class ErrorManager {
 
     private static final Main plugin = Main.getInstance;
-    private static final String prefix = plugin.MessagesFile.getConfig().getString("Errors.Prefix");
+    private static final String prefix = plugin.MessagesFile.getConfig().getString("Error.Prefix");
 
     public static String getErrors(Errors type) {
         String errors = "";

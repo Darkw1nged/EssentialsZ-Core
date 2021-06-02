@@ -20,14 +20,12 @@ public class Displayname implements Listener {
                     event.setFormat(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Chat.Settings.Custom Display Name.Format")
                                     .replaceAll("%prefix%", plugin.getChat().getPlayerPrefix(player))
                                     .replaceAll("%suffix%", plugin.getChat().getPlayerSuffix(player))
-                                    .replaceAll("%message%", event.getMessage()),
-                            player, player, null, false));
+                                    .replaceAll("%message%", event.getMessage())));
                 } else {
                     event.setFormat(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Chat.Settings.Custom Display Name.Format")
                                     .replaceAll("%prefix%", "")
                                     .replaceAll("%suffix%", "")
-                                    .replaceAll("%message%", event.getMessage()),
-                            player, player, null, false));
+                                    .replaceAll("%message%", event.getMessage())));
                 }
 
 

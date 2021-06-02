@@ -3,11 +3,13 @@ package me.darkwinged.essentialsz;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import me.darkwinged.essentialsz.commands.CommandRegistry;
+import me.darkwinged.essentialsz.commands.ReloadCommand;
 import me.darkwinged.essentialsz.commands.chat.*;
 import me.darkwinged.essentialsz.commands.decorator.factory.PermissionDecoratorFactory;
 import me.darkwinged.essentialsz.commands.economy.*;
-import me.darkwinged.essentialsz.commands.teleport.staff.*;
 import me.darkwinged.essentialsz.commands.teleport.*;
+import me.darkwinged.essentialsz.commands.teleport.staff.*;
+import me.darkwinged.essentialsz.commands.world.*;
 import me.darkwinged.essentialsz.commands.world.Control.Time.DayCommand;
 import me.darkwinged.essentialsz.commands.world.Control.Time.NightCommand;
 import me.darkwinged.essentialsz.commands.world.Control.Time.TimeCommand;
@@ -17,8 +19,7 @@ import me.darkwinged.essentialsz.commands.world.Control.Weather.SunCommand;
 import me.darkwinged.essentialsz.commands.world.Control.Weather.WeatherCommand;
 import me.darkwinged.essentialsz.commands.world.Control.Weather.WeatherPlayerCommand;
 import me.darkwinged.essentialsz.commands.world.gamemodes.*;
-import me.darkwinged.essentialsz.commands.world.*;
-import me.darkwinged.essentialsz.commands.ReloadCommand;
+import me.darkwinged.essentialsz.events.PlayerData;
 import me.darkwinged.essentialsz.events.chat.ChatControl;
 import me.darkwinged.essentialsz.events.chat.Color;
 import me.darkwinged.essentialsz.events.chat.Displayname;
@@ -29,7 +30,6 @@ import me.darkwinged.essentialsz.events.economy.AccountSetup;
 import me.darkwinged.essentialsz.events.economy.BankNotes;
 import me.darkwinged.essentialsz.events.economy.MoneyPouchesEvent;
 import me.darkwinged.essentialsz.events.economy.PlayerHeads;
-import me.darkwinged.essentialsz.events.PlayerData;
 import me.darkwinged.essentialsz.events.signs.SignBalance;
 import me.darkwinged.essentialsz.events.signs.SignGamemode;
 import me.darkwinged.essentialsz.events.signs.SignUp;
@@ -38,14 +38,14 @@ import me.darkwinged.essentialsz.events.teleport.NoVoid;
 import me.darkwinged.essentialsz.events.teleport.OnRespawn;
 import me.darkwinged.essentialsz.events.teleport.SpawnOnJoin;
 import me.darkwinged.essentialsz.events.world.*;
+import me.darkwinged.essentialsz.libaries.PlaceHolders;
+import me.darkwinged.essentialsz.libaries.TeleportUtils;
+import me.darkwinged.essentialsz.libaries.VaultHook;
 import me.darkwinged.essentialsz.libaries.economy.EconomyManager;
 import me.darkwinged.essentialsz.libaries.economy.EssentialsZEconomy;
 import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
 import me.darkwinged.essentialsz.libaries.lang.MetricsLite;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
-import me.darkwinged.essentialsz.libaries.PlaceHolders;
-import me.darkwinged.essentialsz.libaries.TeleportUtils;
-import me.darkwinged.essentialsz.libaries.VaultHook;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -129,14 +129,7 @@ public final class Main extends JavaPlugin {
         vanishCheck();
 
         // Console Start Message
-        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&aEssentialsZ Core plugin has been enabled!",
-                null, null, null, false));
-
-        ServicesManager servicesManager = getServer().getServicesManager();
-        servicesManager.register(PermissionDecoratorFactory.class, new PermissionDecoratorFactory(), this, ServicePriority.Normal);
-
-        CommandRegistry registry = servicesManager.load(CommandRegistry.class);
-        // command stuff here
+        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&aEssentialsZ Core plugin has been enabled!"));
     }
 
     public void onDisable() {
@@ -149,12 +142,20 @@ public final class Main extends JavaPlugin {
         vaultHook.unhook();
 
         // Console Stop Message
-        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&cEssentialsZ Core plugin has been disabled!",
-                null, null, null, false));
+        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&cEssentialsZ Core plugin has been disabled!"));
     }
 
     public void registerCommands() {
-        getCommand("essentials").setExecutor(new ReloadCommand());
+        ServicesManager servicesManager = getServer().getServicesManager();
+        servicesManager.register(PermissionDecoratorFactory.class, new PermissionDecoratorFactory(), this, ServicePriority.Normal);
+
+        CommandRegistry registry = servicesManager.load(CommandRegistry.class);
+        registry.registerCommand(this, ReloadCommand.class);
+
+        registry.registerCommand(this, DayCommand.class);
+        registry.registerCommand(this, NightCommand.class);
+
+        registry.registerCommand(this, CondenseCommand.class);
 
         // Economy
         getCommand("economy").setExecutor(new EconomyCommand());
@@ -162,9 +163,6 @@ public final class Main extends JavaPlugin {
         getCommand("pay").setExecutor(new PayCommand());
         getCommand("withdraw").setExecutor(new WithdrawCommand());
         getCommand("pouches").setExecutor(new MoneyPouchesCommand());
-        //getCommand("autosell").setExecutor(new cmd_Autosell(this));
-        //getCommand("sellhand").setExecutor(new cmd_Sellhand(this));
-        //getCommand("sell").setExecutor(new cmd_Sell(this));
 
         // Chat
         getCommand("staffchat").setExecutor(new StaffChatCommand());
@@ -219,8 +217,6 @@ public final class Main extends JavaPlugin {
         getCommand("storm").setExecutor(new StormCommand());
         getCommand("time").setExecutor(new TimeCommand());
         getCommand("ptime").setExecutor(new TimePlayerCommand());
-        getCommand("day").setExecutor(new DayCommand());
-        getCommand("night").setExecutor(new NightCommand());
 
     }
 
@@ -304,7 +300,7 @@ public final class Main extends JavaPlugin {
                                     null, null, null, false));
                             return;
                         }
-                        Bukkit.broadcastMessage(essentialsZAPI.utils.chat(message, null, null, null, false));
+                        Bukkit.broadcastMessage(essentialsZAPI.utils.chat(message));
                     }, 20L * interval, 20L * interval);
                 }
             }

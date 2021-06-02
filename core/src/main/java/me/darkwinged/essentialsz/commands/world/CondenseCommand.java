@@ -1,9 +1,13 @@
 package me.darkwinged.essentialsz.commands.world;
 
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.Permission;
+import me.darkwinged.essentialsz.commands.Name;
+import me.darkwinged.essentialsz.commands.annotation.Permissions;
+import me.darkwinged.essentialsz.commands.processor.annotation.PlayersOnly;
+import me.darkwinged.essentialsz.inject.Inject;
 import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
 import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,20 +15,24 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+@Name("condense")
+@PlayersOnly
+@Permissions(value = {Permission.CONDENSE, Permission.GLOBAL})
 public class CondenseCommand implements CommandExecutor {
 
     private final Main plugin = Main.getInstance;
 
+    @Inject
+    public CondenseCommand() {}
+
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("condense")) {
-            if (plugin.getConfig().getBoolean("Commands.Condense", true)) {
-                if (!(sender instanceof Player)) {
-                    sender.sendMessage(ErrorManager.getErrors(Errors.Console));
-                    return true;
-                }
-                Player player = (Player)sender;
-                if (player.hasPermission(Permissions.Condense) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                    for (ItemStack item : player.getInventory()) {
+        if (plugin.getConfig().getBoolean("Commands.Condense", true)) {
+            Player player = (Player)sender;
+
+            for (int x = 0; x <= 7; x++) {
+                for (int i = 0; i <= 36; i++) {
+                    try {
+                        ItemStack item = player.getInventory().getItem(i);
                         switch (item.getType()) {
 
                             case COAL:
@@ -70,12 +78,13 @@ public class CondenseCommand implements CommandExecutor {
                                 player.getInventory().addItem(new ItemStack(Material.LAPIS_BLOCK));
                             }
                         }
-                    }
-                } else
-                    player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
-            } else
-                sender.sendMessage(ErrorManager.getErrors(Errors.DisabledCommand));
-        }
+                    } catch (Exception ignored) { }
+                }
+            }
+
+
+        } else
+            sender.sendMessage(ErrorManager.getErrors(Errors.DisabledCommand));
         return false;
     }
 }

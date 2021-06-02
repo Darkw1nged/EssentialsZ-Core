@@ -44,7 +44,7 @@ public class EconomyManager {
 	}
 	public void loadBalance(Player player) {
 		CustomConfig Data = new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");
-		BankAccounts.put(player.getUniqueId(), Data.getConfig().getDouble("money"));
+		BankAccounts.put(player.getUniqueId(), Double.valueOf(Data.getConfig().getString("money").replaceAll(",", "")));
 	}
 
 }

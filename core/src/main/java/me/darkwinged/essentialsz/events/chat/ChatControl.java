@@ -48,7 +48,7 @@ public class ChatControl implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
-        Cooldown.remove(event.getPlayer());
+        Cooldown.remove(event.getPlayer().getName());
     }
 
     // Muted chat
@@ -58,7 +58,7 @@ public class ChatControl implements Listener {
         if (Utils.isChatMuted) {
             if (!player.hasPermission(Permissions.bypass) || !player.hasPermission(Permissions.GlobalOverwrite)) {
                 event.setCancelled(true);
-                event.getPlayer().sendMessage(Utils.chat(plugin.MessagesFile.getConfig().getString("Chat Muted")));
+                event.getPlayer().sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Chat Muted")));
             }
         }
     }
@@ -128,7 +128,7 @@ public class ChatControl implements Listener {
                     event.setQuitMessage(null);
                     return;
                 }
-                event.setQuitMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("quit message"), player, null, player, false));
+                event.setQuitMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("quit message"), player, player));
                 return;
             }
             event.setQuitMessage(null);
