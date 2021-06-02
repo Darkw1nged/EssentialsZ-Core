@@ -1,0 +1,5 @@
+name: EssentialsZFriends
+version: 1.0
+main: me.darkwinged.EssentialsZ.EssentialsZFriends
+authors: [ darkwinged ]
+commands:

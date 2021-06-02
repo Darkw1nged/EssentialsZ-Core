@@ -1,0 +1,5 @@
+name: EssentialsZ2FA
+version: ${project.version}
+main: me.darkwinged.essentialsz.Main
+api-version: 1.16
+authors: [ darkwinged ]

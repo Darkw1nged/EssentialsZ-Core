@@ -16,6 +16,7 @@
         <module>api</module>
         <module>spawn</module>
         <module>friends</module>
+        <module>2fa</module>
     </modules>
 
     <properties>
