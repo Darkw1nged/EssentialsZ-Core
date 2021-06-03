@@ -1,5 +1,6 @@
 package me.darkwinged.essentialsz.commands.decorator;
 
+import me.darkwinged.essentialsz.message.MessageService;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -8,11 +9,15 @@ public final class PermissionDecorator extends CommandDecorator
 {
     private final String[] permissions;
     private final boolean requiresAll;
+    private final MessageService messageService;
+    private final String messageKey;
 
-    public PermissionDecorator(CommandExecutor executor, boolean requiresAll, String... permissions)
+    public PermissionDecorator(CommandExecutor executor, boolean requiresAll, MessageService messageService, String messageKey, String... permissions)
     {
         super(executor);
         this.requiresAll = requiresAll;
+        this.messageService = messageService;
+        this.messageKey = messageKey;
         this.permissions = permissions;
     }
 
@@ -30,8 +35,7 @@ public final class PermissionDecorator extends CommandDecorator
         if(broken == requiresAll)
         {
             // no permission to execute
-
-            // TODO message provider
+            sender.sendMessage(messageService.getMessage(messageKey));
             return true;
         }
 

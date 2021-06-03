@@ -38,6 +38,7 @@ import me.darkwinged.essentialsz.events.teleport.NoVoid;
 import me.darkwinged.essentialsz.events.teleport.OnRespawn;
 import me.darkwinged.essentialsz.events.teleport.SpawnOnJoin;
 import me.darkwinged.essentialsz.events.world.*;
+import me.darkwinged.essentialsz.inject.ServicesInjector;
 import me.darkwinged.essentialsz.libaries.PlaceHolders;
 import me.darkwinged.essentialsz.libaries.TeleportUtils;
 import me.darkwinged.essentialsz.libaries.VaultHook;
@@ -46,6 +47,7 @@ import me.darkwinged.essentialsz.libaries.economy.EssentialsZEconomy;
 import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
 import me.darkwinged.essentialsz.libaries.lang.MetricsLite;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
+import me.darkwinged.essentialsz.message.MessageService;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -120,6 +122,11 @@ public final class Main extends JavaPlugin {
             this.protocolManager = ProtocolLibrary.getProtocolManager();
         }
 
+        ServicesManager servicesManager = getServer().getServicesManager();
+        MessageService messageService = servicesManager.load(MessageService.class);
+        for (CoreMessage message : CoreMessage.values())
+            messageService.registerMessage(message.getKey(), MessagesFile.getConfig().getString(message.getKey()));
+
         loadAutoMessages();
 
         // Registering Commands / Events / Loops
@@ -147,7 +154,8 @@ public final class Main extends JavaPlugin {
 
     public void registerCommands() {
         ServicesManager servicesManager = getServer().getServicesManager();
-        servicesManager.register(PermissionDecoratorFactory.class, new PermissionDecoratorFactory(), this, ServicePriority.Normal);
+        ServicesInjector injector = servicesManager.load(ServicesInjector.class);
+        servicesManager.register(PermissionDecoratorFactory.class, injector.createInstance(PermissionDecoratorFactory.class), this, ServicePriority.Normal);
 
         CommandRegistry registry = servicesManager.load(CommandRegistry.class);
         registry.registerCommand(this, ReloadCommand.class);
