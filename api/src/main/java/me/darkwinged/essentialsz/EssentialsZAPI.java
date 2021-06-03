@@ -11,6 +11,7 @@ import me.darkwinged.essentialsz.inject.ServicesInjector;
 import me.darkwinged.essentialsz.libaries.CustomConfig;
 import me.darkwinged.essentialsz.libaries.PlaceHolders;
 import me.darkwinged.essentialsz.libaries.TicksPerSecond;
+import me.darkwinged.essentialsz.message.MessageService;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
@@ -48,6 +49,8 @@ public final class EssentialsZAPI extends JavaPlugin {
         ServicesManager servicesManager = getServer().getServicesManager();
         ServicesInjector servicesInjector = new BukkitServicesInjector(servicesManager);
         getServer().getServicesManager().register(ServicesInjector.class, servicesInjector, this, ServicePriority.Normal);
+
+        registerService(MessageService.class);
 
         registerService(PlayersOnlyDecoratorFactory.class);
 
