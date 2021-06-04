@@ -17,14 +17,20 @@ public final class BukkitServicesInjector implements ServicesInjector
     public <T> T createInstance(Class<T> clazz)
     {
         Constructor<?> selectedConstructor = null;
-        for(Constructor<?> constructor : clazz.getDeclaredConstructors())
+        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+        if(constructors.length == 1 && constructors[0].getParameterCount() == 0)
+            selectedConstructor = constructors[0];
+        else
         {
-            Inject annotation = constructor.getAnnotation(Inject.class);
-            if(annotation == null)
-                continue;
-            if(selectedConstructor != null)
-                throw new IllegalArgumentException("the class provided (" + clazz.getName() + ") has more than one @Inject annotation in the class");
-            selectedConstructor = constructor;
+            for(Constructor<?> constructor : constructors)
+            {
+                Inject annotation = constructor.getAnnotation(Inject.class);
+                if(annotation == null)
+                    continue;
+                if(selectedConstructor != null)
+                    throw new IllegalArgumentException("the class provided (" + clazz.getName() + ") has more than one @Inject annotation in the class");
+                selectedConstructor = constructor;
+            }
         }
 
         if(selectedConstructor == null)
