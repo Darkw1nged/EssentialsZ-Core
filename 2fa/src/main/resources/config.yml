@@ -1,1 +1,12 @@
+Messages:
+  prefix: "&eEssentialsZ >> "
+  new_code:
+    - "&a====================="
+    - "&aYour new &bGoogle Authenticator Code &ais &b%key%"
+    - "&cNOTICE! You must enter this code in the Google Authenticator App before leaving the server."
+    - "&a====================="
+  enter_code: "&aPlease open the &bGoogle Authenticator App &aand provide the &bsix digit code."
+  invalid_code: "&cError! Incorrect or expired code ** A code will only contain numbers **"
+  access_granted: "&aAccess granted. Enjoy your stay."
+
 Data:

@@ -1,4 +1,4 @@
-package me.darkwinged.EssentialsZ2FA;
+package me.darkwinged.essentialsz.libaries;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
