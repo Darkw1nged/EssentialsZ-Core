@@ -61,7 +61,7 @@ public class SpawnCommand implements CommandExecutor {
                 return true;
             }
             // Sending the player to spawn.
-            if (player.hasPermission("Essentials.Spawn")) {
+            if (player.hasPermission("EssentialsZ.Spawn")) {
                 // Player does not have delay.
                 if (player.hasPermission("Essentials.TeleportDelay.Bypass")) {
                     plugin.spawnAPI.TeleportToSpawn(player);

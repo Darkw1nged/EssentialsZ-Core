@@ -2,11 +2,11 @@ package me.darkwinged.essentialsz.events.world;
 
 import me.darkwinged.essentialsz.Main;
 import me.darkwinged.essentialsz.commands.world.CPSCommand;
-import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
 import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
 import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
+import me.darkwinged.essentialsz.libaries.util.CustomConfig;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

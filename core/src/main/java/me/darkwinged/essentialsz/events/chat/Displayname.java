@@ -15,20 +15,21 @@ public class Displayname implements Listener {
         Player player = event.getPlayer();
         if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
             if (plugin.getConfig().getBoolean("Chat.Settings.Custom Display Name.enabled", true)) {
-
+                String format;
                 if (plugin.getChat() != null) {
-                    event.setFormat(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Chat.Settings.Custom Display Name.Format")
-                                    .replaceAll("%prefix%", plugin.getChat().getPlayerPrefix(player))
-                                    .replaceAll("%suffix%", plugin.getChat().getPlayerSuffix(player))
-                                    .replaceAll("%message%", event.getMessage())));
+                    format = plugin.getConfig().getString("Chat.Settings.Custom Display Name.Format").replaceAll("%", "%%")
+                            .replaceAll("%%prefix%%", plugin.getChat().getPlayerPrefix(player))
+                            .replaceAll("%%player%%", player.getName())
+                            .replaceAll("%%suffix%%", plugin.getChat().getPlayerSuffix(player))
+                            .replaceAll("%%message%%", event.getMessage());
                 } else {
-                    event.setFormat(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Chat.Settings.Custom Display Name.Format")
-                                    .replaceAll("%prefix%", "")
-                                    .replaceAll("%suffix%", "")
-                                    .replaceAll("%message%", event.getMessage())));
+                    format = plugin.getConfig().getString("Chat.Settings.Custom Display Name.Format").replaceAll("%", "%%")
+                            .replaceAll("%%prefix%%", "")
+                            .replaceAll("%%player%%", player.getName())
+                            .replaceAll("%%suffix%%", "")
+                            .replaceAll("%%message%%", event.getMessage());
                 }
-
-
+                event.setFormat(plugin.essentialsZAPI.utils.chat(format));
             }
         }
     }

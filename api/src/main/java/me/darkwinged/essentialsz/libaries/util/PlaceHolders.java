@@ -1,4 +1,4 @@
-package me.darkwinged.essentialsz.libaries;
+package me.darkwinged.essentialsz.libaries.util;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.darkwinged.essentialsz.EssentialsZAPI;

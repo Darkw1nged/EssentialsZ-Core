@@ -11,9 +11,6 @@ public class Permissions {
     public static String SafeLogin = MainPermission + "SafeLogin";
 
     // Economy Permissions
-    public static String Economy = MainPermission + "Economy";
-    public static String Balance = MainPermission + "Balance";
-    public static String BalanceOther = MainPermission + "Balance.Other";
     public static String BalanceSign = MainPermission + "Balance.Sign.Create";
     public static String Pay = MainPermission + "Pay";
     public static String Withdraw = MainPermission + "Withdraw";

@@ -1,5 +1,5 @@
 name: EssentialsZAPI
-version: ${project.version}
+version: 1.5
 main: me.darkwinged.essentialsz.EssentialsZAPI
 api-version: 1.16
 authors: [ darkwinged ]

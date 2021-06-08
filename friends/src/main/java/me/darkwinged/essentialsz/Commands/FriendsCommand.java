@@ -1,7 +1,7 @@
 package me.darkwinged.essentialsz.Commands;
 
 import me.darkwinged.essentialsz.EssentialsZFriends;
-import me.darkwinged.essentialsz.Libaries.CustomConfig;
+import me.darkwinged.essentialsz.libaries.util.CustomConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

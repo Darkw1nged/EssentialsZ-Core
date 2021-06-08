@@ -93,11 +93,10 @@ public class AuthJoin implements Listener {
                     player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Messages.prefix") +
                             plugin.getConfig().getString("Messages.access_granted")));
                 } else {
-                    player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("invalid_code")));
-
+                    player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Messages.invalid_code")));
                 }
             } catch (Exception e) {
-                player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("invalid_code")));
+                player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Messages.invalid_code")));
             }
             event.setCancelled(true);
         }

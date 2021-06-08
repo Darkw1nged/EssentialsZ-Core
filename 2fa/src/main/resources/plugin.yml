@@ -1,5 +1,5 @@
 name: EssentialsZ2FA
-version: ${project.version}
+version: 1.5
 main: me.darkwinged.essentialsz.EssentialsZ2FA
 authors: [ darkwinged ]
 depend: [EssentialsZAPI]

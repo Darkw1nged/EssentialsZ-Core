@@ -5,6 +5,10 @@ public enum Permission
     GLOBAL("EssentialsZ.*"),
     RELOAD("EssentialsZ.Reload"),
 
+    ECONOMY("EssentialsZ.Economy"),
+    BALANCE("EssentialsZ.Balance"),
+    BALANCE_OTHER("EssentialsZ.Balance.Other"),
+
     DAY("EssentialsZ.Time.Day"),
     NIGHT("EssentialsZ.Time.Night"),
 

@@ -10,6 +10,20 @@ commands:
   reload:
     description: Reloads all configuation files.
 
+  economy:
+    description: Manage everyones balance.
+    aliases:
+      - econ
+      - eco
+  balance:
+    description: How much you have in your account.
+    aliases:
+      - bal
+      - money
+      - bank
+      - wallet
+
+
   day:
     description: Turns the time in a specific world to day.
   night:
@@ -24,16 +38,7 @@ commands:
 
 
 
-  economy:
-    aliases:
-      - econ
-      - eco
-  balance:
-    aliases:
-      - bal
-      - money
-      - bank
-      - wallet
+
   pay:
   withdraw:
     aliases:

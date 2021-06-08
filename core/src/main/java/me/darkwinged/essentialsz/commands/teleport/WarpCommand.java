@@ -1,10 +1,10 @@
 package me.darkwinged.essentialsz.commands.teleport;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
 import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
 import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
+import me.darkwinged.essentialsz.libaries.util.CustomConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -55,7 +55,7 @@ public class WarpCommand implements CommandExecutor {
                                 return true;
                             }
                             player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
-                                            plugin.MessagesFile.getConfig().getString("Teleporting message").replaceAll("%%delay%%", ""+plugin.Delay),
+                                            plugin.MessagesFile.getConfig().getString("Teleporting message").replaceAll("%delay%", ""+plugin.Delay),
                                     player, player, null, false));
                             TeleportDelay.put(player.getUniqueId(), plugin.Delay);
                             new BukkitRunnable() {

@@ -24,6 +24,7 @@ public final class EssentialsZ2FA extends JavaPlugin implements Listener {
         if (Bukkit.getPluginManager().getPlugin("EssentialsZAPI") == null) {
             getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cDisabling plugin, No EssentialsZ API Found."));
             getServer().getPluginManager().disablePlugin(this);
+            return;
         }
         getInstance = this;
         new MetricsLite(this, 9811);
@@ -32,7 +33,7 @@ public final class EssentialsZ2FA extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new AuthJoin(), this);
         getServer().getPluginManager().registerEvents(new AuthEvent(), this);
 
-        getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&aEssentialsZ 2FA has been enabled."));
+        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&aEssentialsZ 2FA has been enabled."));
     }
 
     public void onDisable() {

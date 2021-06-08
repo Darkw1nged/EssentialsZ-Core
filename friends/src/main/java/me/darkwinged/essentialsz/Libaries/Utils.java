@@ -1,6 +1,7 @@
 package me.darkwinged.essentialsz.Libaries;
 
 import me.darkwinged.essentialsz.EssentialsZFriends;
+import me.darkwinged.essentialsz.libaries.util.CustomConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

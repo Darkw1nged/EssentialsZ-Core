@@ -45,8 +45,8 @@
         <dependency>
             <groupId>me.darkwinged</groupId>
             <artifactId>essentialsz-api</artifactId>
-            <version>1.5</version>
-            <scope>compile</scope>
+            <version>${project.parent.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

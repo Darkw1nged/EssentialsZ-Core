@@ -39,14 +39,14 @@ import me.darkwinged.essentialsz.events.teleport.OnRespawn;
 import me.darkwinged.essentialsz.events.teleport.SpawnOnJoin;
 import me.darkwinged.essentialsz.events.world.*;
 import me.darkwinged.essentialsz.inject.ServicesInjector;
-import me.darkwinged.essentialsz.libaries.PlaceHolders;
 import me.darkwinged.essentialsz.libaries.TeleportUtils;
 import me.darkwinged.essentialsz.libaries.VaultHook;
 import me.darkwinged.essentialsz.libaries.economy.EconomyManager;
 import me.darkwinged.essentialsz.libaries.economy.EssentialsZEconomy;
-import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
 import me.darkwinged.essentialsz.libaries.lang.MetricsLite;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
+import me.darkwinged.essentialsz.libaries.util.CustomConfig;
+import me.darkwinged.essentialsz.libaries.util.PlaceHolders;
 import me.darkwinged.essentialsz.message.MessageService;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
@@ -160,14 +160,15 @@ public final class Main extends JavaPlugin {
         CommandRegistry registry = servicesManager.load(CommandRegistry.class);
         registry.registerCommand(this, ReloadCommand.class);
 
+        registry.registerCommand(this, EconomyCommand.class);
+        registry.registerCommand(this, BalanceCommand.class);
+
         registry.registerCommand(this, DayCommand.class);
         registry.registerCommand(this, NightCommand.class);
 
         registry.registerCommand(this, CondenseCommand.class);
 
         // Economy
-        getCommand("economy").setExecutor(new EconomyCommand());
-        getCommand("balance").setExecutor(new BalanceCommand());
         getCommand("pay").setExecutor(new PayCommand());
         getCommand("withdraw").setExecutor(new WithdrawCommand());
         getCommand("pouches").setExecutor(new MoneyPouchesCommand());
@@ -229,6 +230,8 @@ public final class Main extends JavaPlugin {
     }
 
     public void registerEvents() {
+        getServer().getPluginManager().registerEvents(new PlayerData(), this);
+
         // Chat Events
         getServer().getPluginManager().registerEvents(new ChatControl(), this);
         getServer().getPluginManager().registerEvents(new DefaultJoinMessage(), this);
@@ -267,8 +270,6 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Playtime(), this);
         getServer().getPluginManager().registerEvents(new NetherWater(), this);
         getServer().getPluginManager().registerEvents(new InventoryFull(), this);
-
-        getServer().getPluginManager().registerEvents(new PlayerData(), this);
     }
 
     public void loadConfig() {

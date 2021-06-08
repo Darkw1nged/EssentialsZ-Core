@@ -1,7 +1,7 @@
 package me.darkwinged.essentialsz.Events;
 
 import me.darkwinged.essentialsz.EssentialsZFriends;
-import me.darkwinged.essentialsz.Libaries.CustomConfig;
+import me.darkwinged.essentialsz.libaries.util.CustomConfig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

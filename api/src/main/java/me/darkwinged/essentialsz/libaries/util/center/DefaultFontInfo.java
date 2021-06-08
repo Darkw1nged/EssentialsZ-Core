@@ -1,4 +1,4 @@
-package me.darkwinged.essentialsz.libaries.center;
+package me.darkwinged.essentialsz.libaries.util.center;
 
 public enum DefaultFontInfo {
 

@@ -1,7 +1,7 @@
 package me.darkwinged.essentialsz.events.chat.joinmessage;
 
-import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.util.CustomConfig;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
@@ -18,8 +18,8 @@ public class DefaultJoinMessage implements Listener {
         if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
             Player player = event.getPlayer();
             CustomConfig Data = new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");
+            event.setJoinMessage(null);
             if (!Data.getConfig().contains("lastKnownName")) return;
-
             if (Data.getConfig().getBoolean("isVanished", true)) return;
 
             switch (plugin.getConfig().getString("Chat.Settings.Join Messages.Style")) {

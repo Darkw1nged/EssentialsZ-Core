@@ -1,4 +1,4 @@
-package me.darkwinged.essentialsz.Libaries;
+package me.darkwinged.essentialsz.libaries.util;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;

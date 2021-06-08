@@ -10,6 +10,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class PayCommand implements CommandExecutor {
 
     private final Main plugin = Main.getInstance;
@@ -57,8 +60,14 @@ public class PayCommand implements CommandExecutor {
                         plugin.economyManager.RemoveAccount(player, amount);
                         // Adding the amount to the target balance
                         plugin.economyManager.AddAccount(target, amount);
+
+                        NumberFormat nf = NumberFormat.getInstance(new Locale("en", "US"));
+                        String amount_formatted = nf.format(amount);
+
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Payed")
-                                .replaceAll("%amount%", ""+amount), target, target, null, false));
+                                .replaceAll("%amount%", ""+amount_formatted), target, target));
+                        target.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Money Received")
+                                .replaceAll("%amount%", ""+amount_formatted), player, player));
                     } else
                         player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 }

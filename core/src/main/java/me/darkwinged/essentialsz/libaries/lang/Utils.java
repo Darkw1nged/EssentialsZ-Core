@@ -1,6 +1,7 @@
 package me.darkwinged.essentialsz.libaries.lang;
 
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.util.CustomConfig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 

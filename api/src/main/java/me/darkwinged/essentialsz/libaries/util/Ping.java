@@ -1,4 +1,4 @@
-package me.darkwinged.essentialsz.libaries;
+package me.darkwinged.essentialsz.libaries.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

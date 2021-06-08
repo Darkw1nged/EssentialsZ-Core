@@ -1,9 +1,9 @@
 package me.darkwinged.essentialsz.events.chat;
 
-import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
+import me.darkwinged.essentialsz.Main;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
-import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.util.CustomConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -109,7 +109,7 @@ public class ChatControl implements Listener {
 
                     if (message.contains(Ping)) {
                         if (player == sender) return;
-                        event.setMessage(event.getMessage().replaceAll(Ping, color+Ping));
+                        event.setMessage(event.getMessage().replaceAll(Ping, color+Ping + "&f"));
                         player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.2F, 0.5F);
                     }
                 }

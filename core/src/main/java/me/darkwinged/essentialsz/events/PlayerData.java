@@ -1,11 +1,12 @@
 package me.darkwinged.essentialsz.events;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.CustomConfig;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
+import me.darkwinged.essentialsz.libaries.util.CustomConfig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -19,7 +20,7 @@ public class PlayerData implements Listener {
 
     private final Main plugin = Main.getInstance;
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         CustomConfig Data = new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");
@@ -35,12 +36,12 @@ public class PlayerData implements Listener {
                 Data.getConfig().set("Prefix", plugin.getChat().getPlayerPrefix(player));
                 Data.getConfig().set("Suffix", plugin.getChat().getPlayerSuffix(player));
             }
+            Data.getConfig().set("isVanished", false);
             if (player.hasPermission(Permissions.VIPJoin) || player.hasPermission(Permissions.GlobalOverwrite)) {
                 Data.getConfig().set("isVIP", true);
             } else {
                 Data.getConfig().set("isVIP", false);
             }
-
             Data.saveConfig();
 
             plugin.economyManager.loadBalance(player);
@@ -90,7 +91,7 @@ public class PlayerData implements Listener {
         plugin.economyManager.BankAccounts.put(player.getUniqueId(), Double.valueOf(Data.getConfig().getString("money").replaceAll(",", "")));
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onExit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         CustomConfig Data = new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");

@@ -1,8 +1,9 @@
-package me.darkwinged.essentialsz;
+package me.darkwinged.essentialsz.libaries;
 
-import me.darkwinged.essentialsz.libaries.center.DefaultFontInfo;
-import me.darkwinged.essentialsz.libaries.Ping;
-import me.darkwinged.essentialsz.libaries.TicksPerSecond;
+import me.darkwinged.essentialsz.EssentialsZAPI;
+import me.darkwinged.essentialsz.libaries.util.center.DefaultFontInfo;
+import me.darkwinged.essentialsz.libaries.util.Ping;
+import me.darkwinged.essentialsz.libaries.util.TicksPerSecond;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -83,7 +84,7 @@ public class Utils {
 
     public String getServerTPS() {
         String tps;
-        if (TicksPerSecond.getTPS() <= 20) {
+        if (TicksPerSecond.getTPS() < 20) {
             tps = String.format("%.0f", TicksPerSecond.getTPS());
         } else {
             tps = "20";
