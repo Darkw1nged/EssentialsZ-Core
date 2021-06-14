@@ -1,0 +1,11 @@
+prefix: "&eEssentialsZ >> "
+one player sleep: "&aRise and shine."
+already day: "&cYou can only sleep at night."
+chat: "&aYou have now switched your message channel to %channel%."
+teleporting message: "&aYou will be teleported shortly."
+random teleport message: "&aYou have been teleported to a random position on the world."
+
+Errors:
+  Error Prefix: "&cError! "
+  Console: "You can not do this inside of console."
+  Specify Chat: "Specify a chat channel [global : local]."

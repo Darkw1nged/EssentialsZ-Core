@@ -3,12 +3,10 @@ package me.darkwinged.essentialsz.events.economy;
 import me.darkwinged.essentialsz.Main;
 import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
 import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -16,8 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.Random;
-
-import static java.lang.Math.round;
 
 public class PlayerHeads implements Listener {
 
@@ -29,7 +25,7 @@ public class PlayerHeads implements Listener {
             if (plugin.getConfig().getBoolean("Economy.Settings.Money Heads.enabled", true)) {
                 if (plugin.Module_Economy = false) return;
 
-                Player player = event.getPlayer();
+                /*Player player = event.getPlayer();
                 if (player.getItemInHand().getType().equals(Material.SKULL_ITEM)) {
                     if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                         String TargetName = player.getItemInHand().getItemMeta().getDisplayName();
@@ -57,7 +53,7 @@ public class PlayerHeads implements Listener {
                         plugin.economyManager.RemoveAccount(target, amount);
                         player.setItemInHand(new ItemStack(Material.AIR));
                     }
-                }
+                }*/
             }
         }
     }

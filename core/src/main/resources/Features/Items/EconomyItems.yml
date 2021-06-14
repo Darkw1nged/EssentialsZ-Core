@@ -1,0 +1,42 @@
+PlaceHolders:
+  booster:
+    material: PAPER
+    name: "&aBoosters"
+    lore:
+      - "&aYou have &f%Boosters% left"
+      - " "
+      - "&8To get more booster use the /booster command"
+
+Pouches:
+  tier1:
+    material: ENDER_CHEST
+    name: '&5Tier 1 Money Pouch'
+    lore:
+      - '&fThis is a Tier 1 Money Pouch'
+      - '&fBetween 20,000 and 100,000'
+    min: 20000
+    max: 100000
+  tier2:
+    material: ENDER_CHEST
+    name: '&5Tier 2 Money Pouch'
+    lore:
+      - '&fThis is a Tier 1 Money Pouch'
+      - '&fBetween 100,000 and 200,000'
+    min: 100000
+    max: 200000
+  tier3:
+    material: ENDER_CHEST
+    name: '&5Tier 3 Money Pouch'
+    lore:
+      - '&fThis is a Tier 1 Money Pouch'
+      - '&fBetween 200,000 and 400,000'
+    min: 200000
+    max: 400000
+  tier4:
+    material: ENDER_CHEST
+    name: '&5Tier 4 Money Pouch'
+    lore:
+      - '&fThis is a Tier 1 Money Pouch'
+      - '&fBetween 400,000 and 1,000,000'
+    min: 400000
+    max: 1000000

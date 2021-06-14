@@ -8,6 +8,7 @@ public enum Permission
     ECONOMY("EssentialsZ.Economy"),
     BALANCE("EssentialsZ.Balance"),
     BALANCE_OTHER("EssentialsZ.Balance.Other"),
+    PAY("EssentialsZ.pay"),
 
     DAY("EssentialsZ.Time.Day"),
     NIGHT("EssentialsZ.Time.Night"),

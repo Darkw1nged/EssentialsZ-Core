@@ -17,6 +17,7 @@
         <module>spawn</module>
         <module>friends</module>
         <module>2fa</module>
+        <module>survival</module>
     </modules>
 
     <properties>

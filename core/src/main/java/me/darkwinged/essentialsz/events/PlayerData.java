@@ -1,6 +1,7 @@
 package me.darkwinged.essentialsz.events;
 
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.Boosters;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
 import me.darkwinged.essentialsz.libaries.util.CustomConfig;
@@ -49,6 +50,7 @@ public class PlayerData implements Listener {
             Utils.PT_Hours.put(player.getUniqueId(), Data.getConfig().getInt("Playtime.Hours"));
             Utils.PT_Minutes.put(player.getUniqueId(), Data.getConfig().getInt("Playtime.Minutes"));
             Utils.PT_Seconds.put(player.getUniqueId(), Data.getConfig().getInt("Playtime.Seconds"));
+            new Boosters().addMoneyBoosters(player, Data.getConfig().getInt("Boosters.money"));
             return;
         }
         // Setup data
@@ -56,6 +58,7 @@ public class PlayerData implements Listener {
         Utils.PT_Hours.put(player.getUniqueId(), 0);
         Utils.PT_Minutes.put(player.getUniqueId(), 0);
         Utils.PT_Seconds.put(player.getUniqueId(), 0);
+        new Boosters().addMoneyBoosters(player, 0);
 
         Data.getConfig().set("lastKnownName", player.getName());
         if (plugin.getChat() != null) {
@@ -79,11 +82,9 @@ public class PlayerData implements Listener {
             Data.getConfig().set("isVIP", false);
         }
 
-        // Playtime
-        Data.getConfig().set("Playtime.Days", Utils.PT_Days.get(player.getUniqueId()));
-        Data.getConfig().set("Playtime.Hours", Utils.PT_Hours.get(player.getUniqueId()));
-        Data.getConfig().set("Playtime.Minutes", Utils.PT_Minutes.get(player.getUniqueId()));
-        Data.getConfig().set("Playtime.Seconds", Utils.PT_Seconds.get(player.getUniqueId()));
+        setTimePlayed(player, Data);
+
+        Data.getConfig().set("Boosters.money", 0);
 
         Data.getConfig().createSection("Homes");
         Data.saveConfig();
@@ -105,10 +106,8 @@ public class PlayerData implements Listener {
             Data.getConfig().set("Suffix", plugin.getChat().getPlayerSuffix(player));
         }
 
-        Data.getConfig().set("Playtime.Days", Utils.PT_Days.get(player.getUniqueId()));
-        Data.getConfig().set("Playtime.Hours", Utils.PT_Hours.get(player.getUniqueId()));
-        Data.getConfig().set("Playtime.Minutes", Utils.PT_Minutes.get(player.getUniqueId()));
-        Data.getConfig().set("Playtime.Seconds", Utils.PT_Seconds.get(player.getUniqueId()));
+        setTimePlayed(player, Data);
+        Data.getConfig().set("Boosters.money", new Boosters().getMoneyBoosters(player));
 
         String world = player.getWorld().getName();
         double x = player.getLocation().getX();
@@ -134,6 +133,14 @@ public class PlayerData implements Listener {
         Utils.PT_Hours.remove(player.getUniqueId());
         Utils.PT_Minutes.remove(player.getUniqueId());
         Utils.PT_Seconds.remove(player.getUniqueId());
+        new Boosters().removePlayer(player);
+    }
+
+    private void setTimePlayed(Player player, CustomConfig data) {
+        data.getConfig().set("Playtime.Days", Utils.PT_Days.get(player.getUniqueId()));
+        data.getConfig().set("Playtime.Hours", Utils.PT_Hours.get(player.getUniqueId()));
+        data.getConfig().set("Playtime.Minutes", Utils.PT_Minutes.get(player.getUniqueId()));
+        data.getConfig().set("Playtime.Seconds", Utils.PT_Seconds.get(player.getUniqueId()));
     }
 
 }

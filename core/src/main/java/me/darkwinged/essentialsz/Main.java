@@ -77,8 +77,7 @@ public final class Main extends JavaPlugin {
     private static Chat chat = null;
 
     // Feature Files
-    public CustomConfig MoneyPouchesFile =       new CustomConfig(this, "Features/Money Pouches", true);
-    public CustomConfig ExperiencePouchesFile =  new CustomConfig(this, "Features/Experience Pouches", true);
+    public CustomConfig EconomyItems =       new CustomConfig(this, "Features/Items/EconomyItems", true);
     public CustomConfig BlockedCommandsFile =    new CustomConfig(this, "Features/Blocked Commands", true);
     public CustomConfig ChatFilterFile =         new CustomConfig(this, "Features/Chat Filter", true);
     public CustomConfig AutoMessagesFile =       new CustomConfig(this, "Features/Auto Messages", true);
@@ -162,6 +161,7 @@ public final class Main extends JavaPlugin {
 
         registry.registerCommand(this, EconomyCommand.class);
         registry.registerCommand(this, BalanceCommand.class);
+        registry.registerCommand(this, PayCommand.class);
 
         registry.registerCommand(this, DayCommand.class);
         registry.registerCommand(this, NightCommand.class);
@@ -169,7 +169,6 @@ public final class Main extends JavaPlugin {
         registry.registerCommand(this, CondenseCommand.class);
 
         // Economy
-        getCommand("pay").setExecutor(new PayCommand());
         getCommand("withdraw").setExecutor(new WithdrawCommand());
         getCommand("pouches").setExecutor(new MoneyPouchesCommand());
 
@@ -284,8 +283,7 @@ public final class Main extends JavaPlugin {
         MessagesFile.saveDefaultConfig();
 
         CouponsFile.saveDefaultConfig();
-        MoneyPouchesFile.saveDefaultConfig();
-        ExperiencePouchesFile.saveDefaultConfig();
+        EconomyItems.saveDefaultConfig();
         WorthFile.saveDefaultConfig();
         BlockedCommandsFile.saveDefaultConfig();
         ChatFilterFile.saveDefaultConfig();

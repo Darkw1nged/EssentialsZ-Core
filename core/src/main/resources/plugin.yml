@@ -22,6 +22,8 @@ commands:
       - money
       - bank
       - wallet
+  pay:
+    description: Allows users to transfer money
 
 
   day:
@@ -39,7 +41,6 @@ commands:
 
 
 
-  pay:
   withdraw:
     aliases:
       - with

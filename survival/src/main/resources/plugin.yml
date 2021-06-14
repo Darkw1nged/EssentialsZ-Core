@@ -1,0 +1,14 @@
+name: EssentialsZSurvival
+version: 1.5
+main: me.darkwinged.essentialsz.EssentialsZSurvival
+authors: [ darkwinged ]
+depend: [EssentialsZAPI]
+commands:
+  wild:
+    description: Teleports the player to random coords
+    aliases:
+      - rtp
+      - randomteleprt
+
+  chat:
+    description: Able to change the chat destination, LOCAL | GLOBAL

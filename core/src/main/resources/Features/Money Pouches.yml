@@ -1,9 +1,0 @@
-Tiers:
-  tier1:
-    material: ENDER_CHEST
-    name: '&5Tier 1 Money Pouch'
-    lore:
-      - '&fThis is a Tier 1 Money Pouch'
-      - '&fBetween 20,000 and 100,000'
-    min: 20000
-    max: 100000
