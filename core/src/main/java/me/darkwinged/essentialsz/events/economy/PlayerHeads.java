@@ -42,7 +42,7 @@ public class PlayerHeads implements Listener {
                         // Getting the amount
                         double amount;
                         try {
-                            amount = round((plugin.economyManager.getAccount(target) / 100) * plugin.getConfig().getInt("Economy.Settings.Money Heads.Sell Amount"));
+                            amount = round((plugin.economyManager.getAccount(target) / 100) * plugin.getConfig().getInt("Economy.Settings.Money Heads.SellWand Amount"));
                         } catch (Exception e) {
                             player.sendMessage(ErrorManager.getErrors(Errors.InvalidAmount));
                             return;

@@ -1,25 +1,29 @@
 package me.darkwinged.essentialsz.commands.economy;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
-import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
-import me.darkwinged.essentialsz.libaries.lang.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import static org.bukkit.Material.getMaterial;
 
 public class MoneyPouchesCommand implements CommandExecutor {
 
     private final Main plugin = Main.getInstance;
 
-    public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
+    /**
+     * Executes the given command, returning its success
+     *
+     * @param sender  Source of the command
+     * @param command Command which was executed
+     * @param label   Alias of the command which was used
+     * @param args    Passed command arguments
+     * @return true if a valid command, otherwise false
+     */
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        return false;
+    }
+
+    /*public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (cmd.getName().equalsIgnoreCase("pouches")) {
             if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
                 if (plugin.getConfig().getBoolean("Economy.Settings.Money Pouches.enabled", true)) {
@@ -84,6 +88,6 @@ public class MoneyPouchesCommand implements CommandExecutor {
         sender.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") +
                 plugin.MessagesFile.getConfig().getString("Money Pouch Given"), target, target, null, false));
         return false;
-    }
+    }*/
 
 }

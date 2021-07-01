@@ -17,7 +17,7 @@ public class Permissions {
     public static String MoneyPouch = MainPermission + "MoneyPouch";
     public static String Autosell = MainPermission + "Autosell";
     public static String SellHand = MainPermission + "Sellhand";
-    public static String Sell = MainPermission + "Sell";
+    public static String Sell = MainPermission + "SellWand";
 
     // Chat Permissions
 

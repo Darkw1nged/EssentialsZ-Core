@@ -1,27 +1,13 @@
 package me.darkwinged.essentialsz.events.economy;
 
-import me.darkwinged.essentialsz.libaries.lang.Utils;
 import me.darkwinged.essentialsz.Main;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.HashMap;
-import java.util.Random;
-import java.util.UUID;
-
-import static org.bukkit.Material.getMaterial;
 
 public class MoneyPouchesEvent implements Listener {
 
     private final Main plugin = Main.getInstance;
 
-    HashMap<UUID, Integer> open = new HashMap<>();
+    /*HashMap<UUID, Integer> open = new HashMap<>();
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
@@ -106,7 +92,7 @@ public class MoneyPouchesEvent implements Listener {
                             }
                         }.runTaskTimer(plugin, 0L, 8L * open_time);
                     }
-                     */
+
                 }
             }
         }
@@ -132,6 +118,6 @@ public class MoneyPouchesEvent implements Listener {
             event.setCancelled(true);
         }
     }
-
+*/
 
 }
