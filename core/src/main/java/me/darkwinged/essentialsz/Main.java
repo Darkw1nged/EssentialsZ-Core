@@ -7,32 +7,29 @@ import me.darkwinged.essentialsz.commands.ReloadCommand;
 import me.darkwinged.essentialsz.commands.chat.*;
 import me.darkwinged.essentialsz.commands.decorator.factory.PermissionDecoratorFactory;
 import me.darkwinged.essentialsz.commands.economy.*;
+import me.darkwinged.essentialsz.commands.economy.sell.*;
 import me.darkwinged.essentialsz.commands.teleport.*;
 import me.darkwinged.essentialsz.commands.teleport.staff.*;
 import me.darkwinged.essentialsz.commands.world.*;
-import me.darkwinged.essentialsz.commands.world.Control.Time.DayCommand;
-import me.darkwinged.essentialsz.commands.world.Control.Time.NightCommand;
-import me.darkwinged.essentialsz.commands.world.Control.Time.TimeCommand;
-import me.darkwinged.essentialsz.commands.world.Control.Time.TimePlayerCommand;
-import me.darkwinged.essentialsz.commands.world.Control.Weather.StormCommand;
-import me.darkwinged.essentialsz.commands.world.Control.Weather.SunCommand;
-import me.darkwinged.essentialsz.commands.world.Control.Weather.WeatherCommand;
-import me.darkwinged.essentialsz.commands.world.Control.Weather.WeatherPlayerCommand;
+import me.darkwinged.essentialsz.commands.world.control.time.DayCommand;
+import me.darkwinged.essentialsz.commands.world.control.time.NightCommand;
+import me.darkwinged.essentialsz.commands.world.control.time.TimeCommand;
+import me.darkwinged.essentialsz.commands.world.control.time.TimePlayerCommand;
+import me.darkwinged.essentialsz.commands.world.control.weather.StormCommand;
+import me.darkwinged.essentialsz.commands.world.control.weather.SunCommand;
+import me.darkwinged.essentialsz.commands.world.control.weather.WeatherCommand;
+import me.darkwinged.essentialsz.commands.world.control.weather.WeatherPlayerCommand;
 import me.darkwinged.essentialsz.commands.world.gamemodes.*;
 import me.darkwinged.essentialsz.events.PlayerData;
 import me.darkwinged.essentialsz.events.chat.ChatControl;
+import me.darkwinged.essentialsz.events.chat.ChatGames;
 import me.darkwinged.essentialsz.events.chat.Color;
 import me.darkwinged.essentialsz.events.chat.Displayname;
 import me.darkwinged.essentialsz.events.chat.joinmessage.DefaultJoinMessage;
 import me.darkwinged.essentialsz.events.chat.joinmessage.OtherJoinMessage;
 import me.darkwinged.essentialsz.events.chat.joinmessage.VIPJoinMessage;
-import me.darkwinged.essentialsz.events.economy.AccountSetup;
-import me.darkwinged.essentialsz.events.economy.BankNotes;
-import me.darkwinged.essentialsz.events.economy.MoneyPouchesEvent;
-import me.darkwinged.essentialsz.events.economy.PlayerHeads;
-import me.darkwinged.essentialsz.events.signs.SignBalance;
-import me.darkwinged.essentialsz.events.signs.SignGamemode;
-import me.darkwinged.essentialsz.events.signs.SignUp;
+import me.darkwinged.essentialsz.events.economy.*;
+import me.darkwinged.essentialsz.events.signs.*;
 import me.darkwinged.essentialsz.events.teleport.Back;
 import me.darkwinged.essentialsz.events.teleport.NoVoid;
 import me.darkwinged.essentialsz.events.teleport.OnRespawn;
@@ -45,7 +42,7 @@ import me.darkwinged.essentialsz.libaries.economy.EconomyManager;
 import me.darkwinged.essentialsz.libaries.economy.EssentialsZEconomy;
 import me.darkwinged.essentialsz.libaries.lang.MetricsLite;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
-import me.darkwinged.essentialsz.libaries.util.CustomConfig;
+import me.darkwinged.essentialsz.libaries.storage.CustomConfig;
 import me.darkwinged.essentialsz.libaries.util.PlaceHolders;
 import me.darkwinged.essentialsz.message.MessageService;
 import net.milkbowl.vault.chat.Chat;
@@ -77,12 +74,14 @@ public final class Main extends JavaPlugin {
     private static Chat chat = null;
 
     // Feature Files
-    public CustomConfig EconomyItems =       new CustomConfig(this, "Features/Items/EconomyItems", true);
+    public CustomConfig EconomyItems =           new CustomConfig(this, "Features/Items/EconomyItems", true);
     public CustomConfig BlockedCommandsFile =    new CustomConfig(this, "Features/Blocked Commands", true);
     public CustomConfig ChatFilterFile =         new CustomConfig(this, "Features/Chat Filter", true);
+    public CustomConfig ChatGamesFile =          new CustomConfig(this, "Features/Chat Games", true);
     public CustomConfig AutoMessagesFile =       new CustomConfig(this, "Features/Auto Messages", true);
     public CustomConfig CouponsFile =            new CustomConfig(this, "Features/Coupons", true);
     public CustomConfig ServerDataFile =         new CustomConfig(this, "Data/Server Data", true);
+    public CustomConfig ServerCacheFile =        new CustomConfig(this, "Data/Cache", true);
     public CustomConfig MessagesFile =           new CustomConfig(this, "Messages", true);
     public CustomConfig WorthFile =              new CustomConfig(this, "Worth", true);
 
@@ -112,6 +111,7 @@ public final class Main extends JavaPlugin {
         setupChat();
         vaultHook = new VaultHook();
         vaultHook.hook();
+        Module_Economy = true;
         //=============================================================
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
@@ -126,24 +126,19 @@ public final class Main extends JavaPlugin {
         for (CoreMessage message : CoreMessage.values())
             messageService.registerMessage(message.getKey(), MessagesFile.getConfig().getString(message.getKey()));
 
-        loadAutoMessages();
-
         // Registering Commands / Events / Loops
         registerCommands();
         registerEvents();
         AutoMessage();
         vanishCheck();
+        new ChatGames().ChatGames_Questions();
 
         // Console Start Message
-        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&aEssentialsZ Core plugin has been enabled!"));
+        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&aEssentialsZ API hooked into &bEssentialsZ Core"));
+        getServer().getConsoleSender().sendMessage(essentialsZAPI.utils.chat("&bEssentialsZ Core &aplugin has been enabled!"));
     }
 
     public void onDisable() {
-        // Saving accounts
-        for (Player online : Bukkit.getOnlinePlayers()) {
-            economyManager.saveBalance(online);
-        }
-
         // Unhooking vault
         vaultHook.unhook();
 
@@ -155,21 +150,30 @@ public final class Main extends JavaPlugin {
         ServicesManager servicesManager = getServer().getServicesManager();
         ServicesInjector injector = servicesManager.load(ServicesInjector.class);
         servicesManager.register(PermissionDecoratorFactory.class, injector.createInstance(PermissionDecoratorFactory.class), this, ServicePriority.Normal);
-
         CommandRegistry registry = servicesManager.load(CommandRegistry.class);
+
         registry.registerCommand(this, ReloadCommand.class);
 
         registry.registerCommand(this, EconomyCommand.class);
         registry.registerCommand(this, BalanceCommand.class);
         registry.registerCommand(this, PayCommand.class);
+        registry.registerCommand(this, WithdrawCommand.class);
+        registry.registerCommand(this, AutosellCommand.class);
+        registry.registerCommand(this, ChestsellCommand.class);
+        registry.registerCommand(this, SellCommand.class);
+        registry.registerCommand(this, SellHandCommand.class);
+
+        //registry.registerCommand(this, SellWandCommand.class);
 
         registry.registerCommand(this, DayCommand.class);
         registry.registerCommand(this, NightCommand.class);
 
         registry.registerCommand(this, CondenseCommand.class);
+        registry.registerCommand(this, SuicideCommand.class);
+        registry.registerCommand(this, CraftCommand.class);
+        registry.registerCommand(this, HatCommand.class);
 
         // Economy
-        getCommand("withdraw").setExecutor(new WithdrawCommand());
         getCommand("pouches").setExecutor(new MoneyPouchesCommand());
 
         // Chat
@@ -182,6 +186,7 @@ public final class Main extends JavaPlugin {
 
         // Teleportation
         getCommand("tp").setExecutor(new TeleportCommand());
+        getCommand("tpoffline").setExecutor(new TeleportOfflineCommand());
         getCommand("tphere").setExecutor(new TeleportHereCommand());
         getCommand("hub").setExecutor(new HubCommand());
         getCommand("rtp").setExecutor(new RandomTeleportCommand());
@@ -197,7 +202,6 @@ public final class Main extends JavaPlugin {
         getCommand("homes").setExecutor(new HomesCommand());
 
         // World
-        getCommand("hat").setExecutor(new HatCommand());
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("gma").setExecutor(new AdventureModeCommand());
         getCommand("gmc").setExecutor(new CreativeModeCommand());
@@ -211,7 +215,6 @@ public final class Main extends JavaPlugin {
         getCommand("delworld").setExecutor(new DelWorldCommand());
         getCommand("enderchest").setExecutor(new EnderchestCommand());
         getCommand("disposal").setExecutor(new DisposalCommand());
-        getCommand("craft").setExecutor(new CraftCommand());
         getCommand("kill").setExecutor(new KillCommand());
         getCommand("god").setExecutor(new GodCommand());
         getCommand("heal").setExecutor(new HealCommand());
@@ -244,11 +247,14 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AccountSetup(), this);
         getServer().getPluginManager().registerEvents(new BankNotes(), this);
         getServer().getPluginManager().registerEvents(new MoneyPouchesEvent(), this);
+        getServer().getPluginManager().registerEvents(new Sellwand(), this);
 
         // SIGN EVENTS
         getServer().getPluginManager().registerEvents(new SignBalance(), this);
         getServer().getPluginManager().registerEvents(new SignGamemode(), this);
         getServer().getPluginManager().registerEvents(new SignUp(), this);
+        getServer().getPluginManager().registerEvents(new SignWarp(), this);
+        getServer().getPluginManager().registerEvents(new SignChestSell(), this);
 
         // TELEPORTATION EVENTS
         getServer().getPluginManager().registerEvents(new NoVoid(), this);
@@ -269,6 +275,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Playtime(), this);
         getServer().getPluginManager().registerEvents(new NetherWater(), this);
         getServer().getPluginManager().registerEvents(new InventoryFull(), this);
+        // getServer().getPluginManager().registerEvents(new ChatGames(), this);
     }
 
     public void loadConfig() {
@@ -280,6 +287,7 @@ public final class Main extends JavaPlugin {
     }
     public void loadCustomFiles() {
         ServerDataFile.saveDefaultConfig();
+        ServerCacheFile.saveDefaultConfig();
         MessagesFile.saveDefaultConfig();
 
         CouponsFile.saveDefaultConfig();
@@ -287,14 +295,11 @@ public final class Main extends JavaPlugin {
         WorthFile.saveDefaultConfig();
         BlockedCommandsFile.saveDefaultConfig();
         ChatFilterFile.saveDefaultConfig();
+        ChatGamesFile.saveDefaultConfig();
         AutoMessagesFile.saveDefaultConfig();
     }
 
     // Managing auto messages
-    public void loadAutoMessages() {
-        if (!AutoMessagesFile.getConfig().contains("Messages.")) return;
-        Utils.AutoMessages.addAll(AutoMessagesFile.getConfig().getStringList("Messages"));
-    }
     public void AutoMessage() {
         if (getConfig().getBoolean("Chat.enabled", true)) {
             if (getConfig().getBoolean("Chat.Settings.Auto Messages", true)) {
@@ -303,8 +308,7 @@ public final class Main extends JavaPlugin {
                     long interval = (long) AutoMessagesFile.getConfig().getInt("Messages." + key + ".interval") * 60;
                     Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
                         if (AutoMessagesFile.getConfig().getBoolean("Messages." + key + ".center", true)) {
-                            Bukkit.broadcastMessage(essentialsZAPI.utils.chat(essentialsZAPI.utils.CenteredMessage(message),
-                                    null, null, null, false));
+                            Bukkit.broadcastMessage(essentialsZAPI.utils.chat(essentialsZAPI.utils.CenteredMessage(message)));
                             return;
                         }
                         Bukkit.broadcastMessage(essentialsZAPI.utils.chat(message));
@@ -316,13 +320,11 @@ public final class Main extends JavaPlugin {
 
     // Checking if player is in vanish and alerting.
     public void vanishCheck() {
-        if (Bukkit.getVersion().contains("1.7") || Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9") ||
-                Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11") || Bukkit.getVersion().contains("1.12")) return;
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 CustomConfig Data = Utils.getDataFile(player);
                 if (Data.getConfig().getBoolean("isVanished", true)) {
-                    essentialsZAPI.utils.sendActionBar(player, "&fYou are in &cVanish");
+                    essentialsZAPI.actionBar.sendActionbar(player, "&fYou are in &cVanish");
                 }
             }
         }, 0L, 20L);

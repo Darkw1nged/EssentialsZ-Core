@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>me.darkwinged</groupId>
-            <artifactId>essentialsz-api</artifactId>
+            <artifactId>API</artifactId>
             <version>1.5</version>
             <scope>compile</scope>
         </dependency>

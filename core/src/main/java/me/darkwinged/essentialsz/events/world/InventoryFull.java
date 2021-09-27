@@ -19,22 +19,22 @@ public class InventoryFull implements Listener {
             }
             switch (plugin.getConfig().getString("World Events.Inventory Full.alert")) {
                 case "ACTIONBAR":
-                    plugin.essentialsZAPI.utils.sendActionBar(player,plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("World Events.Inventory Full.message"),
-                            player, null, null, false));
+                    plugin.essentialsZAPI.actionBar.sendActionbar(player, plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("World Events.Inventory Full.message"),
+                            player, player));
                     break;
                 case "TITLE":
-                    plugin.essentialsZAPI.utils.sendTitle(player, plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("World Events.Inventory Full.Title.header"),
-                            player, null, null, false),
+                    plugin.essentialsZAPI.title.sendTitle(player, plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("World Events.Inventory Full.Title.header"),
+                            player, player),
                             plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("World Events.Inventory Full.Title.header"),
-                                    player, null, null, false));
+                                    player, player));
                     break;
                 case "CHAT":
                     if (plugin.getConfig().getBoolean("World Events.Inventory Full.center", true)) {
                         player.sendMessage(plugin.essentialsZAPI.utils.CenteredMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("World Events.Inventory Full.message"),
-                                player, null, null, false)));
+                                player, player)));
                     } else {
                         player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("World Events.Inventory Full.message"),
-                                player, null, null, false));
+                                player, player));
                     }
                     break;
             }

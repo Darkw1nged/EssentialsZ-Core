@@ -22,6 +22,7 @@ public class CreateTrails_Particles implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
         Location loc = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() + 1, player.getLocation().getZ());
+        if (!Trails_Manager.PlayerTrail_Particles.containsKey(uuid)) return;
 
         switch (Trails_Manager.PlayerTrail_Particles.get(uuid)) {
             case LAVA:

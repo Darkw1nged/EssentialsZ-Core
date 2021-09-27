@@ -1,6 +1,9 @@
 name: EssentialsZFriends
 version: 1.5
-main: me.darkwinged.EssentialsZ.EssentialsZFriends
+main: me.darkwinged.essentialsz.EssentialsZFriends
 authors: [ darkwinged ]
 depend: [EssentialsZAPI]
 commands:
+  friend:
+    aliases:
+      - f

@@ -7,6 +7,27 @@ PlaceHolders:
       - " "
       - "&8To get more booster use the /booster command"
 
+Money Note:
+  # The ID is purely cosmetic and has no effect on the note.
+  material: PAPER
+  name: "&eMoney Note"
+  lore:
+    - "&7This note contains $%amount% of money."
+    - "&7Claim it quick before you lose it!"
+    - " "
+    - "&fMoney: &e%amount%"
+    - "&fID: &e%identification%"
+
+Sellwand:
+  material: DIAMOND_HOE
+  name: "&2Sell Wand"
+  lore:
+    - "&7Right-Click chests to sell contents"
+    - "&7for money. Only has limited Uses!"
+    - " "
+    - "&fUses: &e%uses%"
+
+
 Pouches:
   tier1:
     material: ENDER_CHEST

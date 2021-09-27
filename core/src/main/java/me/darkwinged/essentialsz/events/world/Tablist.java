@@ -6,7 +6,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.darkwinged.essentialsz.Main;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
-import me.darkwinged.essentialsz.libaries.util.CustomConfig;
+import me.darkwinged.essentialsz.libaries.storage.CustomConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

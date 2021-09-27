@@ -19,6 +19,7 @@
         <module>2fa</module>
         <module>survival</module>
         <module>factions</module>
+        <module>island-items</module>
     </modules>
 
     <properties>

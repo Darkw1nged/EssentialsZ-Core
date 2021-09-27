@@ -26,7 +26,7 @@ public class EconomyCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
-            if (plugin.Module_Economy = false) return true;
+            if (!plugin.Module_Economy) return true;
             Player player = (Player) sender;
             if (args.length < 2) {
                 player.sendMessage(ErrorManager.getErrors(Errors.UsageEconomy));

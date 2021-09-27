@@ -37,8 +37,14 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>se.llbit</groupId>
+            <artifactId>jo-nbt</artifactId>
+            <version>1.3.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>me.darkwinged</groupId>
-            <artifactId>essentialsz-api</artifactId>
+            <artifactId>API</artifactId>
             <version>1.5</version>
             <scope>compile</scope>
         </dependency>

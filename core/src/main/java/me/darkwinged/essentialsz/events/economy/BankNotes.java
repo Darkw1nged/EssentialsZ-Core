@@ -21,7 +21,7 @@ public class BankNotes implements Listener {
     public void BankNotesInteract(PlayerInteractEvent event) {
         if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
             if (plugin.getConfig().getBoolean("Economy.Settings.Bank Notes", true)) {
-                if (plugin.Module_Economy = false) return;
+                if (!plugin.Module_Economy) return;
                 Player player = event.getPlayer();
                 if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     String BankNote_Name = Utils.chat(plugin.getConfig().getString("Economy.Settings.Bank Notes.Item.name"));

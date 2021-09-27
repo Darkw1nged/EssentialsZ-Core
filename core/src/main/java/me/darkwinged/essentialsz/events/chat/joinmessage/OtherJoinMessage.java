@@ -1,7 +1,7 @@
 package me.darkwinged.essentialsz.events.chat.joinmessage;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.util.CustomConfig;
+import me.darkwinged.essentialsz.libaries.storage.CustomConfig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

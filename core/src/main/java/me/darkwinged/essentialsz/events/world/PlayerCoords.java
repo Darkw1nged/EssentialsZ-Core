@@ -35,15 +35,14 @@ public class PlayerCoords implements Listener {
                             switch (plugin.getConfig().getString("World Events.Player Coords.style")) {
 
                                 case "ACTIONBAR":
-                                    plugin.essentialsZAPI.utils.sendActionBar(player, plugin.getConfig().getString("World Events.Player Coords.message")
+                                    plugin.essentialsZAPI.actionBar.sendActionbar(player, plugin.getConfig().getString("World Events.Player Coords.message")
                                             .replaceAll("%X", X).replaceAll("%Y", Y).replaceAll("%Z", Z));
                                     break;
                                 case "BOSS_BAR":
                                     BarColor color = BarColor.valueOf(plugin.getConfig().getString("World Events.Player Coords.Bossbar.color").toUpperCase());
                                     BarStyle style = BarStyle.valueOf(plugin.getConfig().getString("World Events.Player Coords.Bossbar.style"));
 
-                                    plugin.essentialsZAPI.utils.sendAllBossbar(player,
-                                            plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("World Events.Player Coords.message")
+                                    plugin.essentialsZAPI.bossbar.sendBossbar(player, plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("World Events.Player Coords.message")
                                                     .replaceAll("%X", X).replaceAll("%Y", Y).replaceAll("%Z", Z), player, null, player, false),
                                             color, style, plugin.getConfig().getInt("World Events.Player Coords.Bossbar.length"));
                             }

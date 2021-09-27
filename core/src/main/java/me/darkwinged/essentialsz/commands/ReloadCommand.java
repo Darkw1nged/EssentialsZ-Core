@@ -25,10 +25,14 @@ public class ReloadCommand implements CommandExecutor {
 
     public void enable() {
         plugin.reloadConfig();
-        plugin.MessagesFile.reloadConfig();
-        plugin.ChatFilterFile.reloadConfig();
+        plugin.AutoMessagesFile.reloadConfig();
         plugin.BlockedCommandsFile.reloadConfig();
-        plugin.WorthFile.reloadConfig();
+        plugin.ChatFilterFile.reloadConfig();
+        plugin.MessagesFile.reloadConfig();
         plugin.CouponsFile.reloadConfig();
+        plugin.ChatGamesFile.reloadConfig();
+        plugin.ServerCacheFile.reloadConfig();
+        plugin.ServerDataFile.reloadConfig();
+        plugin.WorthFile.reloadConfig();
     }
 }

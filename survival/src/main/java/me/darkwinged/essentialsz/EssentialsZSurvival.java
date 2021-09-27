@@ -1,7 +1,7 @@
 package me.darkwinged.essentialsz;
 
 import me.darkwinged.essentialsz.chat.Chat_Manager;
-import me.darkwinged.essentialsz.libaries.util.CustomConfig;
+import me.darkwinged.essentialsz.libaries.storage.CustomConfig;
 import me.darkwinged.essentialsz.miscellaneous.OnePlayerSleep;
 import me.darkwinged.essentialsz.miscellaneous.WildCommand;
 import me.darkwinged.essentialsz.trails.Trails_Manager;

@@ -23,16 +23,38 @@ commands:
       - bank
       - wallet
   pay:
-    description: Allows users to transfer money
+    description: Allows players to transfer money.
+  withdraw:
+    description: Allows players to withdraw money.
+    aliases:
+      - with
+      - wd
+  sell:
+    description: Allows players to sell items inside of their inventory.
+    aliases:
+      - sellall
+  sellhand:
+    description: Sells all of one type of item in a players inventory.
+  autosell:
+    description: Allows players to automatically sell items.
+  chestsell:
+    description: Allows players to sell all items inside of a chest.
 
+  sellwand:
+    description: Gives a player a wans to sell items.
 
   day:
     description: Turns the time in a specific world to day.
   night:
     description: Turns the time in a specific world to night.
-
   condense:
     description: Takes all valuables and turns them into blocks.
+  craft:
+    description: Opens a workbench.
+  suicide:
+    description: This is useful in desprite situations.
+  hat:
+    description: Allows players to wear blocks/items on their head.
 
 
 
@@ -41,14 +63,8 @@ commands:
 
 
 
-  withdraw:
-    aliases:
-      - with
-      - wd
+
   pouches:
-  autosell:
-  sell:
-  sellhand:
 
   staffchat:
     aliases:
@@ -65,6 +81,7 @@ commands:
   sudo:
 
   tp:
+  tpoffline:
   tphere:
   hub:
   rtp:
@@ -86,7 +103,6 @@ commands:
     aliases:
       - ess
       - essentialsz
-  hat:
   gamemode:
     aliases:
       - gm
@@ -109,7 +125,6 @@ commands:
       - trash
       - bin
       - garbage
-  craft:
   kill:
   god:
   heal:

@@ -27,7 +27,7 @@ public class PayCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         if (plugin.getConfig().getBoolean("Economy.enabled", true)) {
             if (plugin.getConfig().getBoolean("Economy.Settings.Commands.Pay", true)) {
-                if (plugin.Module_Economy = false) return true;
+                if (!plugin.Module_Economy) return true;
                 if (!(sender instanceof Player)) {
                     sender.sendMessage(ErrorManager.getErrors(Errors.Console));
                     return true;

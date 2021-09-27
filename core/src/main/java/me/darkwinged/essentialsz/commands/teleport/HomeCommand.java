@@ -4,7 +4,7 @@ import me.darkwinged.essentialsz.Main;
 import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
 import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
-import me.darkwinged.essentialsz.libaries.util.CustomConfig;
+import me.darkwinged.essentialsz.libaries.storage.CustomConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

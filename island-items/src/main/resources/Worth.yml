@@ -1,0 +1,11 @@
+worth:
+
+  # This has to be the exact material.
+  # What you put after the material is the amount it will be sold for.
+  IRON_INGOT: 20.0
+
+  DIRT: 1.0
+  COBBLESTONE: 1.0
+  STONE: 1.0
+  COAL: 100.0
+  GOLD_INGOT: 100.0

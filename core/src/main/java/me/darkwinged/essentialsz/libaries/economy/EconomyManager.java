@@ -1,7 +1,7 @@
 package me.darkwinged.essentialsz.libaries.economy;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.util.CustomConfig;
+import me.darkwinged.essentialsz.libaries.storage.CustomConfig;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -44,6 +44,7 @@ public class EconomyManager {
 	}
 	public void loadBalance(Player player) {
 		CustomConfig Data = new CustomConfig(plugin, String.valueOf(player.getUniqueId()), "Data");
+		if (BankAccounts.containsKey(player.getUniqueId())) return;
 		BankAccounts.put(player.getUniqueId(), Double.valueOf(Data.getConfig().getString("money").replaceAll(",", "")));
 	}
 

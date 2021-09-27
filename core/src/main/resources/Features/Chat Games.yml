@@ -1,0 +1,29 @@
+Settings:
+  Interval: 300 # seconds [300 = 5 minutes]
+  Time limit: 20 # seconds
+
+Questions:
+  '1':
+    question: '&aWhat is &e59 + 72' # The question being asked
+    chance: 20 # chance out of 100 of getting the question. [set to 0 to disable]
+    answer: "131"
+    rewards:
+      - "[ITEM] DIAMOND"
+      - "[MONEY] 1000"
+      - "[XP] 100"
+      - "[CMD] balance"
+      - "[MSG] Hello their friend!"
+  '2':
+    question: '&6Who created this plugin?'
+    chance: 1
+    answer: "darkwinged"
+    rewards:
+      - "[ITEM] DIAMOND"
+      - "[MONEY] 10000"
+  '3':
+    question: '&1What year did minecraft alpha release?'
+    chance: 80
+    answer: "2010"
+    rewards:
+      - "[MSG] Well done!"
+      - "[MONEY] 1000"

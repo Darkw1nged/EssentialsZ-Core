@@ -1,7 +1,7 @@
 package me.darkwinged.essentialsz.events.chat.joinmessage;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.util.CustomConfig;
+import me.darkwinged.essentialsz.libaries.storage.CustomConfig;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
@@ -33,14 +33,14 @@ public class DefaultJoinMessage implements Listener {
                     break;
 
                 case "TITLE":
-                    plugin.essentialsZAPI.utils.sendAllTitle(
+                    plugin.essentialsZAPI.title.sendAllTitle(
                             plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("title message"), player, null, player, false),
                             plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("subtitle message"), player, null, player, false));
                     event.setJoinMessage(null);
                     break;
 
                 case "ACTION_BAR":
-                    plugin.essentialsZAPI.utils.sendAllActionBar(
+                    plugin.essentialsZAPI.actionBar.sendAllActionbar(
                             plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("join message"), player, null, player, false));
                     event.setJoinMessage(null);
                     break;
@@ -49,7 +49,7 @@ public class DefaultJoinMessage implements Listener {
                     BarColor color = BarColor.valueOf(plugin.getConfig().getString("Chat.Settings.Join Messages.Bossbar.color"));
                     BarStyle style = BarStyle.valueOf(plugin.getConfig().getString("Chat.Settings.Join Messages.Bossbar.style"));
 
-                    plugin.essentialsZAPI.utils.sendAllBossbar(player,
+                    plugin.essentialsZAPI.bossbar.sendAllBossbar(player,
                             plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("join message"), player, null, player, false),
                             color, style, plugin.getConfig().getInt("Chat.Settings.Join Messages.Bossbar.length"));
                     event.setJoinMessage(null);

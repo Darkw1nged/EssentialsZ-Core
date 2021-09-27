@@ -69,6 +69,12 @@ public class ErrorManager {
             case SellUsage:
                 errors = prefix + plugin.MessagesFile.getConfig().getString("Error.SellUsage");
                 break;
+            case NoSellableItems:
+                errors = prefix + plugin.MessagesFile.getConfig().getString("Error.NoSellableItems");
+                break;
+            case Sellwand:
+                errors = prefix + plugin.MessagesFile.getConfig().getString("Error.Sellwand");
+                break;
 
             case TPUsage:
                 errors = prefix + plugin.MessagesFile.getConfig().getString("Error.TPUsage");
@@ -131,8 +137,11 @@ public class ErrorManager {
             case SpecifyWorld:
                 errors = prefix + plugin.MessagesFile.getConfig().getString("Error.SpecifyWorld");
                 break;
+            case NoChest:
+                errors = prefix + plugin.MessagesFile.getConfig().getString("Error.NoChest");
+                break;
         }
-        return plugin.essentialsZAPI.utils.chat(errors, null, null, null, false);
+        return plugin.essentialsZAPI.utils.chat(errors);
     }
 
 }

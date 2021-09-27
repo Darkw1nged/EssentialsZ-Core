@@ -58,8 +58,8 @@ Economy:
           - "&7This is a sellwand!"
           - "&eUses: %uses%"
           - "&eMoney earned: %earned%"
-      Chestsell Sign: true
-      Sell command: true
+      ChestSell: true
+      Sell: true
       Autosell: true
 
     Commands:
@@ -159,6 +159,7 @@ Chat:
         center: false
 
     Auto Messages: false
+    Chat Games: false
 
     Server MOTD:
       enabled: false
@@ -261,10 +262,7 @@ Commands:
       x: 10
       y: 10
       z: 10
-
-  # IMPLEMENT
-  Daily: true
-
+      
 World Events:
   One Player Sleep: false
   Double Jump: false
@@ -299,19 +297,3 @@ Playtime:
   Minutes: true
   Seconds: true
   format: "&e%days, %hours, %minutes, %seconds"
-
-# IMPLEMENT
-Profiles:
-  enabled: false
-  GUI:
-    Background: true
-    Changeable Icons: true
-    Saves:
-      save-1:
-        material: OAK_LOG
-        name: "&aSave One"
-        lore:
-          - "&aHealth: %health%"
-          - "&aFood: %food%"
-          - "&aItem in Hand: %main_item%"
-          - "&aItem in Off Hand: %off_item%"

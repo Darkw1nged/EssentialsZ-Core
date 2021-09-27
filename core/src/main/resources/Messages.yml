@@ -27,6 +27,7 @@ Money Received: "&aYou have received %amount% from %target%"
 Money Pouch Given: "&aYou have received a money pouch."
 Money Pouch Open: "&aYou have opened a money pouch and got %amount%"
 Autosell Toggle: "&aYou have %setting% autosell."
+Sold: "All items has been sold and %amount% has been added to your account"
 
 # Teleportation Messages
 TP message: "&aYou have teleported to %player%"
@@ -98,7 +99,9 @@ Error:
   NoPlacePlayerHead: "You can not place a players head!"
   NoPouch: "Please specify a money pouch tier."
   InvalidPouch: "That money pouch does not exist."
-  SellUsage: "Usage: /sell [hand/all]"
+  SellUsage: "Usage: /sell [hand]"
+  NoSellableItems: "No sellable items."
+  Sellwand: "Specify the amount of uses"
   TPUsage: "Usage: /tp <player> OR /tp <player> <player>"
   TPhereUsage: "Usage: /tphere <player, @e, @a>"
   NoPreviousLocation: "Could not find a previous location."
@@ -119,3 +122,4 @@ Error:
   WeatherType: "Please specify a weather type."
   SpecifyTime: "Please specify a time."
   SpecifyWorld: "Please specify a world."
+  NoChest: "Chest was not found."

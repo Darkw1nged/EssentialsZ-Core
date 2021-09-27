@@ -13,8 +13,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
-
 public class RepairCommand implements CommandExecutor {
 
     private final Main plugin = Main.getInstance;
@@ -55,7 +53,7 @@ public class RepairCommand implements CommandExecutor {
                             break;
                         case "chest":
                             if (player.hasPermission(Permissions.RepairChest)) {
-                                Block block = player.getTargetBlock((HashSet<Byte>) null, 5);
+                                Block block = player.getTargetBlock(null, 5);
                                 if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.TRAPPED_CHEST)) {
                                     Chest chest = (Chest)block.getState();
                                     if (chest.getInventory().getSize() == 54) {
@@ -79,7 +77,7 @@ public class RepairCommand implements CommandExecutor {
                                     }
                                     player.sendMessage(plugin.essentialsZAPI.utils.chat(plugin.MessagesFile.getConfig().getString("Prefix") + plugin.MessagesFile.getConfig().getString("Repair Chest"), null, null, null, false));
                                 } else {
-                                    player.sendMessage(plugin.essentialsZAPI.utils.chat("&cError! Chest was not found.", null, null, null, false));
+                                    player.sendMessage(ErrorManager.getErrors(Errors.NoChest));
                                 }
                             } else {
                                 sender.sendMessage(ErrorManager.getErrors(Errors.NoPermission));

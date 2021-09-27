@@ -1,7 +1,7 @@
 package me.darkwinged.essentialsz.libaries.lang;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.util.CustomConfig;
+import me.darkwinged.essentialsz.libaries.storage.CustomConfig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
@@ -21,7 +21,6 @@ public class Utils implements Listener {
     // Lists
     public static boolean isChatMuted = false;
     public static List<UUID> staff_chat = new ArrayList<>();
-    public static List<String> AutoMessages = new ArrayList<>();
 
     // If players have something toggled
     public static List<UUID> Autosell_List = new ArrayList<>();

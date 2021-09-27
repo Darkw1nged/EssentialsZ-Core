@@ -1,7 +1,7 @@
 package me.darkwinged.essentialsz.items.boosters;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.Boosters;
+import me.darkwinged.essentialsz.libaries.managers.Boosters;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

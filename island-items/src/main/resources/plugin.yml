@@ -1,0 +1,9 @@
+name: EssentialsZIslandItems
+version: 1.5
+main: me.darkwinged.essentialsz.EssentialsZIslandItems
+authors: [ darkwinged ]
+depend: [EssentialsZAPI]
+commands:
+  friend:
+    aliases:
+      - f

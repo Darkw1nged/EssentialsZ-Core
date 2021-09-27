@@ -1,2 +1,24 @@
 Prefix: "&eEssentialsZ >> "
+NoFriends: "&aYou currently have no friends."
+Request: "&aYou have sent a request to %target%."
+IncomingRequest:
+  - "&a%player% wants to be your friend."
+  - "&aYou have %time% to accept or deny."
+  - "&a/friend accept to accept the request, /friend deny to deny the request."
+
+FriendJoin: "&a[+] %player%"
+FriendLeave: "&c[-] %player%"
+
+
+
+
 Chat Disabled: "&aEnable chat before trying to talk again."
+
+Errors:
+  Prefix: "&cError! "
+  NoPermission: "You do not have permission to use this command."
+  Console: "You cant use this command in console."
+  SpecifyPlayer: "Please specify a player."
+  NoPlayerFound: "That player could not be found."
+  AlreadyFriends: "You are already friends with this person."
+  FriendYourself: "You can not friend yourself."

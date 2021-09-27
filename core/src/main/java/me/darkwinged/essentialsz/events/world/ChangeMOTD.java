@@ -11,7 +11,7 @@ public class ChangeMOTD implements Listener {
 
     @EventHandler
     public void MOTDChange(ServerListPingEvent event) {
-        if (plugin.getConfig().getBoolean("Chat.enabled")) {
+        if (plugin.getConfig().getBoolean("Chat.enabled", true)) {
             if (plugin.getConfig().getBoolean("Chat.Settings.Server MOTD.enabled")) {
                 event.setMotd(plugin.essentialsZAPI.utils.chat(plugin.getConfig().getString("Chat.Settings.Server MOTD.MOTD"),
                         null, null, null, false));

@@ -6,14 +6,15 @@ public enum Errors {
 
     MessageEmpty, DataFileError,
 
-    NoAccount, InvalidAmount, NotEnoughMoney, UsageEconomy, UsagePay, NoPlacePlayerHead, NoPouch, InvalidPouch, SellUsage,
+    NoAccount, InvalidAmount, NotEnoughMoney, UsageEconomy, UsagePay, NoPlacePlayerHead, NoPouch, InvalidPouch, SellUsage, NoSellableItems,
+    Sellwand,
 
     TPUsage, TPhereUsage, NoPreviousLocation,
 
     NoWarpNameProvided, WarpDoesNotExist, WarpAlreadyExist, NoWarpsFound,
     NoHomeNameProvided, NoHomes, HomeDoesNotExist, HomeAlreadyExist,
 
-    GamemodeUsage, WorldGenUsage, InvalidWorld, InvalidGameMode, FullFood, Length, WeatherType, SpecifyTime, SpecifyWorld;
+    GamemodeUsage, WorldGenUsage, InvalidWorld, InvalidGameMode, FullFood, Length, WeatherType, SpecifyTime, SpecifyWorld, NoChest
 
 
 }

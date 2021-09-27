@@ -1,9 +1,11 @@
 package me.darkwinged.essentialsz.commands.world;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.lang.Messages.ErrorManager;
-import me.darkwinged.essentialsz.libaries.lang.Messages.Errors;
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
+import me.darkwinged.essentialsz.Permission;
+import me.darkwinged.essentialsz.commands.Name;
+import me.darkwinged.essentialsz.commands.annotation.Permissions;
+import me.darkwinged.essentialsz.commands.processor.annotation.PlayersOnly;
+import me.darkwinged.essentialsz.inject.Inject;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,24 +14,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
+@Name("craft")
+@PlayersOnly
+@Permissions(value = {Permission.CRAFT, Permission.GLOBAL})
 public class CraftCommand implements CommandExecutor {
 
     private final Main plugin = Main.getInstance;
 
+    @Inject
+    public CraftCommand() {}
+
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("craft")) {
-            if (plugin.getConfig().getBoolean("Commands.Craft", true)) {
-                if (!(sender instanceof Player)) {
-                    sender.sendMessage(ErrorManager.getErrors(Errors.Console));
-                    return true;
-                }
-                Player player = (Player)sender;
-                if (player.hasPermission(Permissions.Craft) || player.hasPermission(Permissions.GlobalOverwrite)) {
-                    Inventory inv = Bukkit.createInventory(null, InventoryType.WORKBENCH);
-                    player.openInventory(inv);
-                } else
-                    player.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
-            }
+        if (plugin.getConfig().getBoolean("Commands.Craft", true)) {
+            Player player = (Player)sender;
+            Inventory inv = Bukkit.createInventory(null, InventoryType.WORKBENCH);
+            player.openInventory(inv);
         }
         return false;
     }

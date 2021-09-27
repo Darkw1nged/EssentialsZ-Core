@@ -45,7 +45,7 @@ public class ClearlagCommand implements CommandExecutor {
                             plugin.MessagesFile.getConfig().getString("Clear Lag Message")
                                     .replaceAll("%n", "\n")
                                     .replaceAll("%entity_amount%", ""+total)
-                                    .replaceAll("%time%", ""+plugin.ServerDataFile.getConfig().getInt("Clear Lag Delay")/60), null, null, null, false));
+                                    .replaceAll("%time%", ""+plugin.ServerDataFile.getConfig().getInt("Clear Lag Delay")/60)));
                     return true;
                 }
                 Player player = (Player)sender;
@@ -74,7 +74,7 @@ public class ClearlagCommand implements CommandExecutor {
                             "Message")
                             .replaceAll("%n", "\n")
                             .replaceAll("%entity_amount%", ""+total)
-                            .replaceAll("%time%", ""+plugin.ServerDataFile.getConfig().getInt("Clear Lag Delay")/60), null, null, null, false));
+                            .replaceAll("%time%", ""+plugin.ServerDataFile.getConfig().getInt("Clear Lag Delay")/60)));
                 } else {
                     sender.sendMessage(ErrorManager.getErrors(Errors.NoPermission));
                 }

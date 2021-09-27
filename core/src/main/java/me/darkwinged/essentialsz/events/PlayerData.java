@@ -1,10 +1,10 @@
 package me.darkwinged.essentialsz.events;
 
 import me.darkwinged.essentialsz.Main;
-import me.darkwinged.essentialsz.libaries.Boosters;
+import me.darkwinged.essentialsz.libaries.managers.Boosters;
 import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import me.darkwinged.essentialsz.libaries.lang.Utils;
-import me.darkwinged.essentialsz.libaries.util.CustomConfig;
+import me.darkwinged.essentialsz.libaries.storage.CustomConfig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

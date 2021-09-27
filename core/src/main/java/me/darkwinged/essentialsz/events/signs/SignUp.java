@@ -1,9 +1,9 @@
 package me.darkwinged.essentialsz.events.signs;
 
-import me.darkwinged.essentialsz.libaries.lang.Permissions;
-import me.darkwinged.essentialsz.libaries.lang.Utils;
 import me.darkwinged.essentialsz.Main;
+import me.darkwinged.essentialsz.libaries.lang.Permissions;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +24,7 @@ public class SignUp implements Listener {
                 String line0 = event.getLine(0);
                 if (line0 == null) return;
                 if (line0.equalsIgnoreCase("[up]")) {
-                    event.setLine(0, Utils.chat("&1[Up]"));
+                    event.setLine(0, plugin.essentialsZAPI.utils.chat("&1[Up]"));
                 }
             }
         }
@@ -36,9 +36,11 @@ public class SignUp implements Listener {
         if (plugin.getConfig().getBoolean("Teleportation.Settings.Commands.top", true)) {
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 Block block = event.getClickedBlock();
-                if (block == null)
-                    return;
-                if (!isSign(block)) {
+                if (block == null) return;
+                BlockState blockState = block.getState();
+                if (!(blockState instanceof org.bukkit.block.Sign)) return;
+
+                if (plugin.essentialsZAPI.items.isSign(block)) {
                     Sign sign = (Sign)block.getState();
                     String line0 = sign.getLine(0);
                     Player player = event.getPlayer();
@@ -49,15 +51,6 @@ public class SignUp implements Listener {
             }
         }
 
-    }
-
-    private boolean isSign(Block block) {
-        switch (block.getType()) {
-            case WALL_SIGN:
-            case SIGN:
-                return false;
-        }
-        return true;
     }
 
 }

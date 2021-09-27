@@ -1,0 +1,33 @@
+GUI:
+  title: "&eHopper Upgrades"
+  items:
+    background-1:
+      name: ""
+      material: GLASS
+      slot: 0
+      lore:
+        - "Nothing to see here!"
+    background-2:
+      name: ""
+      material: GLASS
+      slot: 1
+      lore:
+        - "Nothing to see here!"
+    placeholder:
+      name: "&aPlace your upgrade here!"
+      material: CHEST_MINECART
+      slot: 2
+      lore:
+        - "&aPlace upgrades here"
+    background-3:
+      name: ""
+      material: GLASS
+      slot: 3
+      lore:
+        - "Nothing to see here!"
+    background-4:
+      name: ""
+      material: GLASS
+      slot: 4
+      lore:
+        - "Nothing to see here!"

@@ -1,0 +1,8 @@
+Prefix: "&eEssentialsZ >>"
+
+Errors:
+  Prefix: "&cError! "
+  NoPermission: "You do not have permission to use this command."
+  Console: "You cant use this command in console."
+  SpecifyPlayer: "Please specify a player."
+  NoPlayerFound: "That player could not be found."
